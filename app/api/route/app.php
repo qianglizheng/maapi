@@ -11,8 +11,9 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-// Route::get('user/login', 'v1.user.Login/login')->middleware(\app\api\middleware\CheckParam::class);
-Route::get('v1/apps/index', 'admin.v1.apps/index')->validate([
-    'name'    =>    'min:5|max:50',
-    'email'    =>    'email',
-]);
+$admin = [
+    'page' => 'require|number',
+    'limit' => 'require|number',
+    'token' =>'require'
+];
+Route::get('v1/apps/index', 'admin.v1.apps/index')->validate($admin)->middleware(\app\common\middleware\CheckToken::class);

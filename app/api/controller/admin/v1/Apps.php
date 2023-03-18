@@ -12,7 +12,6 @@ class Apps extends Common
 {
     public function __construct()
     {
-        parent::__construct();//调用父类构造函数验证参数
         $this->model = new Appsmodel();
     }
     /**

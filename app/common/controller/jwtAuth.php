@@ -58,8 +58,6 @@ class jwtAuth
      */
     private function __construct()
     {
-        $this->key = $this->getKey();
-        $this->model = new apiType();
     }
 
     /**
@@ -102,7 +100,7 @@ class jwtAuth
     /**
      * 设置用户ID
      */
-    public function setUid($id)
+    public function setId($id)
     {
         $this->id = $id;
         return $this;
@@ -114,13 +112,23 @@ class jwtAuth
     public function setPayload()
     {
         $this->payload = [
-            'iss' => 'http://example.org',    //签发者
-            'aud' => 'http://example.com',    //接收者
-            'iat' => time(),                  //签发时间
-            'exp' => time() + 3600 * 24,          //过期时间
-            'id' => $this->id               //用户ID
+            'iss' => Request::domain(),        //签发者
+            'aud' => 'user',                   //接收者
+            'iat' => time(),                   //签发时间
+            'exp' => time() + 3600 * 24,       //过期时间
+            'id' => $this->id                  //用户ID
         ];
     }
+
+
+    /**
+     * 设置密钥
+     */
+    public function setKey()
+    {
+        return "666";
+    }
+
 
     /**
      * 获取token
@@ -133,17 +141,9 @@ class jwtAuth
     }
 
     /**
-     * 获取密钥
-     */
-    public function getKey()
-    {
-        return "666";
-    }
-
-    /**
      * 获取用户ID
      */
-    public function getUid()
+    public function getId()
     {
         return $this->id;
     }

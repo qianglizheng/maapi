@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -13,5 +14,3 @@ use think\facade\Route;
 Route::get('think', function () {
     return 'hello,ThinkPHP6!';
 });
-
-Route::get('a', 'admin/index');

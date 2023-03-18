@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace app\middleware;
+namespace app\common\middleware;
 
-class CheckParam
+class CheckToken
 {
     /**
      * 处理请求
@@ -15,7 +15,7 @@ class CheckParam
      */
     public function handle($request, \Closure $next)
     {
-        
+        echo '处理token';
         return $next($request);
     }
 }

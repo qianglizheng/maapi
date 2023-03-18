@@ -36,7 +36,7 @@
 
         </div>
     </div>
-    <script src="../static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="{$Request.domain}/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'table'], function() {
             var $ = layui.jquery,
@@ -45,7 +45,7 @@
 
             table.render({
                 elem: '#currentTableId',
-                url: '../api/app_list',
+                url: '{$Request.domain}/api/admin.v1.apps',
                 toolbar: '#toolbarDemo',
                 defaultToolbar: ['filter', 'exports', 'print', {
                     title: '提示',
@@ -64,9 +64,14 @@
                             sort: true
                         },
                         {
-                            field: 'app_name',
+                            field: 'name',
                             width: 120,
-                            title: '软件名'
+                            title: '应用名称'
+                        },
+                        {
+                            field: 'key',
+                            width: 120,
+                            title: '应用密钥'
                         },
                         {
                             title: '操作',
@@ -77,25 +82,9 @@
                     ]
                 ],
                 limits: [10, 15, 20, 25, 50, 100],
-                limit: 15,
+                limit: 10,
                 page: true,
                 skin: 'line',
-                parseData: function(res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
-                    var result;
-                    console.log(this);
-                    console.log(JSON.stringify(res));
-                    if (this.page.curr) {
-                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
-                    } else {
-                        result = res.data.slice(0, this.limit);
-                    }
-                    return {
-                        "code": res.code, //解析接口状态
-                        "msg": res.msg, //解析提示文本
-                        "count": res.count, //解析数据长度
-                        "data": res.data //解析数据列表
-                    };
-                },
             });
 
             // 监听搜索操作
@@ -131,7 +120,7 @@
                         content: '../add/app_add',
                         end: function() {
                             table.reload('currentTableId', {
-                                url: '../api/app_list',
+                                url: '{$Request.domain}/api/admin.v1.apps',
                                 where: {}
                             });
                         }
@@ -154,7 +143,7 @@
                             if (res !== 0) {
                                 //重载表格
                                 table.reload('currentTableId', {
-                                    url: '../api/app_list',
+                                    url: '{$Request.domain}/api/admin.v1.apps',
                                     where: {}
                                 });
                             }
@@ -188,7 +177,7 @@
                         end: function() {
                             //重载表格
                             table.reload('currentTableId', {
-                                url: '../api/app_list',
+                                url: '{$Request.domain}/api/admin.v1.apps',
                                 where: {}
                             });
                         }
@@ -217,7 +206,7 @@
                 table.render({
                     initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                     elem: '#currentTableId',
-                    url: '../api/app_list',
+                    url: '{$Request.domain}/api/admin.v1.apps',
                     toolbar: '#toolbarDemo',
                     defaultToolbar: ['filter', 'exports', 'print', {
                         title: '提示',
@@ -249,25 +238,9 @@
                         ]
                     ],
                     limits: [10, 15, 20, 25, 50, 100],
-                    limit: 15,
+                    limit: 10,
                     page: true,
                     skin: 'line',
-                    parseData: function(res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
-                        var result;
-                        console.log(this);
-                        console.log(JSON.stringify(res));
-                        if (this.page.curr) {
-                            result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
-                        } else {
-                            result = res.data.slice(0, this.limit);
-                        }
-                        return {
-                            "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
-                            "count": res.count, //解析数据长度
-                            "data": result //解析数据列表
-                        };
-                    },
                 });
 
             });

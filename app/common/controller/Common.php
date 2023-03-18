@@ -2,16 +2,14 @@
 
 namespace app\common\controller;
 
-use app\BaseController;
-
-class Common extends BaseController
+class Common extends CheckParam
 {
-    public function return_json($data)
+    public function return_json($count, $data)
     {
         return json([
             "code" => "",
             "msg" => "",
-            "count" => "",
+            "count" => $count,
             "data" => $data
         ]);
     }

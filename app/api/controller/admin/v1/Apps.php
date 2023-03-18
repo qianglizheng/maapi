@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\admin\controller\api\v1;
+namespace app\api\controller\admin\v1;
 
 use app\common\controller\Common;
 use think\Request;
@@ -12,6 +12,7 @@ class Apps extends Common
 {
     public function __construct()
     {
+        parent::__construct();//调用父类构造函数验证参数
         $this->model = new Appsmodel();
     }
     /**
@@ -19,10 +20,12 @@ class Apps extends Common
      *
      * @return \think\Response
      */
-    public function index()
+    public function index($page, $limit)
     {
-        $data = $this->model::select();
-        return parent::return_json($data);
+        $page = ($page -1)*$limit;//定义偏移量
+        $count = $this->model->count();//获取数据条数
+        $data = $this->model->limit($page, $limit)->order('id desc')->select();
+        return parent::return_json($count, $data);
     }
 
     /**
@@ -33,6 +36,7 @@ class Apps extends Common
     public function create()
     {
         //
+        return 2;
     }
 
     /**

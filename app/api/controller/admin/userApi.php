@@ -45,7 +45,7 @@ class userApi
                 [
                     "title" => "应用管理",
                     "icon" => "fa fa-address-book",
-                    "href" => "pages/app",
+                    "href" => "pages/apps",
                     "target" => "_self"
                 ],
             ]

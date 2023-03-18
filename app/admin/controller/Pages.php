@@ -6,12 +6,12 @@ use think\facade\View;
 
 class Pages
 {
-    public function app()
+    public function apps()
     {
-        return View::fetch('app');
+        return View::fetch('apps');
     }
-    public function note()
+    public function notes()
     {
-        return View::fetch('note');
+        return View::fetch('notes');
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace app\admin\controller;
+namespace app\api\controller\admin;
 
-class Api
+class userApi
 {
-    public function list()
+    public function index()
     {
         $data = [
             "homeInfo" => [

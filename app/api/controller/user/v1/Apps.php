@@ -51,7 +51,7 @@ class Apps extends Common
     public function read($id)
     {
         //
-        return $id;
+        return 'read';
     }
 
 

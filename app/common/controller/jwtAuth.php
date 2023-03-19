@@ -126,7 +126,7 @@ class jwtAuth
      */
     public function setKey()
     {
-        return "666";
+        return $this;
     }
 
 

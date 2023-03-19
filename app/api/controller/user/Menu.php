@@ -1,18 +1,21 @@
 <?php
 
-namespace app\api\controller\admin;
+namespace app\api\controller\user;
 
-class adminApi
+use think\facade\Request;
+
+class Menu
 {
     public function index()
     {
+        $domain = Request::domain();
         $data = [
             "homeInfo" => [
                 "title" => "首页", "href" => ""
             ],
             "logoInfo" => [
                 "title" => "小码API",
-                "image" => "../static/images/logo.png",
+                "image" => "$domain./static/images/logo.png",
                 "href" => ""
             ],
             "menuInfo" => [
@@ -45,7 +48,7 @@ class adminApi
                 [
                     "title" => "应用管理",
                     "icon" => "fa fa-address-book",
-                    "href" => "pages/apps",
+                    "href" => $domain."/user/pages/apps",
                     "target" => "_self"
                 ],
             ]

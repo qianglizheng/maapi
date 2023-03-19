@@ -23,3 +23,4 @@ $index = [
 Route::resource('admin/v1/apps', 'admin.v1.Apps')->middleware(\app\common\middleware\CheckToken::class);
 Route::get('v1/apps/index', 'admin.v1.apps/index')->validate($index);
 Route::resource('user/v1/apps', 'user.v1.Apps');
+Route::get('v1/apps/index', 'user.v1.apps/index')->validate($index);

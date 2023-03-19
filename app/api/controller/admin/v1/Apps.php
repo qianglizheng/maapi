@@ -24,7 +24,11 @@ class Apps extends Common
         $page = ($page -1)*$limit;//定义偏移量
         $count = $this->model->count();//获取数据条数
         $data = $this->model->limit($page, $limit)->order('id desc')->select();
-        return parent::return_json($count, $data);
+        if ($data->isEmpty()) {
+            return $this->return_json($count, $data, '数据不存在');
+        } else {
+            return $this->return_json($count, $data);
+        }
     }
 
 

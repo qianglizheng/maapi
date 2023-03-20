@@ -3,7 +3,6 @@
 namespace app\common\controller;
 
 use think\facade\Request;
-use app\common\model\apiType;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
@@ -18,6 +17,10 @@ use UnexpectedValueException;
  */
 class jwtAuth
 {
+    /**
+     * 解码后的数据
+     */
+    private $data;
     /**
      * 密钥
      */
@@ -74,8 +77,9 @@ class jwtAuth
     public function decode($jwt)
     {
         try {
-            $decodedToken = (array)JWT::decode($jwt, new Key($this->key, 'HS256'));
-            $this->id = $decodedToken['id'];
+            $data = (array)JWT::decode($jwt, new Key($this->key, 'HS256'));
+            $this->id = $data['id'];
+            $this->data = $data;
             return $this;
         } catch (InvalidArgumentException $e) {
             $this->errorInfo =  '提供的密钥/密钥数组为空或格式不正确.';
@@ -125,17 +129,23 @@ class jwtAuth
     /**
      * 设置密钥
      */
-    public function setKey()
+    public function setKey($key)
     {
-        $this->key = '11';
+        $this->key = $key;
         return $this;
     }
 
+    /**
+     * 获取解码后的数据
+     */
+    public function getData(){
+        return $this->data;
+    }
 
     /**
-     * 设置token
+     * 获取token
      */
-    public function setToken()
+    public function getToken()
     {
         $this->setPayload();
         $jwt = JWT::encode($this->payload, $this->key, 'HS256');

@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{Request.domain}/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="{$Request.domain}/static/lib/layui-v2.6.3/css/layui.css" media="all">
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -41,30 +41,30 @@
         }
 
         .login-main .login-bottom .center .item .icon-1 {
-            background: url({Request.domain}/images/icon-login.png) no-repeat 1px 0;
+            background: url({$Request.domain}/static/images/icon-login.png) no-repeat 1px 0;
         }
 
         .login-main .login-bottom .center .item .icon-2 {
-            background: url({Request.domain}/images/icon-login.png) no-repeat -54px 0;
+            background: url({$Request.domain}/static/images/icon-login.png) no-repeat -54px 0;
         }
 
         .login-main .login-bottom .center .item .icon-3 {
-            background: url({Request.domain}/images/icon-login.png) no-repeat -106px 0;
+            background: url({$Request.domain}/static/images/icon-login.png) no-repeat -106px 0;
         }
 
         .login-main .login-bottom .center .item .icon-4 {
-            background: url({Request.domain}/images/icon-login.png) no-repeat 0 -43px;
+            background: url({$Request.domain}/static/images/icon-login.png) no-repeat 0 -43px;
             position: absolute;
             right: -10px;
             cursor: pointer;
         }
 
         .login-main .login-bottom .center .item .icon-5 {
-            background: url({Request.domain}/images/icon-login.png) no-repeat -55px -43px;
+            background: url({$Request.domain}/static/images/icon-login.png) no-repeat -55px -43px;
         }
 
         .login-main .login-bottom .center .item .icon-6 {
-            background: url({Request.domain}/images/icon-login.png) no-repeat 0 -93px;
+            background: url({$Request.domain}/static/images/icon-login.png) no-repeat 0 -93px;
             position: absolute;
             right: -10px;
             margin-top: 8px;
@@ -88,7 +88,7 @@
             width: 14px;
             height: 14px;
             border: none;
-            background: url({Request.domain}/images/icon-login.png) no-repeat -111px -48px;
+            background: url({$Request.domain}/static/images/icon-login.png) no-repeat -111px -48px;
         }
 
         .login-main .login-bottom .center .item .icon {
@@ -178,7 +178,7 @@
         }
 
         body {
-            background: url({Request.domain}/images/loginbg.png) 0% 0% / cover no-repeat;
+            background: url({$Request.domain}/static/images/loginbg.png) 0% 0% / cover no-repeat;
             position: static;
             font-size: 12px;
         }
@@ -322,7 +322,8 @@
 
                     <div id="validatePanel" class="item" style="width: 137px;">
                         <input type="text" name="captcha" placeholder="请输入验证码" maxlength="6">
-                        <img onclick="change_img()" id="refreshCaptcha" class="validateImg" src="{:captcha_src()}" alt="captcha" />
+                        <img onclick="change_img()" id="refreshCaptcha" class="validateImg" src="{:captcha_src()}"
+                            alt="captcha" />
                     </div>
 
                 </div>
@@ -337,18 +338,21 @@
         </div>
     </div>
     <div class="footer">
-        ©版权所有 2021-2022 海口景佩益信息咨询工作室<span class="padding-5">|</span><a target="_blank" href="http://www.miitbeian.gov.cn">粤ICP备16006642号-2</a>
+        ©版权所有 2021-2022 海口景佩益信息咨询工作室<span class="padding-5">|</span><a target="_blank"
+            href="http://www.miitbeian.gov.cn">粤ICP备16006642号-2</a>
     </div>
-    <script src="{Request.domain}/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="{$Request.domain}/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script>
-        layui.use(['form', 'jquery'], function() {
+        if(window.localStorage.getItem('token')){
+            // window.location = `{$Request.domain}/admin`
+        }
+        layui.use(['form', 'jquery'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 layer = layui.layer,
                 $ = layui.jquery;
-
             // 进行登录操作
-            form.on('submit(login)', function(data) {
+            form.on('submit(login)', function (data) {
                 data = data.field;
                 if (data.username == '') {
                     layer.msg('用户名不能为空');
@@ -358,36 +362,29 @@
                     layer.msg('密码不能为空');
                     return false;
                 }
-                if (data.captcha == '') {
-                    layer.msg('验证码不能为空');
-                    return false;
-                }
-                $.post('../admin/login/login', data, function(res) {
-                    console.log(res)
-                    if (res == '1') {
-                        layer.msg('登录成功', function() {
-                            window.location = '../admin';
+                // if (data.captcha == '') {
+                //     layer.msg('验证码不能为空');
+                //     return false;
+                // }
+                $.post('{$Request.domain}/api/admin/v1/login', data, function (res) {
+                    if (res.code == '200') {
+                        layer.msg(res.msg, function () {
+                            window.localStorage.setItem('token', res.data.token);
+                            window.location = `{$Request.domain}/admin`
                         });
                     }
-                    if (res == '0') {
-                        layer.msg('账号不存在');
-                        $("#refreshCaptcha").attr('src','{:captcha_src()}?')
-                    }
-                    if (res == '2') {
-                        layer.msg('密码错误');
-                        $("#refreshCaptcha").attr('src','{:captcha_src()}?')
-                    }
-                    if (res == '3') {
-                        layer.msg('验证码错误')
-                        $("#refreshCaptcha").attr('src','{:captcha_src()}?')
+                    if (res.code == '400') {
+                        layer.msg(res.msg, { icon: 5 });
+                        $("#refreshCaptcha").attr('src', '{:captcha_src()}?')
                     }
                 })
                 return false;
             });
         });
         $ = layui.jquery;
-        function change_img(){
-                    $("#refreshCaptcha").attr('src','{:captcha_src()}?')
-                }
+        function change_img() {
+            console.log(1);
+            $("#refreshCaptcha").attr('src', '{:captcha_src()}'+Math.random(1))
+        }
     </script>
     {include file="public/footer" /}

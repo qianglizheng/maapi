@@ -32,8 +32,6 @@ return [
     'show_error_msg'   => false,
     // 域名绑定（自动多应用模式有效）
     'domain_bind' => [
-        'www' => 'api',
         'api' => 'api',
-        '@'    => 'api'
     ],
 ];

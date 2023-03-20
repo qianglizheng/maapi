@@ -7,7 +7,6 @@ use app\common\model\Users;
 
 class Index
 {
-    // protected $middleware = [\app\middleware\CheckParam::class];
     public function __construct()
     {
         $this->model = new Users();

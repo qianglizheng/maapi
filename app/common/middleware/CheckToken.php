@@ -5,17 +5,12 @@ declare(strict_types=1);
 namespace app\common\middleware;
 
 use app\common\controller\Common;
-use app\common\controller\jwtAuth;
+use app\common\controller\JwtAuth;
 use app\common\model\ApiKey;
 use app\common\model\Apps;
-use think\facade\Request;
 
 class CheckToken extends Common
 {
-    /**
-     * 请求参数
-     */
-    protected $params;
     /**
      * 检查
      *
@@ -25,26 +20,27 @@ class CheckToken extends Common
      */
     public function handle($request, \Closure $next)
     {
-        $data = $this->params = Request::param();
-        //判断是否是应用接口
-        $data['app_id'] = isset($data['app_id']) ? $data['app_id'] : null;
-        $data['uid'] = isset($data['uid']) ? $data['uid'] : null;
-        //判断应用和用户是否对应->防止获取不到key
-        if ($data['app_id'] && $data['uid']) {
-            if (!$this->checkApp($data['app_id'], $data['uid'])) {
+        //根据是否有参数app_id和uid判断是否是应用接口->判断应用和用户是否对应->防止获取不到key
+        if ($request['app_id'] && $request['uid']) {
+            if (!$this->checkApp($request['app_id'], $request['uid'])) {
                 return $this->return_json(0, [], '应用不存在或者不属于该用户', 400);
             }
         }
-        //根据地址判断接口类型
-        $type = Request::url()[1];
-        $key = $this->getKey($type, $data['app_id'], $data['uid']);
-        //解码token获取id或者提示错误
-        $jwt = jwtAuth::getInstance();
-        $id = $jwt->setKey($key)->decode($data['token'])->getId();
-        if ($id == null) {
+        //根据地址判断接口类型然后获取key->$type为a：admin接口->$type为u->user接口
+        $type = $request->url()[1];
+        $key = $this->getKey($type, $request['app_id'], $request['uid']);
+        //解码token获取数据或者提示错误
+        $jwt = JwtAuth::getInstance();
+        $data = $jwt->setKey($key)->decode($request['token'])->getData();
+
+        if ($data == null) {
             return $this->return_json(0, [], $jwt->getError(), 400);
         } else {
-            return $this->return_json(1, ['id' => $id]);
+            if ($data['exp'] < time()) {
+                return $this->return_json(0, [], 'token已过期', 400);
+            } else {
+                return $this->return_json(1, ['id' => $data['id']]);
+            }
         }
         return $next($request);
     }
@@ -58,7 +54,7 @@ class CheckToken extends Common
         } elseif ($type == 'a') {
             $key = ApiKey::find(1)['admin']; //管理接口
         } else {
-            $key = Apps::where('id', $app_id)::where('uid', $uid)->column('key'); //应用接口
+            $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
         }
         return $key;
     }
@@ -67,9 +63,9 @@ class CheckToken extends Common
      */
     public function checkApp($app_id, $uid)
     {
-        $res = Apps::where('id', $app_id)::where('uid', $uid)->find(); //应用接口
+        $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty(); 
         if ($res->isEmpty()) {
-            return 0; //应用不存在或者不属于该用户
+            return 0; 
         } else {
             return 1;
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\controller;
+namespace app\admin\controller;
 
 use think\facade\View;
 

@@ -2,6 +2,7 @@
 
 namespace app\common\controller;
 
+use think\facade\Request;
 use app\common\model\apiType;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -77,22 +78,22 @@ class jwtAuth
             $this->id = $decodedToken['id'];
             return $this;
         } catch (InvalidArgumentException $e) {
-            $this->error =  '提供的密钥/密钥数组为空或格式不正确.';
+            $this->errorInfo =  '提供的密钥/密钥数组为空或格式不正确.';
             return $this;
         } catch (DomainException $e) {
-            $this->error = "提供的算法不受支持,或者提供的密钥无效,或者在openSSL或libnaid中引发未知错误,或者libnaid是必需的但不可用.";
+            $this->errorInfo = "提供的算法不受支持,或者提供的密钥无效,或者在openSSL或libnaid中引发未知错误,或者libnaid是必需的但不可用.";
             return $this;
         } catch (SignatureInvalidException $e) {
-            $this->error = '提供JWT签名验证失败.';
+            $this->errorInfo = '提供JWT签名验证失败.';
             return $this;
         } catch (BeforeValidException $e) {
-            $this->error =  "如果JWT试图在“nbf”索赔之前使用,或者如果JWT在“iat”索赔之前尝试使用.";
+            $this->errorInfo =  "如果JWT试图在“nbf”索赔之前使用,或者如果JWT在“iat”索赔之前尝试使用.";
             return $this;
         } catch (ExpiredException $e) {
-            $this->error =  "token已经过期了.";
+            $this->errorInfo =  "token已经过期了.";
             return $this;
         } catch (UnexpectedValueException $e) {
-            $this->error = "如果JWT格式不正确,或者如果JWT缺少算法/使用不支持的算法,或者JWT算法与提供的密钥不匹配,或者如果密钥/密钥数组中的密钥ID为空或无效.";
+            $this->errorInfo = "如果JWT格式不正确,或者如果JWT缺少算法/使用不支持的算法,或者JWT算法与提供的密钥不匹配,或者如果密钥/密钥数组中的密钥ID为空或无效.";
             return $this;
         }
     }
@@ -126,14 +127,15 @@ class jwtAuth
      */
     public function setKey()
     {
+        $this->key = '11';
         return $this;
     }
 
 
     /**
-     * 获取token
+     * 设置token
      */
-    public function getToken()
+    public function setToken()
     {
         $this->setPayload();
         $jwt = JWT::encode($this->payload, $this->key, 'HS256');

@@ -12,7 +12,7 @@ class Common extends BaseController
     /**
      * 接口返回数据方法
      */
-    public function return_json($count, $data, $msg="数据请求成功", $code=200)
+    public function return_json($count=0, $data=[], $msg="数据请求成功", $code=200)
     {
         $result = [
             //状态码

@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace app\common\middleware;
 
+use app\common\controller\Common;
 use app\common\controller\jwtAuth;
-use app\common\model\apiKey;
+use app\common\model\ApiKey;
 use app\common\model\Apps;
 use think\facade\Request;
 
-class CheckToken
+class CheckToken extends Common
 {
     public function __construct()
     {
     }
     /**
-     * 处理请求
+     * 检查
      *
      * @param \think\Request $request
      * @param \Closure       $next
@@ -23,12 +24,32 @@ class CheckToken
      */
     public function handle($request, \Closure $next)
     {
-        //判断是user的api还是admin的api或者是前端的api
-        // echo Request::url();
-        // echo '中间件';
-        // $key = apiKey::find(1);//根据API类型获取相应的key
-        // $jwt = jwtAuth::getInstance();
-        // $jwt->setKey($key);
+        $token = Request::param('token');
+        $app_id = Request::param('app_id');
+        $uid = Request::param('uid');
+        $type = Request::url()[1];
+        $key = $this->getKey($type, $app_id, $uid);
+        $jwt = jwtAuth::getInstance();
+        $id = $jwt->setKey($key)->decode($token)->getId();
+        if ($id==null) {
+            return $this->return_json(0, [], $jwt->getError());
+        } else {
+            return $this->return_json(1, ['id'=>$id]);
+        }
         return $next($request);
+    }
+    /**
+     * 根据前端的地址判断是哪个接口，获取相应的key
+     */
+    public function getKey($type, $app_id=null, $uid=null)
+    {
+        if ($type=='u') {
+            $key = ApiKey::find(1)['user'];//用户接口
+        } elseif ($type=='a') {
+            $key = ApiKey::find(1)['admin'];//管理接口
+        } else {
+            $key = Apps::where('id', $app_id)::where('uid', $uid)->column('key');//应用接口
+        }
+        return $key;
     }
 }

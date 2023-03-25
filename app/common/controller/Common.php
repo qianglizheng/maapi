@@ -12,7 +12,7 @@ class Common extends BaseController
     /**
      * 接口返回数据方法
      */
-    public function return_json($count=0, $data=[], $msg="数据请求成功", $code=200)
+    public function return_json($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
     {
         $result = [
             //状态码
@@ -24,6 +24,9 @@ class Common extends BaseController
             //数据
             "data" => $data
         ];
+        if ($code == 400) {
+            return Response::create($result, 'json')->code(400);
+        }
         return Response::create($result, 'json');
     }
     /**

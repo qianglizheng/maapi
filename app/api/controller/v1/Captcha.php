@@ -20,7 +20,7 @@ class Captcha extends Common
      */
     protected function setUid()
     {
-        $this->uid = time() . mt_rand(1000, 9999);
+        $this->uid = time() . mt_rand(100000, 9999999);
         return $this;
     }
     /**

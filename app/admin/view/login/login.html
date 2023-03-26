@@ -78,7 +78,7 @@
             }
             //获取验证码函数
             function getCode() {
-                $.get("/api/v1/get_code", function (res) {
+                $.get("/api/v1/captcha/img", function (res) {
                     if (res.code == 200) {
                         $("#refreshCaptcha").attr("src", res.data.url);
                         localStorage.setItem("uid", res.data.uid)

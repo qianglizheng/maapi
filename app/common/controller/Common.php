@@ -3,7 +3,7 @@
 namespace app\common\controller;
 
 use app\BaseController;
-use app\common\model\apiKey;
+use app\common\model\AdminKeyConfig;
 use app\common\controller\jwtAuth;
 use think\Response;
 
@@ -40,7 +40,7 @@ class Common extends BaseController
      */
     public function check_token($type, $token)
     {
-        $key = apiKey::find(1)[$type];
+        $key = AdminKeyConfig::find(1)[$type];
         $jwt = jwtAuth::getInstance();
         $jwt->setKey($key)->decode($token);
     }

@@ -15,7 +15,7 @@ class Menu
             ],
             "logoInfo" => [
                 "title" => "小码API",
-                "image" => "../static/images/logo.png",
+                "image" => "/static/images/logo.png",
                 "href" => ""
             ],
             "menuInfo" => [
@@ -48,12 +48,25 @@ class Menu
                 [
                     "title" => "系统管理",
                     "icon" => "fa fa-address-book",
-                    "href" => "admin/pages/keyConfig",
-                    "target" => "_self"
+                    "href" => "",
+                    "target" => "_self",
+                    "child" => [
+                        [
+                            "title" => "邮件配置",
+                            "icon" => "fa fa-address-book",
+                            "href" => "admin/config/adminEmailConfig",
+                            "target" => "_self"
+                        ],
+                        [
+                            "title" => "密钥配置",
+                            "icon" => "fa fa-address-book",
+                            "href" => "admin/config/adminKeyConfig",
+                            "target" => "_self"
+                        ],
+                    ]
                 ],
             ]
         ];
-
         return json($data);
     }
 }

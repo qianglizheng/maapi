@@ -82,11 +82,11 @@ class ImgCode extends setCode
     /**
      * 返回验证码相关信息
      */
-    public function getCode()
+    public function sendImgCode()
     {
         $data = [
             'uid' => $this->uid,
-            'url' => Request::domain() . '/api/v1/get_img?uid=' . $this->uid,
+            'url' => Request::domain() . '/api/v1/captcha/get_img?uid=' . $this->uid,
         ];
         return $this->return_json(1, $data);
     }

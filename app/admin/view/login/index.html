@@ -2,18 +2,18 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>小码API后台管理-登陆</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Access-Control-Allow-Origin" content="*">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{$Request.domain}/static/lib/layui-v2.6.3/css/layui.css" media="all">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="{$Request.domain}/static/lib/layui-v2.6.3/css/layui.css" media="all" />
     <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
         .main-body {
@@ -135,7 +135,7 @@
             width: 74px;
             height: 74px;
             background: #fff;
-            opacity: .1;
+            opacity: 0.1;
             border-radius: 0 74px 0 0;
             position: absolute;
             left: 0;
@@ -147,7 +147,7 @@
             width: 94px;
             height: 94px;
             background: #fff;
-            opacity: .1;
+            opacity: 0.1;
             border-radius: 50%;
             position: absolute;
             right: -16px;
@@ -241,7 +241,7 @@
         .login-main .login-bottom .login-btn {
             width: 288px;
             height: 40px;
-            background-color: #1E9FFF;
+            background-color: #1e9fff;
             border-radius: 16px;
             margin: 24px auto 0;
             text-align: center;
@@ -283,7 +283,7 @@
             color: #fff;
         }
 
-        @media screen and (max-width:428px) {
+        @media screen and (max-width: 428px) {
             .login-main {
                 width: 360px !important;
             }
@@ -316,23 +316,24 @@
 
                     <div class="item">
                         <span class="icon icon-3"></span>
-                        <input type="password" name="password" lay-verify="required" placeholder="请输入密码" maxlength="20">
+                        <input type="password" name="password" lay-verify="required" placeholder="请输入密码"
+                            maxlength="20" />
                         <span class="bind-password icon icon-4"></span>
                     </div>
 
-                    <div id="validatePanel" class="item" style="width: 137px;">
-                        <input type="text" name="captcha" placeholder="请输入验证码" maxlength="6">
-                        <img onclick="change_img()" id="refreshCaptcha" class="validateImg" src="{:captcha_src()}"
-                            alt="captcha" />
+                    <div id="validatePanel" class="item" style="width: 137px">
+                        <input type="text" name="captcha" placeholder="请输入验证码" maxlength="6" />
+                        <img onclick="" id="refreshCaptcha" class="validateImg" src="https://img.zcool.cn/community/01f679594b2e58a8012193a3ba7fce.gif" alt="captcha" />
                     </div>
-
                 </div>
                 <div class="tip">
-                    <a href="../admin/login/register" style="color: #1391ff;">没有账号？立即注册</a>
+                    <a href="../admin/login/register" style="color: #1391ff">没有账号？立即注册</a>
                     <a href="javascript:" class="forget-password">忘记密码？</a>
                 </div>
-                <div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
-                    <button class="login-btn" lay-submit="" lay-filter="login">立即登录</button>
+                <div class="layui-form-item" style="text-align: center; width: 100%; height: 100%; margin: 0px">
+                    <button class="login-btn" lay-submit="" lay-filter="login">
+                        立即登录
+                    </button>
                 </div>
             </form>
         </div>
@@ -341,50 +342,66 @@
         ©版权所有 2021-2022 海口景佩益信息咨询工作室<span class="padding-5">|</span><a target="_blank"
             href="http://www.miitbeian.gov.cn">粤ICP备16006642号-2</a>
     </div>
-    <script src="{$Request.domain}/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script>
-        if(window.localStorage.getItem('token')){
-            // window.location = `{$Request.domain}/admin`
-        }
-        layui.use(['form', 'jquery'], function () {
+        layui.use(["form", "jquery"], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 layer = layui.layer,
                 $ = layui.jquery;
-            // 进行登录操作
-            form.on('submit(login)', function (data) {
-                data = data.field;
-                if (data.username == '') {
-                    layer.msg('用户名不能为空');
-                    return false;
-                }
-                if (data.password == '') {
-                    layer.msg('密码不能为空');
-                    return false;
-                }
-                // if (data.captcha == '') {
-                //     layer.msg('验证码不能为空');
-                //     return false;
-                // }
-                $.post('{$Request.domain}/api/admin/v1/login', data, function (res) {
-                    if (res.code == '200') {
-                        layer.msg(res.msg, function () {
-                            window.localStorage.setItem('token', res.data.token);
-                            window.location = `{$Request.domain}/admin`
-                        });
-                    }
-                    if (res.code == '400') {
+            //判断是否登录
+            if (window.localStorage.getItem("token")) {
+                window.location = "/admin";
+            }
+            $(function () {
+                getCode();
+            });
+             //获取验证码函数
+            function getCode(){
+                $.get("/api/v1/code_msg", function (res) {
+                    if (res.code == 200) {
+                        $("#refreshCaptcha").attr("src", res.data.url);
+                        localStorage.setItem("uid",res.data.uid)
+                    } else {
                         layer.msg(res.msg, { icon: 5 });
-                        $("#refreshCaptcha").attr('src', '{:captcha_src()}?')
                     }
-                })
+                });
+            }
+            // 进行登录操作
+            form.on("submit(login)", function (data) {
+                data = data.field;
+                data.uid = localStorage.getItem("uid");
+                console.log(data);
+                if (data.username == "") {
+                    layer.msg("用户名不能为空");
+                    return false;
+                }
+                if (data.password == "") {
+                    layer.msg("密码不能为空");
+                    return false;
+                }
+                if (data.captcha == "") {
+                    layer.msg("验证码不能为空");
+                    return false;
+                }
+                $.post("{$Request.domain}/api/admin/v1/login", data, function (res) {
+                    console.log(res);
+                    if (res.code == "200") {
+                        layer.msg(res.msg, function () {
+                            window.localStorage.setItem("token", res.data.token);
+                            window.location = "/admin";
+                        });
+                    } else {
+                        getCode();
+                        layer.msg(res.msg, { icon: 5 });
+                    }
+                });
                 return false;
             });
         });
         $ = layui.jquery;
-        function change_img() {
-            console.log(1);
-            $("#refreshCaptcha").attr('src', '{:captcha_src()}'+Math.random(1))
-        }
     </script>
     {include file="public/footer" /}
+</body>
+
+</html>

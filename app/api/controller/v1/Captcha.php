@@ -5,6 +5,7 @@ namespace app\api\controller\v1;
 use app\common\controller\Common;
 use think\facade\Cache;
 use think\facade\Request;
+
 class Captcha extends Common
 {
     /**
@@ -74,10 +75,10 @@ class Captcha extends Common
     /**
      * 获取验证码图片
      */
-    public function getCaptcha($uid)
+    public function getimg($uid)
     {
         $code = Cache::get($uid);
-        if(empty($code)){
+        if (empty($code)) {
             return $this->return_json(0, [], '用户标识不正确或者已过期', 400);
         }
         // 创建一个白色背景画布
@@ -102,11 +103,11 @@ class Captcha extends Common
     /**
      * 返回验证码相关信息
      */
-    public function getCode()
+    public function codeMsg()
     {
         $data = [
             'uid' => $this->uid,
-            'url' => Request::domain().'/v1/captcha?uid='.$this->uid,
+            'url' => Request::domain().'/api/v1/get_img?uid='.$this->uid,
         ];
         return $this->return_json(1, $data);
     }

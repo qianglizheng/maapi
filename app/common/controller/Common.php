@@ -24,9 +24,6 @@ class Common extends BaseController
             //数据
             "data" => $data
         ];
-        if ($code == 400) {
-            return Response::create($result, 'json')->code(400);
-        }
         return Response::create($result, 'json');
     }
     /**

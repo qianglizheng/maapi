@@ -7,10 +7,13 @@ use think\facade\Cache;
 
 class SetCode extends Common
 {
-    public function setCode($name)
+    /**
+     * 设置验证码 $key为缓存的键
+     */
+    public function setCode($key)
     {
         $code = substr(str_shuffle('123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'), 0, 4);
-        Cache::set($name, $code, 60);
+        Cache::set($key, $code, 60);
         $this->code = $code;
     }
 }

@@ -6,6 +6,6 @@ class EmailCode extends Email
 {
     public function sendEmailCode()
     {
-        $this->send();
+        return $this->send();
     }
 }

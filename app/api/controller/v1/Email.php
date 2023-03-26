@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1;
 
+use app\common\model\AdminEmailConfig;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -11,21 +12,21 @@ class Email extends SetCode
     public function send($from='', $accept='', $content='')
     {
         $mail = new PHPMailer(true);
-
+        $config = AdminEmailConfig::find(1);
         try {
             //服务器设置
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //启用详细调试输出
-            $mail->isSMTP();                                            //使用SMTP发送
-            $mail->Host       = 'smtp.qq.com';                          //将SMTP服务器设置为通过
-            $mail->SMTPAuth   = true;                                   //启用SMTP身份验证
-            $mail->Username   = '647551725@qq.com';                     //SMTP username
-            $mail->Password   = 'bvrgijazcfnqbcfg';                     //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //启用隐式TLS加密
-            $mail->Port       = 465;                                    //要连接的TCP端口;如果已设置“SMTPSecure = PHPMailer：：ENCRYPTION_STARTTLS”，则使用587
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //启用详细调试输出
+            $mail->isSMTP();                                              //使用SMTP发送
+            $mail->Host       = $config['host'];                          //将SMTP服务器设置为通过
+            $mail->SMTPAuth   = true;                                     //启用SMTP身份验证
+            $mail->Username   = $config['username'];                      //SMTP username
+            $mail->Password   = $config['password'];                      //SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;              //启用隐式TLS加密
+            $mail->Port       = $config['port'];                          //要连接的TCP端口;如果已设置“SMTPSecure = PHPMailer：：ENCRYPTION_STARTTLS”，则使用587
 
             //接收者
             $mail->setFrom('647551725@qq.com', 'Mailer');
-            $mail->addAddress('2325727631@qq.com', '');     //添加收件人 名字是可选的
+            $mail->addAddress('2325727631@qq.com', '');                   //添加收件人 名字是可选的
             $mail->addReplyTo('647551725@qq.com', '647551725@qq.com');
 
             //附件
@@ -38,7 +39,7 @@ class Email extends SetCode
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
-            echo 'Message has been sent';
+            return $this->return_json(0, [], '邮件发送成功');
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

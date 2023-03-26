@@ -14,16 +14,25 @@ class Common extends BaseController
      */
     public function return_json($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
     {
-        $result = [
-            //状态码
-            "code" => $code,
-            //消息
-            "msg" => $msg,
-            //数据条数
-            "count" => $count,
-            //数据
-            "data" => $data
-        ];
+        if ($count==0) {
+            $result = [
+                //状态码
+                "code" => $code,
+                //消息
+                "msg" => $msg,
+            ];
+        } else {
+            $result = [
+                //状态码
+                "code" => $code,
+                //消息
+                "msg" => $msg,
+                //数据条数
+                "count" => $count,
+                //数据
+                "data" => $data
+            ];
+        }
         return Response::create($result, 'json');
     }
     /**

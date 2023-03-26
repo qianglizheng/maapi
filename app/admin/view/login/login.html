@@ -64,7 +64,7 @@
             href="http://www.miitbeian.gov.cn">备案号</a>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="http://www.5imoban.net/view/js/md5.js" charset="utf-8"></script>
+    <script src="/static/js/md5.js" charset="utf-8"></script>
 
     <script>
         layui.use(["form", "jquery"], function () {
@@ -78,7 +78,7 @@
             }
             //获取验证码函数
             function getCode() {
-                $.get("/api/v1/captcha_msg", function (res) {
+                $.get("/api/v1/get_code", function (res) {
                     if (res.code == 200) {
                         $("#refreshCaptcha").attr("src", res.data.url);
                         localStorage.setItem("uid", res.data.uid)

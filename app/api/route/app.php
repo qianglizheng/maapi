@@ -17,22 +17,22 @@ $index = [
     'token' =>'require'
 ];
 /**
- * 公共图片验证码路由
+ * 公共验证码路由
  */
-Route::get('v1/get_img', 'v1.Captcha/getimg');
-Route::get('v1/captcha_msg', 'v1.Captcha/captchaMsg');
+Route::get('v1/get_img', 'v1.ImgCode/getImg');                   //图片验证码
+Route::get('v1/get_code', 'v1.ImgCode/getCode');                 //图片验证码信息
+Route::get('v1/send_email', 'v1.EmailCode/sendEmail');           //邮件验证码
 
 /**
  * 后台菜单栏路由
  */
-Route::get('admin/menu', 'admin.menu/index');//管理后台
-Route::get('user/menu', 'user.menu/index');//用户后台
+Route::get('admin/menu', 'admin.Menu/index');                    //管理后台
+Route::get('user/menu', 'user.Menu/index');                      //用户后台
 
 /**
  * 管理后台路由
  */
-Route::post('admin/v1/login', 'admin.v1.Login/login');//管理员登录
-Route::post('admin/v1/reg', 'admin.v1.Login/reg');//管理员注册
+Route::post('admin/v1/login', 'admin.v1.Login/login');          //管理员登录
 
 /**
  * 后台资源路由->验证token

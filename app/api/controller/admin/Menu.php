@@ -48,7 +48,7 @@ class Menu
                 [
                     "title" => "系统管理",
                     "icon" => "fa fa-address-book",
-                    "href" => $domain."/admin/pages/keyConfig",
+                    "href" => "admin/pages/keyConfig",
                     "target" => "_self"
                 ],
             ]

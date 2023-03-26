@@ -2,11 +2,10 @@
 
 namespace app\api\controller\v1;
 
-use app\common\controller\Common;
 use think\facade\Cache;
 use think\facade\Request;
 
-class Captcha extends Common
+class ImgCode extends setCode
 {
     /**
      * 用户标识
@@ -29,16 +28,8 @@ class Captcha extends Common
      */
     public function __construct()
     {
-        $this->setUid()->setCode();
-    }
-    /**
-     *生成验证码
-     */
-    protected function setCode()
-    {
-        $code = substr(str_shuffle('123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'), 0, 4);
-        Cache::set((string)$this->uid, $code, 60);
-        $this->code = $code;
+        $this->setUid();
+        $this->setCode((string) $this->uid);
     }
     /**
      * 添加干扰元素 线条
@@ -66,48 +57,36 @@ class Captcha extends Common
     protected function creatImg($width = 100, $height = 30)
     {
         $image = imagecreatetruecolor($width, $height);
-
-        // 设置画布背景色为白色
-        $bgColor = imagecolorallocate($image, 255, 255, 255);
+        $bgColor = imagecolorallocate($image, 255, 255, 255);   // 设置画布背景色为白色
         imagefill($image, 0, 0, $bgColor);
         return $image;
     }
     /**
      * 获取验证码图片
      */
-    public function getimg($uid)
+    public function getImg($uid)
     {
         $code = Cache::get($uid);
         if (empty($code)) {
             return $this->return_json(0, [], '用户标识不正确或者已过期', 400);
         }
-        // 创建一个白色背景画布
-        $image = $this->creatImg();
-
-        // 添加干扰元素
-        $this->addLine($image);
-
-        // 在画布上绘制验证码文本
-        $this->codeImg($image, $code);
-
-        // 输出验证码图片
-        imagepng($image);
-
-        // 释放画布资源
-        imagedestroy($image);
-        // 设置响应头，告诉浏览器输出的是图片
+        $image = $this->creatImg();            // 创建一个白色背景画布
+        $this->addLine($image);                // 添加干扰元素
+        $this->codeImg($image, $code);         // 在画布上绘制验证码文本
+        imagepng($image);                      // 输出验证码图片
+        imagedestroy($image);                  // 释放画布资源
         return   response()->header([
             'Content-Type' => ' image/png'
-        ]);
+        ]);                                    // 设置响应头，告诉浏览器输出的是图片
     }
     /**
      * 返回验证码相关信息
      */
-    public function captchaMsg()
+    public function getCode()
     {
         $data = [
             'uid' => $this->uid,
-            'url' => Request::domain().'/api/v1/get_img?uid='.$this->uid,
+            'url' => Request::domain() . '/api/v1/get_img?uid=' . $this->uid,
         ];
         return $this->return_json(1, $data);
     }

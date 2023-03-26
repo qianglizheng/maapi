@@ -20,7 +20,7 @@ $index = [
  * 公共API路由
  */
 Route::get('v1/captcha', 'v1.Captcha/getCaptcha');
-Route::get('v1/getmsg', 'v1.Captcha/getMsg');
+Route::get('v1/getcode', 'v1.Captcha/getCode');
 
 /**
  * 管理后台路由

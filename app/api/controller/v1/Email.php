@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Email extends SetCode
 {
-    public function send($from='', $accept='', $content='')
+    public function send($receiver='', $content='')
     {
         $mail = new PHPMailer(true);
         $config = AdminEmailConfig::find(1);
@@ -25,9 +25,9 @@ class Email extends SetCode
             $mail->Port       = $config['port'];                          //要连接的TCP端口;如果已设置“SMTPSecure = PHPMailer：：ENCRYPTION_STARTTLS”，则使用587
 
             //接收者
-            $mail->setFrom('647551725@qq.com', 'Mailer');
-            $mail->addAddress('2325727631@qq.com', '');                   //添加收件人 名字是可选的
-            $mail->addReplyTo('647551725@qq.com', '647551725@qq.com');
+            $mail->setFrom($config['username'],'');
+            $mail->addAddress($receiver, '');                             //添加收件人 名字是可选的
+            $mail->addReplyTo($config['username'], $config['username']);
 
             //附件
             // $mail->addAttachment('http://www.tp6.com/static/images/bg.jpg', 'new.jpg');         //添加附件 可选名称

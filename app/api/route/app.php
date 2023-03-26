@@ -21,7 +21,7 @@ $index = [
  */
 Route::get('v1/get_img', 'v1.ImgCode/getImg');                   //图片验证码
 Route::get('v1/get_code', 'v1.ImgCode/getCode');                 //图片验证码信息
-Route::get('v1/send_email_code', 'v1.EmailCode/sendEmailCode');           //邮件验证码
+Route::get('v1/send_email_code', 'v1.EmailCode/sendEmailCode');  //邮件验证码
 
 /**
  * 后台菜单栏路由

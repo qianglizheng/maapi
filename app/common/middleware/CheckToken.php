@@ -6,7 +6,7 @@ namespace app\common\middleware;
 
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
-use app\common\model\ApiKey;
+use app\common\model\AdminKey;
 use app\common\model\Apps;
 
 class CheckToken extends Common
@@ -27,7 +27,7 @@ class CheckToken extends Common
             }
         }
         //根据地址判断接口类型然后获取key->$type为a：admin接口->$type为u->user接口
-        $type = $request->url()[1];
+        $type = $request->url()[4];
         $key = $this->getKey($type, $request['app_id'], $request['uid']);
         //解码token获取数据或者提示错误
         $jwt = JwtAuth::getInstance();
@@ -50,9 +50,9 @@ class CheckToken extends Common
     public function getKey($type, $app_id, $uid)
     {
         if ($type == 'u') {
-            $key = ApiKey::find(1)['user']; //用户接口
+            $key = AdminKey::find(1)['user']; //用户接口
         } elseif ($type == 'a') {
-            $key = ApiKey::find(1)['admin']; //管理接口
+            $key = AdminKey::find(1)['admin']; //管理接口
         } else {
             $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
         }
@@ -63,9 +63,9 @@ class CheckToken extends Common
      */
     public function checkApp($app_id, $uid)
     {
-        $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty(); 
+        $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty();
         if ($res->isEmpty()) {
-            return 0; 
+            return 0;
         } else {
             return 1;
         }

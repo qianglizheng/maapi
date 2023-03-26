@@ -14,4 +14,8 @@ class Pages
     {
         return View::fetch('notes');
     }
+    public function keyConfig()
+    {
+        return View::fetch('keyConfig');
+    }
 }

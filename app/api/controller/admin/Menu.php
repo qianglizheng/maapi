@@ -46,9 +46,9 @@ class Menu
                     ]
                 ],
                 [
-                    "title" => "应用管理",
+                    "title" => "系统管理",
                     "icon" => "fa fa-address-book",
-                    "href" => $domain."/user/pages/apps",
+                    "href" => $domain."/admin/pages/keyConfig",
                     "target" => "_self"
                 ],
             ]

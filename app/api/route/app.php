@@ -20,7 +20,7 @@ $index = [
  * 公共图片验证码路由
  */
 Route::get('v1/get_img', 'v1.Captcha/getimg');
-Route::get('v1/code_msg', 'v1.Captcha/codeMsg');
+Route::get('v1/captcha_msg', 'v1.Captcha/captchaMsg');
 
 /**
  * 后台菜单栏路由

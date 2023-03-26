@@ -10,8 +10,8 @@ class Login
     {
         return View::fetch('login');
     }
-    public function reg()
+    public function captcha()
     {
-        return View::fetch('reg');
+        return View::fetch('captcha');
     }
 }

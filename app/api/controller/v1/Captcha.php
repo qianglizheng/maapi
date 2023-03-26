@@ -103,7 +103,7 @@ class Captcha extends Common
     /**
      * 返回验证码相关信息
      */
-    public function codeMsg()
+    public function captchaMsg()
     {
         $data = [
             'uid' => $this->uid,

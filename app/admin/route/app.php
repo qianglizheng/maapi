@@ -11,5 +11,5 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('login', 'Login/login');
-Route::get('reg', 'Login/reg');
+Route::get('login/index', 'Login/login');
+Route::get('login/captcha', 'Login/captcha');

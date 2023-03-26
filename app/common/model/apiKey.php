@@ -4,7 +4,7 @@ namespace app\common\model;
 
 use think\Model;
 
-class ApiKey extends Model
+class AdminKey extends Model
 {
-    protected $name = 'api_key';
+    protected $name = 'admin_key';
 }

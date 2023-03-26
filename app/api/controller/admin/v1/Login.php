@@ -5,8 +5,8 @@ namespace app\api\controller\admin\v1;
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
 use think\facade\Request;
-use app\common\model\ApiKey;
-use app\common\model\Users;
+use app\common\model\AdminKey;
+use app\common\model\Admin;
 use think\facade\Cache;
 
 class Login extends Common
@@ -18,6 +18,7 @@ class Login extends Common
     public function login()
     {
         $data = $this->params;
+        //判断图片验证码是否正确
         if (strtolower(Cache::get($data['uid'])) != strtolower($data['captcha'])) {
             //删除验证码
             Cache::delete($data['uid']);
@@ -26,9 +27,9 @@ class Login extends Common
             Cache::delete($data['uid']);
         }
         //获取管理后台下发token的key
-        $key = ApiKey::find(1)['admin'];
+        $key = AdminKey::find(1)['admin'];
         //查询用户是否存在
-        $res = Users::where('username', $data['username'])->findOrEmpty();
+        $res = Admin::where('username', $data['username'])->findOrEmpty();
         if ($res->isEmpty()) {
             //账号不存在
             return $this->return_json(0, [], '账号或者密码错误', 400);

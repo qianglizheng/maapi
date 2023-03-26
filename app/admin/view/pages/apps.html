@@ -1,4 +1,5 @@
-{include file="public/header" /}
+{include file="../app/common/view/public/header.html" /}
+
 <body>
     <div class="layuimini-container">
         <div class="layuimini-main">
@@ -14,7 +15,8 @@
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                                <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
                             </div>
                         </div>
                     </form>
@@ -38,7 +40,7 @@
     </div>
     <script src="../static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script>
-        layui.use(['form', 'table'], function() {
+        layui.use(['form', 'table'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 table = layui.table;
@@ -54,6 +56,178 @@
                 }],
                 cols: [
                     [{
+                        type: "checkbox",
+                        width: 50
+                    },
+                    {
+                        field: 'id',
+                        width: 60,
+                        title: 'ID',
+                        sort: true
+                    },
+                    {
+                        field: 'app_name',
+                        width: 120,
+                        title: '软件名'
+                    },
+                    {
+                        title: '操作',
+                        minWidth: 150,
+                        toolbar: '#currentTableBar',
+                        align: "center"
+                    }
+                    ]
+                ],
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 15,
+                page: true,
+                skin: 'line',
+                parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
+                    var result;
+                    console.log(this);
+                    console.log(JSON.stringify(res));
+                    if (this.page.curr) {
+                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                    } else {
+                        result = res.data.slice(0, this.limit);
+                    }
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                },
+            });
+
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+
+                //执行搜索重载
+                table.reload('currentTableId', {
+                    page: {
+                        curr: 1
+                    },
+                    where: {
+                        app_name: data.field.app_name
+                    }
+                }, 'data');
+                return false;
+            });
+
+
+
+
+            /**
+             * toolbar监听事件
+             */
+            table.on('toolbar(currentTableFilter)', function (obj) {
+                if (obj.event === 'add') { // 监听添加操作
+                    var index = layer.open({
+                        title: '添加软件',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../add/app_add',
+                        end: function () {
+                            table.reload('currentTableId', {
+                                url: '../api/app_list',
+                                where: {}
+                            });
+                        }
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                } else if (obj.event === 'delete') { // 监听删除操作
+                    var checkStatus = table.checkStatus('currentTableId')
+                    data = checkStatus.data;
+                    layer.confirm('真的删除么', function (index) {
+                        var arr = [];
+                        for (var i = 0; i < data.length; i++) {
+                            arr[i] = data[i].id;
+                        }
+                        $.post('../api/app_del', {
+                            'id': arr
+                        }, function (res) {
+                            console.log(res)
+                            if (res !== 0) {
+                                //重载表格
+                                table.reload('currentTableId', {
+                                    url: '../api/app_list',
+                                    where: {}
+                                });
+                            }
+                        })
+                        layer.close(index);
+                    });
+                }
+            });
+
+            //  监听表格复选框选择
+            table.on('checkbox(currentTableFilter)', function (obj) {
+                console.log(obj)
+            });
+
+            table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    var index = layer.open({
+                        title: '编辑软件',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '../tpl/app_tpl',
+                        success: function (layero, index) {
+                            var body = layui.layer.getChildFrame('body', index);
+                            body.find(".id").val(data.id);
+                            body.find(".app_name").val(data.app_name);
+                        },
+                        end: function () {
+                            //重载表格
+                            table.reload('currentTableId', {
+                                url: '../api/app_list',
+                                where: {}
+                            });
+                        }
+
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除么', function (index) {
+                        var id = data.id;
+                        $.post('../api/app_del', {
+                            'id': id
+                        }, function (res) {
+                            if (res == '1') {
+                                obj.del();
+                            }
+                        })
+                        layer.close(index);
+                    });
+                }
+            });
+
+            table.on("sort(currentTableFilter)", function (obj) {
+                table.render({
+                    initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                    elem: '#currentTableId',
+                    url: '../api/app_list',
+                    toolbar: '#toolbarDemo',
+                    defaultToolbar: ['filter', 'exports', 'print', {
+                        title: '提示',
+                        layEvent: 'LAYTABLE_TIPS',
+                        icon: 'layui-icon-tips'
+                    }],
+                    cols: [
+                        [{
                             type: "checkbox",
                             width: 50
                         },
@@ -74,185 +248,13 @@
                             toolbar: '#currentTableBar',
                             align: "center"
                         }
-                    ]
-                ],
-                limits: [10, 15, 20, 25, 50, 100],
-                limit: 15,
-                page: true,
-                skin: 'line',
-                parseData: function(res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
-                    var result;
-                    console.log(this);
-                    console.log(JSON.stringify(res));
-                    if (this.page.curr) {
-                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
-                    } else {
-                        result = res.data.slice(0, this.limit);
-                    }
-                    return {
-                        "code": res.code, //解析接口状态
-                        "msg": res.msg, //解析提示文本
-                        "count": res.count, //解析数据长度
-                        "data": res.data //解析数据列表
-                    };
-                },
-            });
-
-            // 监听搜索操作
-            form.on('submit(data-search-btn)', function(data) {
-
-                //执行搜索重载
-                table.reload('currentTableId', {
-                    page: {
-                        curr: 1
-                    },
-                    where: {
-                        app_name: data.field.app_name
-                    }
-                }, 'data');
-                return false;
-            });
-
-
-
-
-            /**
-             * toolbar监听事件
-             */
-            table.on('toolbar(currentTableFilter)', function(obj) {
-                if (obj.event === 'add') { // 监听添加操作
-                    var index = layer.open({
-                        title: '添加软件',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: true,
-                        shadeClose: true,
-                        area: ['100%', '100%'],
-                        content: '../add/app_add',
-                        end: function() {
-                            table.reload('currentTableId', {
-                                url: '../api/app_list',
-                                where: {}
-                            });
-                        }
-                    });
-                    $(window).on("resize", function() {
-                        layer.full(index);
-                    });
-                } else if (obj.event === 'delete') { // 监听删除操作
-                    var checkStatus = table.checkStatus('currentTableId')
-                    data = checkStatus.data;
-                    layer.confirm('真的删除么', function(index) {
-                        var arr = [];
-                        for (var i = 0; i < data.length; i++) {
-                            arr[i] = data[i].id;
-                        }
-                        $.post('../api/app_del', {
-                            'id': arr
-                        }, function(res) {
-                            console.log(res)
-                            if (res !== 0) {
-                                //重载表格
-                                table.reload('currentTableId', {
-                                    url: '../api/app_list',
-                                    where: {}
-                                });
-                            }
-                        })
-                        layer.close(index);
-                    });
-                }
-            });
-
-            //  监听表格复选框选择
-            table.on('checkbox(currentTableFilter)', function(obj) {
-                console.log(obj)
-            });
-
-            table.on('tool(currentTableFilter)', function(obj) {
-                var data = obj.data;
-                if (obj.event === 'edit') {
-                    var index = layer.open({
-                        title: '编辑软件',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: true,
-                        shadeClose: true,
-                        area: ['100%', '100%'],
-                        content: '../tpl/app_tpl',
-                        success: function(layero, index) {
-                            var body = layui.layer.getChildFrame('body', index);
-                            body.find(".id").val(data.id);
-                            body.find(".app_name").val(data.app_name);
-                        },
-                        end: function() {
-                            //重载表格
-                            table.reload('currentTableId', {
-                                url: '../api/app_list',
-                                where: {}
-                            });
-                        }
-
-                    });
-                    $(window).on("resize", function() {
-                        layer.full(index);
-                    });
-                    return false;
-                } else if (obj.event === 'delete') {
-                    layer.confirm('真的删除么', function(index) {
-                        var id = data.id;
-                        $.post('../api/app_del', {
-                            'id': id
-                        }, function(res) {
-                            if (res == '1') {
-                                obj.del();
-                            }
-                        })
-                        layer.close(index);
-                    });
-                }
-            });
-
-            table.on("sort(currentTableFilter)", function(obj) {
-                table.render({
-                    initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
-                    elem: '#currentTableId',
-                    url: '../api/app_list',
-                    toolbar: '#toolbarDemo',
-                    defaultToolbar: ['filter', 'exports', 'print', {
-                        title: '提示',
-                        layEvent: 'LAYTABLE_TIPS',
-                        icon: 'layui-icon-tips'
-                    }],
-                    cols: [
-                        [{
-                                type: "checkbox",
-                                width: 50
-                            },
-                            {
-                                field: 'id',
-                                width: 60,
-                                title: 'ID',
-                                sort: true
-                            },
-                            {
-                                field: 'app_name',
-                                width: 120,
-                                title: '软件名'
-                            },
-                            {
-                                title: '操作',
-                                minWidth: 150,
-                                toolbar: '#currentTableBar',
-                                align: "center"
-                            }
                         ]
                     ],
                     limits: [10, 15, 20, 25, 50, 100],
                     limit: 15,
                     page: true,
                     skin: 'line',
-                    parseData: function(res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
+                    parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                         var result;
                         console.log(this);
                         console.log(JSON.stringify(res));
@@ -273,4 +275,4 @@
             });
         });
     </script>
-{include file="public/footer" /}
+    {include file="../app/common/view/public/footer.html" /}

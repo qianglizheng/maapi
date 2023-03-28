@@ -50,7 +50,7 @@ class CheckToken extends Common
     public function getKey($type, $app_id, $uid)
     {
         if ($type == 'u') {
-            $key = AdminKeyConfig::find(1)['user']; //用户接口
+            $key = AdminKeyConfig::find(1)['user'];                             //用户接口
         } elseif ($type == 'a') {
             $key = AdminKeyConfig::find(1)['admin']; //管理接口
         } elseif ($type == 'v') {

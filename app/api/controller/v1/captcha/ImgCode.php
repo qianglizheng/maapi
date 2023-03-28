@@ -2,10 +2,11 @@
 
 namespace app\api\controller\v1\captcha;
 
+use app\common\controller\Common;
 use think\facade\Cache;
 use think\facade\Request;
 
-class ImgCode extends setCode
+class ImgCode extends Common
 {
     /**
      * 用户标识

@@ -36,12 +36,12 @@ class Common extends BaseController
         return Response::create($result, 'json');
     }
     /**
-     * 网站验证登录信息->检查token
+     * 设置验证码 $key为缓存的键
      */
-    public function check_token($type, $token)
+    public function setCode($key)
     {
-        $key = AdminKeyConfig::find(1)[$type];
-        $jwt = jwtAuth::getInstance();
-        $jwt->setKey($key)->decode($token);
+        $code = substr(str_shuffle('123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'), 0, 4);
+        Cache::set($key, $code, 60);
+        $this->code = $code;
     }
 }

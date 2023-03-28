@@ -2,12 +2,13 @@
 
 namespace app\api\controller\v1\captcha;
 
+use app\common\controller\Common;
 use app\common\model\AdminEmailConfig;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class Email extends SetCode
+class Email extends Common
 {
     public function send($receiver='', $content='')
     {

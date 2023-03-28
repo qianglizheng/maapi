@@ -8,10 +8,6 @@ class Menu
 {
     public function menu()
     {
-        $info = Request::header();
-        echo $info['authorization'];
-die;
-        return $info;
         $domain = Request::domain();
         $data = [
             "homeInfo" => [

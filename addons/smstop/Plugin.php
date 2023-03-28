@@ -1,0 +1,57 @@
+<?php
+namespace addons\smstop;
+
+use think\Addons;
+
+/**
+ * thinkphp6官方短信验证
+ * @author byron sampson
+ */
+class Plugin extends Addons	
+{
+    /**
+     * 插件的基础信息
+     */
+    public $info = [
+        'name' => 'smstop',	                      // 插件标识
+        'title' => 'ThinkPHP短信服务',	          // 插件名称
+        'description' => 'ThinkPHP短信服务',	  // 插件简介
+        'status' => 0,	                         // 状态
+        'author' => '创梦流浪人',
+        'version' => '1.0.0'
+    ];
+
+    /**
+     * 插件安装方法
+     * @return bool
+     */
+    public function install()
+    {
+        return true;
+    }
+
+    /**
+     * 插件卸载方法
+     * @return bool
+     */
+    public function uninstall()
+    {
+        return true;
+    }
+
+    /**
+     * 实现的testhook钩子方法
+     * @return mixed
+     */
+    public function smstophook($param)
+    {
+		// 调用钩子时候的参数信息
+        print_r($param);
+        echo 3;
+		// 当前插件的配置信息，配置信息存在当前目录的config.php文件中，见下方
+        print_r($this->getConfig());
+		// 可以返回模板，模板文件默认读取的为插件目录中的文件。模板名不能为空！
+        // return $this->fetch('info');
+    }
+
+}

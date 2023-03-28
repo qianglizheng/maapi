@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\api\controller\v1\captcha;
 
 use app\common\controller\Common;
 use think\facade\Cache;

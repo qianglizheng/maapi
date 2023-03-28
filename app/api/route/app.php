@@ -19,15 +19,15 @@ $index = [
 /**
  * 公共验证码路由
  */
-Route::get('v1/captcha/get_img', 'v1.ImgCode/getImg');                   //图片验证码
-Route::get('v1/captcha/img', 'v1.ImgCode/sendImgCode');                  //图片验证码信息
-Route::get('v1/captcha/email', 'v1.EmailCode/sendEmailCode');            //邮件验证码
+Route::get('v1/captcha/get_img', 'v1.captcha.ImgCode/getImg');                   //图片验证码
+Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode');                  //图片验证码信息
+Route::get('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');            //邮件验证码
 
 /**
  * 后台菜单栏路由
  */
-Route::get('admin/menu', 'admin.Menu/index');                    //管理后台
-Route::get('user/menu', 'user.Menu/index');                      //用户后台
+Route::get('admin/menu', 'admin.Menu/menu');                    //管理后台
+Route::get('user/menu', 'user.Menu/menu');                      //用户后台
 
 /**
  * 管理后台路由

@@ -6,7 +6,7 @@ use think\facade\Request;
 
 class Menu
 {
-    public function index()
+    public function menu()
     {
         $domain = Request::domain();
         $data = [
@@ -54,13 +54,13 @@ class Menu
                         [
                             "title" => "邮件配置",
                             "icon" => "fa fa-address-book",
-                            "href" => "admin/config/adminEmailConfig",
+                            "href" => $domain."/admin/config/adminEmailConfig",
                             "target" => "_self"
                         ],
                         [
                             "title" => "密钥配置",
                             "icon" => "fa fa-address-book",
-                            "href" => "admin/config/adminKeyConfig",
+                            "href" => $domain."/admin/config/adminKeyConfig",
                             "target" => "_self"
                         ],
                     ]

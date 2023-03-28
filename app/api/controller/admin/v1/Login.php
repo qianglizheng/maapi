@@ -5,7 +5,7 @@ namespace app\api\controller\admin\v1;
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
 use think\facade\Request;
-use app\common\model\AdminKey;
+use app\common\model\AdminKeyConfig;
 use app\common\model\Admin;
 use think\facade\Cache;
 
@@ -27,7 +27,7 @@ class Login extends Common
             Cache::delete($data['uid']);
         }
         //获取管理后台下发token的key
-        $key = AdminKey::find(1)['admin'];
+        $key = AdminKeyConfig::find(1)['admin'];
         //查询用户是否存在
         $res = Admin::where('username', $data['username'])->findOrEmpty();
         if ($res->isEmpty()) {

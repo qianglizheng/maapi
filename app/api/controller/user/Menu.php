@@ -6,7 +6,7 @@ use think\facade\Request;
 
 class Menu
 {
-    public function index()
+    public function menu()
     {
         $domain = Request::domain();
         $data = [

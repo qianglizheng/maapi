@@ -36,11 +36,7 @@ class CheckToken extends Common
         if ($data == null) {
             return $this->return_json(0, [], $jwt->getError(), 400);
         } else {
-            if ($data['exp'] < time()) {
-                return $this->return_json(0, [], 'token已过期', 400);
-            } else {
-                return $this->return_json(1, ['id' => $data['id']]);
-            }
+                // return $this->return_json(1, ['id' => $data['id']]);//解析id
         }
         return $next($request);
     }
@@ -52,7 +48,7 @@ class CheckToken extends Common
         if ($type == 'u') {
             $key = AdminKeyConfig::find(1)['user'];                             //用户接口
         } elseif ($type == 'a') {
-            $key = AdminKeyConfig::find(1)['admin']; //管理接口
+            $key = AdminKeyConfig::find(1)['admin'];                            //管理接口
         } elseif ($type == 'v') {
             $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
         }

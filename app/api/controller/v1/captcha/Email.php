@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\api\controller\v1\captcha;
 
 use app\common\model\AdminEmailConfig;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -25,7 +25,7 @@ class Email extends SetCode
             $mail->Port       = $config['port'];                          //要连接的TCP端口;如果已设置“SMTPSecure = PHPMailer：：ENCRYPTION_STARTTLS”，则使用587
 
             //接收者
-            $mail->setFrom($config['username'],'');
+            $mail->setFrom($config['username'], '');
             $mail->addAddress($receiver, '');                             //添加收件人 名字是可选的
             $mail->addReplyTo($config['username'], $config['username']);
 

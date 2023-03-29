@@ -2,7 +2,7 @@
 namespace addons\smstop;
 
 use think\Addons;
-
+use think\facade\Db;
 /**
  * thinkphp6官方短信验证
  * @author byron sampson
@@ -27,7 +27,12 @@ class Plugin extends Addons
      */
     public function install()
     {
-        return true;
+        Db::name('system_menu')->insert([
+            "pid" => 3,
+            "title" => "顶想云",
+            "href" => "admin/config/smstop",
+            "target" => "_self"
+        ]);
     }
 
     /**
@@ -46,8 +51,8 @@ class Plugin extends Addons
     public function smstophook($param)
     {
 		// 调用钩子时候的参数信息
+        echo $this->install();
         print_r($param);
-        echo 3;
 		// 当前插件的配置信息，配置信息存在当前目录的config.php文件中，见下方
         print_r($this->getConfig());
 		// 可以返回模板，模板文件默认读取的为插件目录中的文件。模板名不能为空！

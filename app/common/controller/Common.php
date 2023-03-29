@@ -6,6 +6,7 @@ use app\BaseController;
 use app\common\model\AdminKeyConfig;
 use app\common\controller\jwtAuth;
 use think\Response;
+use think\facade\Cache;
 
 class Common extends BaseController
 {
@@ -14,7 +15,7 @@ class Common extends BaseController
      */
     public function return_json($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
     {
-        if ($count==0) {
+        if ($count == 0) {
             $result = [
                 //状态码
                 "code" => $code,
@@ -35,6 +36,7 @@ class Common extends BaseController
         }
         return Response::create($result, 'json');
     }
+    
     /**
      * 设置验证码 $key为缓存的键
      */

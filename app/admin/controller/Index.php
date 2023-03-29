@@ -16,4 +16,7 @@ class Index
     {
         return View::fetch('index');
     }
+    public function a(){
+        return hook('smstophook', ['id'=>1]);
+    }
 }

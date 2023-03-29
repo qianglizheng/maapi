@@ -2,58 +2,63 @@
 
 namespace app\api\controller\user;
 
-use think\facade\Request;
 
 class Menu
 {
+    /**
+     * 获取初始化数据
+     */
     public function menu()
     {
-        $domain = Request::domain();
-        $data = [
-            "homeInfo" => [
-                "title" => "首页", "href" => ""
-            ],
-            "logoInfo" => [
-                "title" => "小码API",
-                "image" => "$domain./static/images/logo.png",
-                "href" => ""
-            ],
-            "menuInfo" => [
-                [
-                    "title" => "基础功能",
-                    "icon" => "fa fa-address-book",
-                    "href" => "",
-                    "target" => "_self",
-                    "child" => [
-                        [
-                            "title" => "笔记管理",
-                            "icon" => "fa fa-address-book",
-                            "href" => "",
-                            "target" => "_self"
-                        ],
-                        [
-                            "title" => "更新管理",
-                            "icon" => "fa fa-address-book",
-                            "href" => "",
-                            "target" => "_self"
-                        ],
-                        [
-                            "title" => "公告管理",
-                            "icon" => "fa fa-address-book",
-                            "href" => "",
-                            "target" => "_self"
-                        ]
-                    ]
-                ],
-                [
-                    "title" => "应用管理",
-                    "icon" => "fa fa-address-book",
-                    "href" => $domain."/user/pages/apps",
-                    "target" => "_self"
-                ],
-            ]
+        $homeInfo =  [
+            "title" => "首页",
+            "href" => ""
         ];
+        $logoInfo =  [
+            "title" => "小码API",
+            "image" => "/static/images/logo.png",
+            "href" => ""
+        ];
+        $menuInfo = $this->getMenuList();
+        $systemInit = [
+            'homeInfo' => $homeInfo,
+            'logoInfo' => $logoInfo,
+            'menuInfo' => $menuInfo,
+        ];
+        return json($systemInit);
+    }
 
-        return json($data);
+    /**
+     * 获取菜单列表
+     * */
+    private function getMenuList()
+    {
+        $menuList = Db::name('system_menu')
+            ->field('id,pid,title,icon,href,target')
+            ->where('status', 1)
+            ->order('sort', 'desc')
+            ->select();
+        $menuList = $this->buildMenuChild(0, $menuList);
+        return $menuList;
+    }
+
+    /**
+     * 递归获取子菜单
+     * */
+    private function buildMenuChild($pid, $menuList)
+    {
+        $treeList = [];
+        foreach ($menuList as $v) {
+            if ($pid == $v['pid']) {
+                $node = $v;
+                $child = $this->buildMenuChild($v['id'], $menuList);
+                if (!empty($child)) {
+                    $node['child'] = $child;
+                }
+                // todo 后续此处加上用户的权限判断
+                $treeList[] = $node;
+            }
+        }
+        return $treeList;
     }
 }

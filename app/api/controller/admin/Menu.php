@@ -13,11 +13,11 @@ class Menu
     {
         $homeInfo =  [
             "title" => "首页",
-            "href" => ""
+            "href" => "admin/pages/index"
         ];
         $logoInfo =  [
             "title" => "小码API",
-            "image" => "/static/images/logo.png",
+            "image" => "static/images/logo.png",
             "href" => ""
         ];
         $menuInfo = $this->getMenuList();

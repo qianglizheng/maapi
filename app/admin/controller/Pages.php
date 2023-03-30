@@ -14,4 +14,8 @@ class Pages
     {
         return View::fetch('notes');
     }
+    public function index()
+    {
+        return View::fetch('index');
+    }
 }

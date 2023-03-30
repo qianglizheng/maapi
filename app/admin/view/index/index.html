@@ -1,5 +1,4 @@
 {include file="../app/common/view/public/header.html" /}
-
 <body class="layui-layout-body layuimini-all">
     <div class="layui-layout layui-layout-admin">
 
@@ -107,8 +106,8 @@
 
         </div>
     </div>
-    <script src="{$Request.domain}/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="{$Request.domain}/static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+    <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
     <script>
         layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji'], function () {
             var $ = layui.jquery,
@@ -147,4 +146,4 @@
             });
         })
     </script>
-        {include file="../app/common/view/public/footer.html" /}
+{include file="../app/common/view/public/footer.html" /}

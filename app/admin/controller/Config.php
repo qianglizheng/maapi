@@ -21,4 +21,10 @@ class Config
         View::assign($data);
         return View::fetch('adminEmailConfig');
     }
+    public function smstop()
+    {
+        $data = AdminEmailConfig::find(1)->toArray();
+        View::assign($data);
+        return View::fetch('adminEmailConfig');
+    }
 }

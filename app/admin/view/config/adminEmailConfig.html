@@ -6,22 +6,27 @@
 
             <div class="layui-form layuimini-form">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">短信宝用户名</label>
+                    <label class="layui-form-label">SMTP服务器地址:</label>
                     <div class="layui-input-block">
-                        <input type="text" name="smsbao_username" placeholder="请输入短信宝用户名" value="" class="layui-input">
+                        <input type="text" name="host" placeholder="请输入SMTP服务器地址" value="" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">短信宝密码</label>
+                    <label class="layui-form-label">SMTP用户名:</label>
                     <div class="layui-input-block">
-                        <input type="text" name="smsbao_password" placeholder="请输入短信宝密码" value="" class="layui-input">
+                        <input type="text" name="username" placeholder="请输入SMTP用户名" value="" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">发送名称</label>
+                    <label class="layui-form-label">SMTP密码:</label>
                     <div class="layui-input-block">
-                        <input type="text" name="smsbao_nickname" placeholder="请输入发送显示的名称 例如创梦API" value=""
-                            class="layui-input">
+                        <input type="text" name="password" placeholder="请输入SMTP密码" value="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">TCP端口:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="port" placeholder="请输入端口" value="" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -35,6 +40,7 @@
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script src="/static/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'miniTab'], function () {
             var form = layui.form,
@@ -43,7 +49,7 @@
             $ = layui.$;
             //监听提交
             form.on('submit(saveBtn)', function (data) {
-                $.get('/api/v1/captcha_msg', data.field, function (res) {
+                $.get('http://www.baidu.com', data.field, function (res) {
                     console.log(res)
                     if (res == '1') {
                         layer.msg(res.msg, { icon: 1 });

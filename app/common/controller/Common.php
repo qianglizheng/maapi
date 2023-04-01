@@ -15,6 +15,12 @@ class Common extends BaseController
      */
     public function return_json($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
     {
+        if (empty($data) && $code == 200) {
+            $code = 204;
+            if($msg == "数据请求成功"){
+                $msg == "数据为空";
+            }
+        }
         if ($count == 0) {
             $result = [
                 //状态码
@@ -34,9 +40,10 @@ class Common extends BaseController
                 "data" => $data
             ];
         }
+
         return Response::create($result, 'json');
     }
-    
+
     /**
      * 设置验证码 $key为缓存的键
      */

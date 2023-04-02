@@ -16,6 +16,9 @@ $index = [
     'limit' => 'require|number',
     'token' =>'require'
 ];
+$token = [
+    'token'=>'require'
+];
 /**
  * 公共验证码路由
  */
@@ -38,5 +41,6 @@ Route::post('admin/v1/login', 'admin.v1.Login/login');          //管理员登�
  * 后台资源路由->验证token
  * 方法路由->验证参数
  */
-Route::resource('admin/v1/apps', 'admin.v1.Apps')->validate($index)->middleware(\app\common\middleware\CheckToken::class);
-Route::resource('user/v1/apps', 'user.v1.Apps')->validate($index)->middleware(\app\common\middleware\CheckToken::class);
+Route::resource('admin/v1/email_config', 'admin.v1.AdminEmailConfig')->middleware(\app\common\middleware\CheckToken::class);
+
+Route::resource('user/v1/apps', 'user.v1.Apps')->middleware(\app\common\middleware\CheckToken::class);

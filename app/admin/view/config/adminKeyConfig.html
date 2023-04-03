@@ -51,6 +51,7 @@
                         layer.msg(res.msg, { icon: 1 });
                     } else {
                         layer.msg(res.msg, { icon: 2 });
+                        localStorage.removeItem('token');
                     }
                 })
                 return false;

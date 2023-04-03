@@ -115,6 +115,15 @@
                 layer = layui.layer,
                 miniAdmin = layui.miniAdmin,
                 miniTongji = layui.miniTongji;
+
+                $.get('/api/admin/v1/menu',{}, function (res) {
+                    if (res.code == '400') {
+                        layer.msg(res.msg, { icon: 2 });
+                        localStorage.removeItem('token');
+                        window.location = "/admin/login/index";
+                    } 
+                })
+
             var options = {
                 iniUrl: "{$Request.domain}/api/admin/v1/menu", // 初始化接口
                 clearUrl: "{$Request.domain}/static/api/clear.json", // 缓存清理接口

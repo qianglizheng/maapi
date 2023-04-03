@@ -6,27 +6,15 @@
 
             <div class="layui-form layuimini-form">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">SMTP服务器地址:</label>
+                    <label class="layui-form-label">管理后台KEY:</label>
                     <div class="layui-input-block">
-                        <input type="text" name="host" placeholder="请输入SMTP服务器地址" value="" class="layui-input">
+                        <input type="text" name="admin" placeholder="请输入管理后台KEY" value="" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">SMTP用户名:</label>
+                    <label class="layui-form-label">用户后台KEY:</label>
                     <div class="layui-input-block">
-                        <input type="text" name="username" placeholder="请输入SMTP用户名" value="" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">SMTP密码:</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="password" placeholder="请输入SMTP密码" value="" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">TCP端口:</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="port" placeholder="请输入端口" value="" class="layui-input">
+                        <input type="text" name="user" placeholder="请输入用户后台KEY" value="" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -47,11 +35,19 @@
                 layer = layui.layer,
                 miniTab = layui.miniTab;
             $ = layui.$;
+            $.get('/api/admin/v1/key_config/1', {}, function (res) {
+                if (res.code == '200') {
+                    $('[name=user]').val(res.data.user);
+                    $('[name=admin]').val(res.data.admin);
+                } else {
+                    layer.msg(res.msg, { icon: 2 });
+                }
+            })
             //监听提交
             form.on('submit(saveBtn)', function (data) {
-                $.get('http://www.baidu.com', data.field, function (res) {
-                    console.log(res)
-                    if (res == '1') {
+                data.field._method = 'PUT';
+                $.post('/api/admin/v1/key_config/1', data.field, function (res) {
+                    if (res.code == '200') {
                         layer.msg(res.msg, { icon: 1 });
                     } else {
                         layer.msg(res.msg, { icon: 2 });

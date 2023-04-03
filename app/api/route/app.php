@@ -14,10 +14,7 @@ use think\facade\Route;
 $index = [
     'page' => 'require|number',
     'limit' => 'require|number',
-    'token' =>'require'
-];
-$token = [
-    'token'=>'require'
+    'token' => 'require'
 ];
 /**
  * 公共验证码路由
@@ -27,20 +24,18 @@ Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode');                 
 Route::get('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');            //邮件验证码
 
 /**
- * 后台菜单栏路由
- */
-Route::get('admin/menu', 'admin.Menu/menu');                    //管理后台
-Route::get('user/menu', 'user.Menu/menu');                      //用户后台
-
-/**
  * 管理后台路由
  */
 Route::post('admin/v1/login', 'admin.v1.Login/login');          //管理员登录
 
 /**
- * 后台资源路由->验证token
- * 方法路由->验证参数
+ * 路由分组 验证token
  */
-Route::resource('admin/v1/email_config', 'admin.v1.AdminEmailConfig')->middleware(\app\common\middleware\CheckToken::class);
-
-Route::resource('user/v1/apps', 'user.v1.Apps')->middleware(\app\common\middleware\CheckToken::class);
+Route::group(function () {
+    //菜单栏
+    Route::get('admin/v1/menu', 'admin.v1.Menu/menu');
+    Route::get('user/v1/menu', 'user.v1.Menu/menu');
+    //管理后台
+    Route::resource('admin/v1/email_config', 'admin.v1.AdminEmailConfig');
+    Route::resource('admin/v1/key_config', 'admin.v1.AdminKeyConfig');
+})->middleware(\app\common\middleware\CheckToken::class);

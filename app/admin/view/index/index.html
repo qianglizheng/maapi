@@ -108,6 +108,7 @@
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script src="/static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <script>
         layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji'], function () {
             var $ = layui.jquery,
@@ -115,7 +116,7 @@
                 miniAdmin = layui.miniAdmin,
                 miniTongji = layui.miniTongji;
             var options = {
-                iniUrl: "{$Request.domain}/api/admin/menu", // 初始化接口
+                iniUrl: "{$Request.domain}/api/admin/v1/menu", // 初始化接口
                 clearUrl: "{$Request.domain}/static/api/clear.json", // 缓存清理接口
                 urlHashLocation: true, // 是否打开hash定位
                 bgColorDefault: false, // 主题默认配置

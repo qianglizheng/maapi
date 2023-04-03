@@ -1,7 +1,8 @@
 <?php
 
-namespace app\api\controller\user;
+namespace app\api\controller\admin\v1;
 
+use think\facade\Db;
 
 class Menu
 {
@@ -12,7 +13,7 @@ class Menu
     {
         $homeInfo =  [
             "title" => "首页",
-            "href" => ""
+            "href" => "/admin/pages/index"
         ];
         $logoInfo =  [
             "title" => "小码API",

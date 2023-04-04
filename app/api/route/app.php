@@ -38,4 +38,5 @@ Route::group(function () {
     //管理后台
     Route::resource('admin/v1/email_config', 'admin.v1.AdminEmailConfig');
     Route::resource('admin/v1/key_config', 'admin.v1.AdminKeyConfig');
+    Route::resource('admin/v1/api_config', 'admin.v1.AdminApiConfig');
 })->middleware(\app\common\middleware\CheckToken::class);

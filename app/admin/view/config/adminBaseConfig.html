@@ -1,0 +1,92 @@
+{include file="../app/common/view/public/header.html" /}
+
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+                <legend>登录验证</legend>
+            </fieldset>
+            <div class="layui-form layuimini-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片验证码</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" value="1" name="login_img" lay-skin="switch" lay-text="ON|OFF">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">短信验证码</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" value="1" name="login_mobile" lay-skin="switch" lay-filter="switchTest"
+                            lay-text="ON|OFF">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮件验证码</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" value="1" name="login_email" lay-skin="switch" lay-filter="switchTest"
+                            lay-text="ON|OFF">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" class="layui-btn layui-btn-normal" lay-submit
+                            lay-filter="saveBtn">确认保存</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/static/js/setToken.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'miniTab'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                miniTab = layui.miniTab;
+            $ = layui.$;
+            $.get('/api/admin/v1/api_config/1', {}, function (res) {
+                console.log(res);
+                if (res.code == '200') {
+                    if (res.data.login_img == 1) {
+                        $('[name=login_img]').attr('checked', 'checked');
+                    }
+                    if (res.data.login_email == 1) {
+                        $('[name=login_email]').attr('checked', 'checked');
+                    }
+                    if (res.data.login_mobile == 1) {
+                        $('[name=login_mobile]').attr('checked', 'checked');
+                    }
+                    form.render();
+                } else {
+                    layer.msg(res.msg, { icon: 2 });
+                }
+            })
+            //监听提交
+            form.on('submit(saveBtn)', function (data) {
+                data.field._method = 'PUT';
+                if (data.field.login_email == undefined) {
+                    data.field.login_email = 0;
+                }
+                if (data.field.login_mobile == undefined) {
+                    data.field.login_mobile = 0;
+                }
+                if (data.field.login_img == undefined) {
+                    data.field.login_img = 0;
+                }
+                $.post('/api/admin/v1/api_config/1', data.field, function (res) {
+                    if (res.code == '200') {
+                        layer.msg(res.msg, { icon: 1 });
+                    } else if (res.code == '200' && res.msg == 'token错误') {
+                        layer.msg(res.msg, { icon: 2 });
+                        localStorage.removeItem('token');
+                    } else {
+                        layer.msg(res.msg, { icon: 2 });
+                    }
+                })
+                return false;
+            });
+        });
+    </script>
+    {include file="../app/common/view/public/footer.html" /}

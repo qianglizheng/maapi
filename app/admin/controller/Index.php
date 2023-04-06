@@ -3,20 +3,15 @@
 namespace app\admin\controller;
 
 use think\facade\View;
-use app\common\model\Users;
 
 class Index
 {
-    public function __construct()
-    {
-        $this->model = new Users();
-    }
-
     public function index()
     {
         return View::fetch('index');
     }
-    public function a(){
-        return hook('smstophook', ['id'=>1]);
+    public function index2()
+    {
+        return View::fetch('index2');
     }
 }

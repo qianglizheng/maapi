@@ -1,12 +1,12 @@
 <?php
 
-namespace app\api\controller\admin\v1;
+namespace app\api\controller\admin\v1\user;
 
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
 use think\facade\Request;
 use app\common\model\AdminKeyConfig;
-use app\common\model\Admin;
+use app\admin\model\Admin;
 use think\facade\Cache;
 
 class Login extends Common

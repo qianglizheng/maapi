@@ -6,8 +6,8 @@ namespace app\common\middleware;
 
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
-use app\common\model\AdminKeyConfig;
-use app\common\model\Apps;
+use app\admin\model\AdminKeyConfig;
+use app\user\model\Apps;
 use think\facade\Request;
 
 class CheckToken extends Common
@@ -23,8 +23,8 @@ class CheckToken extends Common
     {
         $token = Request::header('authorization');
         if (empty($token)) {
-            return $this->return_json(0, [], 'token不能为空',400);
-        }else{
+            return $this->return_json(0, [], 'token不能为空', 400);
+        } else {
             $token = substr($token, 6);
         }
 

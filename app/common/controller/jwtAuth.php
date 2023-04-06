@@ -120,7 +120,7 @@ class jwtAuth
             'iss' => Request::domain(),        //签发者
             'aud' => 'user',                   //接收者
             'iat' => time(),                   //签发时间
-            'exp' => time() + 3600 * 24 *60,       //过期时间
+            'exp' => time() + 3600 * 24 *60,   //过期时间
             'id' => $this->id                  //用户ID
         ];
     }
@@ -138,7 +138,8 @@ class jwtAuth
     /**
      * 获取解码后的数据
      */
-    public function getData(){
+    public function getData()
+    {
         return $this->data;
     }
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace app\api\controller\admin\v1\user;
+namespace app\api\controller\admin\v1;
 
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
 use think\facade\Request;
-use app\common\model\AdminKeyConfig;
+use app\admin\model\AdminKeyConfig;
 use app\admin\model\Admin;
 use think\facade\Cache;
 

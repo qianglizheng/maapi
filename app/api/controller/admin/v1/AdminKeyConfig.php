@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\api\controller\admin\v1\config;
+namespace app\api\controller\admin\v1;
 
 use app\common\controller\Common;
 use think\Request;

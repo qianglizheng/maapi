@@ -63,9 +63,11 @@
                 $.post('/api/admin/v1/email_config/1', data.field, function (res) {
                     if (res.code == '200') {
                         layer.msg(res.msg, { icon: 1 });
-                    } else {
+                    } else if(res.code == '200' && res.msg=='token错误') {
                         layer.msg(res.msg, { icon: 2 });
                         localStorage.removeItem('token');
+                    }else{
+                        layer.msg(res.msg, { icon: 2 });
                     }
                 })
                 return false;

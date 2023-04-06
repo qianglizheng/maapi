@@ -44,7 +44,7 @@ class CheckToken extends Common
         $data = $jwt->setKey($key)->decode($token)->getData();
 
         if ($data == null) {
-            return $this->return_json(0, [], $jwt->getError(), 400);
+            return $this->return_json(0, [], 'token错误', 400);
         } else {
             // return $this->return_json(1, ['id' => $data['id']]);//解析id
         }

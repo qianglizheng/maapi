@@ -2,9 +2,6 @@
 
 namespace app\admin\controller;
 
-use app\common\model\AdminKeyConfig;
-use app\common\model\AdminEmailConfig;
-
 use think\facade\View;
 
 class Config
@@ -14,8 +11,6 @@ class Config
      */
     public function adminKeyConfig()
     {
-        $data = AdminKeyConfig::find(1)->toArray();
-        View::assign($data);
         return View::fetch('adminKeyConfig');
     }
     /**
@@ -23,8 +18,6 @@ class Config
      */
     public function adminEmailConfig()
     {
-        $data = AdminEmailConfig::find(1)->toArray();
-        View::assign($data);
         return View::fetch('adminEmailConfig');
     }
     /**
@@ -32,8 +25,6 @@ class Config
      */
     public function adminApiConfig()
     {
-        $data = AdminEmailConfig::find(1)->toArray();
-        View::assign($data);
         return View::fetch('adminApiConfig');
     }
     /**
@@ -41,8 +32,6 @@ class Config
      */
     public function addonsSmsTop()
     {
-        $data = AdminEmailConfig::find(1)->toArray();
-        View::assign($data);
         return View::fetch('adminEmailConfig');
     }
 }

@@ -11,7 +11,7 @@ class Config
     */
     public function adminBaseConfig()
     {
-        return View::fetch('adminKeyConfig');
+        return View::fetch('adminBaseConfig');
     }
 
     /**

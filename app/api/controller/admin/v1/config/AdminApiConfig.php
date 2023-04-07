@@ -8,7 +8,7 @@ use app\common\controller\Common;
 use think\Request;
 use app\admin\model\AdminApiConfig as AdminApiConfigModel;
 
-class AdminApiConfig extends Common
+class Api extends Common
 {
     public function __construct()
     {

@@ -46,6 +46,8 @@
                 layer = layui.layer,
                 miniTab = layui.miniTab;
             $ = layui.$;
+
+            //获取信息
             $.get('/api/admin/v1/api_config/1', {}, function (res) {
                 console.log(res);
                 if (res.code == '200') {
@@ -63,6 +65,7 @@
                     layer.msg(res.msg, { icon: 2 });
                 }
             })
+
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 data.field._method = 'PUT';
@@ -78,7 +81,7 @@
                 $.post('/api/admin/v1/api_config/1', data.field, function (res) {
                     if (res.code == '200') {
                         layer.msg(res.msg, { icon: 1 });
-                    } else if (res.code == '200' && res.msg == 'token错误') {
+                    } else if (res.code == '400' && res.msg == 'token错误') {
                         layer.msg(res.msg, { icon: 2 });
                         localStorage.removeItem('token');
                     } else {

@@ -128,6 +128,7 @@ class jwtAuth
 
     /**
      * 设置密钥
+     * @params int $key
      */
     public function setKey($key)
     {

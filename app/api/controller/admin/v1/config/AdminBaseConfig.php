@@ -8,7 +8,7 @@ use app\common\controller\Common;
 use think\Request;
 use app\admin\model\AdminBaseConfig as AdminBaseConfigModel;
 
-class AdminKeyConfig extends Common
+class AdminBaseConfig extends Common
 {
     public function __construct()
     {
@@ -41,7 +41,20 @@ class AdminKeyConfig extends Common
      */
     public function update(Request $request, $id)
     {
-        $request = $request->only(['user','admin']);
+        $data = [
+            'logo',
+            'title',
+            'subhead',
+            'keyword',
+            'description',
+            'icp',
+            'gov',
+            'gov_href',
+            'email',
+            'mobile',
+            'address'
+        ];
+        $request = $request->only($data);
         $res = $this->model::where('id', $id)->save($request);
         if ($res) {
             return $this->return_json(1, $res, '数据修改成功');

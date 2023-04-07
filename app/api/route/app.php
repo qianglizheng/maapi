@@ -36,7 +36,8 @@ Route::group(function () {
     Route::get('admin/v1/menu', 'admin.v1.Menu/menu');
     Route::get('user/v1/menu', 'user.v1.Menu/menu');
     //管理后台
-    Route::resource('admin/v1/email_config', 'admin.v1.AdminEmailConfig');
-    Route::resource('admin/v1/key_config', 'admin.v1.AdminKeyConfig');
-    Route::resource('admin/v1/api_config', 'admin.v1.AdminApiConfig');
+    Route::resource('admin/v1/config/email', 'admin.v1.config.Email');
+    Route::resource('admin/v1/config/key', 'admin.v1.config.Key');
+    Route::resource('admin/v1/config/api', 'admin.v1.config.Api');
+    Route::resource('admin/v1/config/base', 'admin.v1.config.Base');
 })->middleware(\app\common\middleware\CheckToken::class);

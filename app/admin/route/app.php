@@ -13,3 +13,5 @@ use think\facade\Route;
 
 Route::get('login/index', 'Login/login');
 Route::get('login/captcha', 'Login/captcha');
+
+Route::get('/:id/message', 'Index/read');

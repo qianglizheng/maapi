@@ -9,33 +9,33 @@ class Config
     /**
     * 基本设置
     */
-    public function adminBaseConfig()
+    public function Base()
     {
-        return View::fetch('adminBaseConfig');
+        return View::fetch('Base');
     }
 
     /**
      * key设置
      */
-    public function adminKeyConfig()
+    public function Key()
     {
-        return View::fetch('adminKeyConfig');
+        return View::fetch('Key');
     }
 
     /**
      * 邮箱设置
      */
-    public function adminEmailConfig()
+    public function Email()
     {
-        return View::fetch('adminEmailConfig');
+        return View::fetch('Email');
     }
 
     /**
      * 接口设置
      */
-    public function adminApiConfig()
+    public function Api()
     {
-        return View::fetch('adminApiConfig');
+        return View::fetch('Api');
     }
 
     /**

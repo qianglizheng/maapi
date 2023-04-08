@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\api\controller\admin\v1;
+namespace app\api\controller\admin\v1\config;
 
 use app\common\controller\Common;
 use think\Request;
 use app\admin\model\AdminEmailConfig as AdminEmailConfigModel;
 
-class AdminEmailConfig extends Common
+class Email extends Common
 {
     public function __construct()
     {

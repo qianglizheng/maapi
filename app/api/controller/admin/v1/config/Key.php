@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace app\api\controller\admin\v1;
+namespace app\api\controller\admin\v1\config;
 
 use app\common\controller\Common;
 use think\Request;
-use app\admin\model\AdminBaseConfig as AdminBaseConfigModel;
+use app\admin\model\AdminKeyConfig as AdminKeyConfigModel;
 
-class AdminBaseConfig extends Common
+class Key extends Common
 {
     public function __construct()
     {
-        $this->model = new AdminBaseConfigModel();
+        $this->model = new AdminKeyConfigModel();
     }
 
     /**
@@ -41,20 +41,7 @@ class AdminBaseConfig extends Common
      */
     public function update(Request $request, $id)
     {
-        $data = [
-            'logo',
-            'title',
-            'subhead',
-            'keyword',
-            'description',
-            'icp',
-            'gov',
-            'gov_href',
-            'email',
-            'mobile',
-            'address'
-        ];
-        $request = $request->only($data);
+        $request = $request->only(['user','admin']);
         $res = $this->model::where('id', $id)->save($request);
         if ($res) {
             return $this->return_json(1, $res, '数据修改成功');

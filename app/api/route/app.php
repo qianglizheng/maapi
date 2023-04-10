@@ -30,7 +30,7 @@ Route::get('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');           
 /**
  * 管理后台路由
  */
-Route::post('admin/v1/login', 'admin.v1.Login/login');          //管理员登录
+Route::post('admin/v1/login', 'admin.v1.Login/login');                           //管理员登录
 
 /**
  * 路由分组 验证token
@@ -39,7 +39,6 @@ Route::group(function () {
     //菜单栏
     Route::get('admin/v1/menu', 'admin.v1.Menu/menu');
     Route::get('user/v1/menu', 'user.v1.Menu/menu');
-    //上传文件
     //管理后台
     Route::resource('admin/v1/email', 'admin.v1.config.Email');
     Route::resource('admin/v1/key', 'admin.v1.config.Key');

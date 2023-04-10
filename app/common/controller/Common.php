@@ -53,4 +53,14 @@ class Common extends BaseController
         Cache::set($key, $code, 60);
         $this->code = $code;
     }
+
+    public function upload($path){
+        // 获取表单上传文件
+        $files = request()->file();
+        $savename = [];
+
+        foreach($files as $file){
+            var_dump($file);  $savename[] = \think\facade\Filesystem::putFile( $path, $file);
+        }
+    }
 }

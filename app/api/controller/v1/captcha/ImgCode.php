@@ -11,7 +11,7 @@ class ImgCode extends Common
     /**
      * 用户标识
      */
-    protected $uid;
+    protected $uuid;
     /**
      * 验证码
      */
@@ -19,9 +19,9 @@ class ImgCode extends Common
     /**
      * 设置用户标识
      */
-    protected function setUid()
+    protected function setuuid()
     {
-        $this->uid = time() . mt_rand(100000, 9999999);
+        $this->uuid = time() . mt_rand(100000, 9999999);
         return $this;
     }
     /**
@@ -29,8 +29,8 @@ class ImgCode extends Common
      */
     public function __construct()
     {
-        $this->setUid();
-        $this->setCode((string) $this->uid);
+        $this->setuuid();                            //uuid
+        $this->setCode((string) $this->uuid);        //生成验证码
     }
     /**
      * 添加干扰元素 线条
@@ -65,9 +65,9 @@ class ImgCode extends Common
     /**
      * 获取验证码图片
      */
-    public function getImg($uid)
+    public function getImg($uuid)
     {
-        $code = Cache::get($uid);
+        $code = Cache::get($uuid);
         if (empty($code)) {
             return $this->return_json(0, [], '用户标识不正确或者已过期', 400);
         }
@@ -86,8 +86,8 @@ class ImgCode extends Common
     public function sendImgCode()
     {
         $data = [
-            'uid' => $this->uid,
-            'url' => Request::domain() . '/api/v1/captcha/get_img?uid=' . $this->uid,
+            'uuid' => $this->uuid,
+            'url' => Request::domain() . '/api/v1/captcha/get_img?uuid=' . $this->uuid,
         ];
         return $this->return_json(1, $data);
     }

@@ -32,13 +32,15 @@
             <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
             <script type="text/html" id="currentTableBar">
-                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">查看</a>
                 <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
             </script>
 
         </div>
     </div>
-    <script src="../static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/setToken.js" charset="utf-8"></script>
+
     <script>
         layui.use(['form', 'table'], function () {
             var $ = layui.jquery,
@@ -47,7 +49,7 @@
 
             table.render({
                 elem: '#currentTableId',
-                url: '../api/s',
+                url: '/api/admin/v1/users',
                 toolbar: '#toolbarDemo',
                 defaultToolbar: ['filter', 'exports', 'print', {
                     title: '提示',
@@ -66,9 +68,54 @@
                         sort: true
                     },
                     {
-                        field: 'app_name',
+                        field: 'username',
                         width: 120,
-                        title: '软件名'
+                        title: '用户名'
+                    },
+                    {
+                        field: 'email',
+                        width: 120,
+                        title: '邮箱'
+                    },
+                    {
+                        field: 'mobile',
+                        width: 120,
+                        title: '手机'
+                    },
+                    {
+                        field: 'nickname',
+                        width: 120,
+                        title: '昵称'
+                    },
+                    {
+                        field: 'money',
+                        width: 120,
+                        title: '余额'
+                    },
+                    {
+                        field: 'status',
+                        width: 120,
+                        title: '状态'
+                    },
+                    {
+                        field: 'create_ip',
+                        width: 120,
+                        title: '注册 IP'
+                    },
+                    {
+                        field: 'create_time',
+                        width: 120,
+                        title: '注册时间'
+                    },
+                    {
+                        field: 'last_login_ip',
+                        width: 120,
+                        title: '登录 IP'
+                    },
+                    {
+                        field: 'last_login_time',
+                        width: 120,
+                        title: '登录时间'
                     },
                     {
                         title: '操作',
@@ -90,6 +137,9 @@
                         result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
                     } else {
                         result = res.data.slice(0, this.limit);
+                    }
+                    if (res.code == 200) {
+                        res.code = 0;
                     }
                     return {
                         "code": res.code, //解析接口状态
@@ -133,7 +183,7 @@
                         content: '../add/app_add',
                         end: function () {
                             table.reload('currentTableId', {
-                                url: '../api/app_list',
+                                url: '/api/admin/v1/users',
                                 where: {}
                             });
                         }
@@ -156,7 +206,7 @@
                             if (res !== 0) {
                                 //重载表格
                                 table.reload('currentTableId', {
-                                    url: '../api/app_list',
+                                    url: '/api/admin/v1/users',
                                     where: {}
                                 });
                             }
@@ -190,7 +240,7 @@
                         end: function () {
                             //重载表格
                             table.reload('currentTableId', {
-                                url: '../api/app_list',
+                                url: '/api/admin/v1/users',
                                 where: {}
                             });
                         }
@@ -227,29 +277,74 @@
                         icon: 'layui-icon-tips'
                     }],
                     cols: [
-                        [{
-                            type: "checkbox",
-                            width: 50
-                        },
-                        {
-                            field: 'id',
-                            width: 60,
-                            title: 'ID',
-                            sort: true
-                        },
-                        {
-                            field: 'app_name',
-                            width: 120,
-                            title: '软件名'
-                        },
-                        {
-                            title: '操作',
-                            minWidth: 150,
-                            toolbar: '#currentTableBar',
-                            align: "center"
-                        }
-                        ]
-                    ],
+                    [{
+                        type: "checkbox",
+                        width: 50
+                    },
+                    {
+                        field: 'id',
+                        width: 60,
+                        title: 'ID',
+                        sort: true
+                    },
+                    {
+                        field: 'username',
+                        width: 120,
+                        title: '用户名'
+                    },
+                    {
+                        field: 'email',
+                        width: 120,
+                        title: '邮箱'
+                    },
+                    {
+                        field: 'mobile',
+                        width: 120,
+                        title: '手机'
+                    },
+                    {
+                        field: 'nickname',
+                        width: 120,
+                        title: '昵称'
+                    },
+                    {
+                        field: 'money',
+                        width: 120,
+                        title: '余额'
+                    },
+                    {
+                        field: 'status',
+                        width: 120,
+                        title: '状态'
+                    },
+                    {
+                        field: 'create_ip',
+                        width: 120,
+                        title: '注册 IP'
+                    },
+                    {
+                        field: 'create_time',
+                        width: 120,
+                        title: '注册时间'
+                    },
+                    {
+                        field: 'last_login_ip',
+                        width: 120,
+                        title: '登录 IP'
+                    },
+                    {
+                        field: 'last_login_time',
+                        width: 120,
+                        title: '登录时间'
+                    },
+                    {
+                        title: '操作',
+                        minWidth: 150,
+                        toolbar: '#currentTableBar',
+                        align: "center"
+                    }
+                    ]
+                ],
                     limits: [10, 15, 20, 25, 50, 100],
                     limit: 15,
                     page: true,
@@ -263,6 +358,9 @@
                         } else {
                             result = res.data.slice(0, this.limit);
                         }
+                        if (res.code == 200) {
+                        res.code = 0;
+                    }
                         return {
                             "code": res.code, //解析接口状态
                             "msg": res.msg, //解析提示文本

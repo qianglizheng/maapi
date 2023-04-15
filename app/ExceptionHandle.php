@@ -8,6 +8,7 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
+use InvalidArgumentException;
 use think\Response;
 use Throwable;
 
@@ -54,7 +55,12 @@ class ExceptionHandle extends Handle
         // 添加自定义异常处理机制
         // 自定义json返回错误
         if ($e instanceof ValidateException) {
-            return json(['code' => 400, 'msg' => $e->getError()], 422);
+            return json(['code' => 400, 'msg' => $e->getError()], 200);
+        }
+        //请求500异常, 不返回错误页面
+        if ($e instanceof InvalidArgumentException) {
+            return json(['code' => 400, 'msg' => $e->getMessage()], 200);
+
         }
         // 请求异常
         if ($e instanceof HttpException && $request->isAjax()) {

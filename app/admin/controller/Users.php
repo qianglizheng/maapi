@@ -4,7 +4,7 @@ namespace app\admin\controller;
 
 use think\facade\View;
 
-class User
+class Users
 {
     public function index()
     {

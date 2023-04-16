@@ -7,5 +7,4 @@ use think\Model;
 class AdminUsers extends Model
 {
     protected $name = 'admin_users';
-
 }

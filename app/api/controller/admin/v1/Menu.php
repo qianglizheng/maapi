@@ -1,7 +1,6 @@
 <?php
 
 namespace app\api\controller\admin\v1;
-
 use think\facade\Db;
 
 class Menu

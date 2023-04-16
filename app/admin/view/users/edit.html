@@ -4,51 +4,126 @@
     <div class="layui-form layuimini-form">
         <!-- <input type="hidden" name="id" value="" class="id"> -->
         <div class="layui-form-item">
-            <label class="layui-form-label">用户 ID</label>
+            <label class="layui-form-label">用户 ID：</label>
             <div class="layui-input-block">
                 <input type="text" name="id" value="" autocomplete="off" disabled="disabled" class="layui-input id">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label required">用户名</label>
+            <label class="layui-form-label required">用户名：</label>
             <div class="layui-input-block">
                 <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名"
                     value="" autocomplete="off" class="layui-input username">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">邮箱</label>
+            <label class="layui-form-label">邮箱：</label>
             <div class="layui-input-block">
                 <input type="text" name="email" placeholder="请输入邮箱" value="" autocomplete="off"
                     class="layui-input email">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">手机</label>
+            <label class="layui-form-label">手机：</label>
             <div class="layui-input-block">
                 <input type="text" name="mobile" placeholder="请输入手机" value="" autocomplete="off"
                     class="layui-input mobile">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label required">昵称</label>
+            <label class="layui-form-label required">昵称：</label>
             <div class="layui-input-block">
                 <input type="text" name="nickname" lay-verify="required" lay-reqtext="昵称不能为空" placeholder="请输入昵称"
                     value="" autocomplete="off" class="layui-input nickname">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label required">余额</label>
+            <label class="layui-form-label required">余额：</label>
             <div class="layui-input-block">
                 <input type="text" name="money" lay-verify="required" lay-reqtext="余额不能为空" placeholder="请输入余额" value=""
                     autocomplete="off" class="layui-input money">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">状态</label>
+            <label class="layui-form-label required">积分：</label>
+            <div class="layui-input-block">
+                <input type="text" name="score" lay-verify="required" lay-reqtext="积分不能为空" placeholder="请输入积分" value=""
+                    autocomplete="off" class="layui-input score">
+            </div>
+        </div>
+        <!-- <div class="layui-form-item">
+            <label class="layui-form-label">VIP：</label>
+            <div class="layui-input-block" id="vip">
+                <input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">
+                <tip>插件可拓展更多 VIP</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分组：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="group" value="普通用户" title="普通用户" class="group">
+                <tip>插件可拓展更多分组</tip>
+            </div>
+        </div> -->
+        <!-- <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
             <div class="layui-input-block">
                 <input type="radio" name="status" value="正常" title="正常" class="status-1">
                 <input type="radio" name="status" value="封禁" title="封禁" class="status-0">
+            </div>
+        </div> -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">VIP：</label>
+            <div class="layui-input-block">
+                <select name="vip">
+                    <option value=""></option>
+                    <option value="普通 VIP" class="no">普通 VIP</option>
+                </select>
+                <tip>插件可拓展更多 VIP</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分组：</label>
+            <div class="layui-input-block">
+                <select name="group" lay-filter="aihao">
+                    <option value=""></option>
+                    <option value="普通用户" class="no">普通用户</option>
+                </select>
+                <tip>插件可拓展更多分组</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+                <select name="status" lay-filter="aihao">
+                    <option value=""></option>
+                    <option value="正常" class="no">封禁</option>
+                    <option value="封禁" class="ok">正常</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">注册 IP：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input create_ip">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">注册时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input create_time">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录 IP：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_ip">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_time">
             </div>
         </div>
         <div class="layui-form-item">
@@ -63,7 +138,7 @@
             var form = layui.form,
                 layer = layui.layer,
                 $ = layui.$;
-
+            // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.post('../api/app_update', data.field, function (res) {

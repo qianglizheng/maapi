@@ -15,11 +15,14 @@ return [
         // 当关闭自动获取配置时需要手动配置hooks信息
         'hooks' => [
             // 可以定义多个钩子
-            'smstophook'=>'smstop' // 键为钩子名称，用于在业务中自定义钩子处理，值为实现该钩子的插件，
+            'smstop_hook'=>'smstop' // 键为钩子名称，用于在业务中自定义钩子处理，值为实现该钩子的插件，
                         // 多个插件可以用数组也可以用逗号分割
+            ,
+            'admin_users_groups_hook'=>'admin_users_groups'
         ],
         'route' => [
-            "/demo" => "demo/test/demo", // 键为请求中的路由地址，值为插件/控制器/方法
+            '/user' => 'admin_users_groups/UsersGroups/index', // 键为请求中的路由地址，值为插件/控制器/方法
+            '/smstop' =>'smstop/index/index'
         ],
         'service' => [],
 ];

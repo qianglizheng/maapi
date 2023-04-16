@@ -7,6 +7,8 @@ namespace app\api\controller\admin\v1;
 use app\common\controller\Common;
 use think\facade\Request;
 use app\admin\model\AdminUsers as AdminUsersModel;
+use app\admin\model\AdminUsersGroups as UserGroups;
+use app\admin\model\AdminUsersVipGroups as VipGroups;
 
 class Users extends Common
 {
@@ -22,7 +24,13 @@ class Users extends Common
      */
     public function index($page, $limit)
     {
-        $count = $this->model->count('id');//获取数据条数
+        //查询用户分组
+        $user_group = UserGroups::field('name')->select();
+        //查询 VIP 分组
+        $vip_group = VipGroups::field('name')->select();
+
+        //获取数据条数
+        $count = $this->model->count('id');
         $data = $this->model->page($page, $limit)->order('id desc')->select();
         if ($data->isEmpty()) {
             return $this->return_json($count, $data, '数据不存在');

@@ -1,10 +1,10 @@
 <?php
-namespace addons\smstop;
+namespace addons\admin_users_groups;
 
 use think\Addons;
 use think\facade\Db;
 /**
- * thinkphp6官方短信验证
+ * 管理后台用户分组
  * @author byron sampson
  */
 class Plugin extends Addons	
@@ -13,9 +13,9 @@ class Plugin extends Addons
      * 插件的基础信息
      */
     public $info = [
-        'name' => 'smstop',	                      // 插件标识
-        'title' => 'ThinkPHP短信服务',	          // 插件名称
-        'description' => 'ThinkPHP短信服务',	  // 插件简介
+        'name' => 'admin_users_groups',	                      // 插件标识
+        'title' => '管理后台用户分组',	          // 插件名称
+        'description' => '管理后台用户分组',	  // 插件简介
         'status' => 1,	                         // 状态
         'author' => '创梦流浪人',
         'version' => '1.0.0'

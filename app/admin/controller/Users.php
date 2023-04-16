@@ -10,4 +10,7 @@ class Users
     {
         return View::fetch('index');
     }
+    public function edit(){
+        return View::fetch('edit');
+    }
 }

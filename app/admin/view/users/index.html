@@ -32,7 +32,7 @@
             <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
             <script type="text/html" id="currentTableBar">
-                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">查看</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="check">编辑</a>
                 <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
             </script>
 
@@ -223,19 +223,23 @@
 
             table.on('tool(currentTableFilter)', function (obj) {
                 var data = obj.data;
-                if (obj.event === 'edit') {
+                if (obj.event === 'check') {
                     var index = layer.open({
-                        title: '编辑软件',
+                        title: '编辑',
                         type: 2,
                         shade: 0.2,
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '../tpl/app_tpl',
+                        content: '/admin/users/edit',
                         success: function (layero, index) {
                             var body = layui.layer.getChildFrame('body', index);
                             body.find(".id").val(data.id);
-                            body.find(".app_name").val(data.app_name);
+                            body.find(".username").val(data.username);
+                            body.find('.status-1').attr('checked', 'checked');
+                            body.find('.status-0').attr('checked', 'checked');
+                            var iframeWin = window[layero.find('iframe')[0]['name']];
+                            iframeWin.layui.form.render()
                         },
                         end: function () {
                             //重载表格
@@ -277,74 +281,74 @@
                         icon: 'layui-icon-tips'
                     }],
                     cols: [
-                    [{
-                        type: "checkbox",
-                        width: 50
-                    },
-                    {
-                        field: 'id',
-                        width: 60,
-                        title: 'ID',
-                        sort: true
-                    },
-                    {
-                        field: 'username',
-                        width: 120,
-                        title: '用户名'
-                    },
-                    {
-                        field: 'email',
-                        width: 120,
-                        title: '邮箱'
-                    },
-                    {
-                        field: 'mobile',
-                        width: 120,
-                        title: '手机'
-                    },
-                    {
-                        field: 'nickname',
-                        width: 120,
-                        title: '昵称'
-                    },
-                    {
-                        field: 'money',
-                        width: 120,
-                        title: '余额'
-                    },
-                    {
-                        field: 'status',
-                        width: 120,
-                        title: '状态'
-                    },
-                    {
-                        field: 'create_ip',
-                        width: 120,
-                        title: '注册 IP'
-                    },
-                    {
-                        field: 'create_time',
-                        width: 120,
-                        title: '注册时间'
-                    },
-                    {
-                        field: 'last_login_ip',
-                        width: 120,
-                        title: '登录 IP'
-                    },
-                    {
-                        field: 'last_login_time',
-                        width: 120,
-                        title: '登录时间'
-                    },
-                    {
-                        title: '操作',
-                        minWidth: 150,
-                        toolbar: '#currentTableBar',
-                        align: "center"
-                    }
-                    ]
-                ],
+                        [{
+                            type: "checkbox",
+                            width: 50
+                        },
+                        {
+                            field: 'id',
+                            width: 60,
+                            title: 'ID',
+                            sort: true
+                        },
+                        {
+                            field: 'username',
+                            width: 120,
+                            title: '用户名'
+                        },
+                        {
+                            field: 'email',
+                            width: 120,
+                            title: '邮箱'
+                        },
+                        {
+                            field: 'mobile',
+                            width: 120,
+                            title: '手机'
+                        },
+                        {
+                            field: 'nickname',
+                            width: 120,
+                            title: '昵称'
+                        },
+                        {
+                            field: 'money',
+                            width: 120,
+                            title: '余额'
+                        },
+                        {
+                            field: 'status',
+                            width: 120,
+                            title: '状态'
+                        },
+                        {
+                            field: 'create_ip',
+                            width: 120,
+                            title: '注册 IP'
+                        },
+                        {
+                            field: 'create_time',
+                            width: 120,
+                            title: '注册时间'
+                        },
+                        {
+                            field: 'last_login_ip',
+                            width: 120,
+                            title: '登录 IP'
+                        },
+                        {
+                            field: 'last_login_time',
+                            width: 120,
+                            title: '登录时间'
+                        },
+                        {
+                            title: '操作',
+                            minWidth: 150,
+                            toolbar: '#currentTableBar',
+                            align: "center"
+                        }
+                        ]
+                    ],
                     limits: [10, 15, 20, 25, 50, 100],
                     limit: 15,
                     page: true,
@@ -359,8 +363,8 @@
                             result = res.data.slice(0, this.limit);
                         }
                         if (res.code == 200) {
-                        res.code = 0;
-                    }
+                            res.code = 0;
+                        }
                         return {
                             "code": res.code, //解析接口状态
                             "msg": res.msg, //解析提示文本

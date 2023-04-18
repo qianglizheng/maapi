@@ -3,8 +3,6 @@
 namespace app\common\controller;
 
 use app\BaseController;
-use app\common\model\AdminKeyConfig;
-use app\common\controller\jwtAuth;
 use think\Response;
 use think\facade\Cache;
 
@@ -13,7 +11,7 @@ class Common extends BaseController
     /**
      * 接口返回数据方法
      */
-    public function return_json($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
+    public function returnJson($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
     {
         if (empty($data) && $code == 200) {
             $code = 204;

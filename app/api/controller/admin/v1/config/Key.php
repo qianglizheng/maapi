@@ -25,9 +25,9 @@ class Key extends Common
     {
         $data = $this->model::findOrEmpty($id);
         if ($data->isEmpty()) {
-            return $this->return_json(0, $data, '数据不存在');
+            return $this->returnJson(0, $data, '数据不存在');
         } else {
-            return $this->return_json(1, $data);
+            return $this->returnJson(1, $data);
         }
     }
 
@@ -44,9 +44,9 @@ class Key extends Common
         $request = $request->only(['user','admin']);
         $res = $this->model::where('id', $id)->save($request);
         if ($res) {
-            return $this->return_json(1, $res, '数据修改成功');
+            return $this->returnJson(1, $res, '数据修改成功');
         } else {
-            return $this->return_json(0, $res, '没有修改任何配置或者修改失败', 400);
+            return $this->returnJson(0, $res, '没有修改任何配置或者修改失败', 400);
         }
     }
 }

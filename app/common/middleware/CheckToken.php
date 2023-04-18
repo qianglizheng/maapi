@@ -23,7 +23,7 @@ class CheckToken extends Common
     {
         $token = Request::header('authorization');
         if (empty($token)) {
-            return $this->return_json(0, [], 'token不能为空', 400);
+            return $this->returnJson(0, [], 'token不能为空', 400);
         } else {
             $token = substr($token, 6);
         }
@@ -31,7 +31,7 @@ class CheckToken extends Common
         //根据是否有参数app_id和uid判断是否是应用接口->判断应用和用户是否对应->防止获取不到key
         if ($request['app_id'] && $request['uid']) {
             if (!$this->checkApp($request['app_id'], $request['uid'])) {
-                return $this->return_json(0, [], '应用不存在或者不属于该用户', 400);
+                return $this->returnJson(0, [], '应用不存在或者不属于该用户', 400);
             }
         }
 
@@ -44,9 +44,9 @@ class CheckToken extends Common
         $data = $jwt->setKey($key)->decode($token)->getData();
 
         if ($data == null) {
-            return $this->return_json(0, [], 'token错误', 400);
+            return $this->returnJson(0, [], 'token错误', 400);
         } else {
-            // return $this->return_json(1, ['id' => $data['id']]);//解析id
+            // return $this->returnJson(1, ['id' => $data['id']]);//解析id
         }
         return $next($request);
     }

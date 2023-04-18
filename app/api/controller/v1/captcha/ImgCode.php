@@ -69,7 +69,7 @@ class ImgCode extends Common
     {
         $code = Cache::get($uuid);
         if (empty($code)) {
-            return $this->return_json(0, [], '用户标识不正确或者已过期', 400);
+            return $this->returnJson(0, [], '用户标识不正确或者已过期', 400);
         }
         $image = $this->creatImg();            // 创建一个白色背景画布
         $this->addLine($image);                // 添加干扰元素
@@ -89,6 +89,6 @@ class ImgCode extends Common
             'uuid' => $this->uuid,
             'url' => Request::domain() . '/api/v1/captcha/get_img?uuid=' . $this->uuid,
         ];
-        return $this->return_json(1, $data);
+        return $this->returnJson(1, $data);
     }
 }

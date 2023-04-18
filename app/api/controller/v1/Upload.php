@@ -17,9 +17,9 @@ class Upload extends Common
         }
         $count = count($savename);
         if ($count != 0) {
-            return $this->return_json($count, $savename, '文件上传成功');
+            return $this->returnJson($count, $savename, '文件上传成功');
         } else {
-            return $this->return_json(0,[],'文件上传失败');
+            return $this->returnJson(0,[],'文件上传失败');
         }
     }
 }

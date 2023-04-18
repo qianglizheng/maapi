@@ -1,4 +1,34 @@
-{include file="../app/common/view/public/header.html" /}
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1681822762;s:37:"../app/common/view/public/header.html";i:1679836220;s:37:"../app/common/view/public/footer.html";i:1679812457;}*/ ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>创梦API</title>
+    <meta name="keywords" content="iapp,iapp后台,创梦iapp,创梦API">
+    <meta name="description" content="好用的iapp后台管理系统">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="/static/images/favicon.ico">
+    <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/layuimini.css?v=2.0.4.2" media="all">
+    <link rel="stylesheet" href="/static/css/themes/default.css" media="all">
+    <link rel="stylesheet" href="/static/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/static/css/public.css" media="all">
+    <style id="layuimini-bg-color">
+    </style>
+    <script>
+        //判断是否登录
+        if (!window.localStorage.getItem('token')) {
+            window.location = "/admin/login/index";
+        }
+    </script>
+</head>
 
 <body>
     <div class="layuimini-container">
@@ -434,4 +464,5 @@
             });
         });
     </script>
-    {include file="../app/common/view/public/footer.html" /}
+    </body>
+</html>

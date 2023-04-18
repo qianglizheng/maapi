@@ -33,9 +33,9 @@ class Users extends Common
         $count = $this->model->count('id');
         $data = $this->model->page($page, $limit)->order('id desc')->select();
         if ($data->isEmpty()) {
-            return $this->return_json($count, $data, '数据不存在');
+            return $this->returnJson($count, $data, '数据不存在');
         } else {
-            return $this->return_json($count, $data);
+            return $this->returnJson($count, $data);
         }
     }
 

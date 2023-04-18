@@ -40,7 +40,7 @@ class Email extends Common
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
-            return $this->return_json(0, [], '邮件发送成功');
+            return $this->returnJson(0, [], '邮件发送成功');
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

@@ -25,9 +25,9 @@ class Apps extends Common
         $count = $this->model->count();//获取数据条数
         $data = $this->model->limit($page, $limit)->order('id desc')->select();
         if ($data->isEmpty()) {
-            return $this->return_json($count, $data, '数据不存在');
+            return $this->returnJson($count, $data, '数据不存在');
         } else {
-            return $this->return_json($count, $data);
+            return $this->returnJson($count, $data);
         }
     }
 

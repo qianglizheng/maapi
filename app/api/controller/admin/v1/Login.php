@@ -24,15 +24,15 @@ class Login extends Common
         $key = AdminKeyConfig::find(1)['admin'];                              //获取管理员后台key
         $res = Admin::where('username', $data['username'])->findOrEmpty();    //查询用户信息
         if ($res->isEmpty()) {
-            return $this->return_json(0, [], '账号或者密码错误', 400);          //账号不存在
+            return $this->returnJson(0, [], '账号或者密码错误', 400);          //账号不存在
         } else {
             if ($res->password == $data['password']) {
                 //登录成功根据管理后台key下发token
                 $jwt = JwtAuth::getInstance();
                 $token = $jwt->setKey($key)->setId(5)->getToken();
-                return $this->return_json(1, ['token' => $token], '登录成功', 200);
+                return $this->returnJson(1, ['token' => $token], '登录成功', 200);
             } else {
-                return $this->return_json(0, [], '账号或者密码错误', 400);
+                return $this->returnJson(0, [], '账号或者密码错误', 400);
             }
         }
     }
@@ -50,7 +50,7 @@ class Login extends Common
     {
         if (strtolower(Cache::get($data['uid'])) != strtolower($data['captcha'])) {
             Cache::delete($data['uid']);//验证码验证失败删除验证码
-            return $this->return_json(0, [], '验证码错误', 400);
+            return $this->returnJson(0, [], '验证码错误', 400);
         } else {
             Cache::delete($data['uid']);//验证码验证成功删除验证码
         }

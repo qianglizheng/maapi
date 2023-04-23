@@ -1,7 +1,7 @@
 <?php
 
 namespace app\api\controller\admin\v1;
-use think\facade\Db;
+use app\common\model\SystemMenu as SystemMenuModel;
 
 class Menu
 {
@@ -33,8 +33,7 @@ class Menu
      * */
     private function getMenuList()
     {
-        $menuList = Db::name('system_menu')
-            ->field('id,pid,title,icon,href,target')
+        $menuList = SystemMenuModel::field('id,pid,title,icon,href,target')
             ->where('status', 1)
             ->order('sort', 'desc')
             ->select();

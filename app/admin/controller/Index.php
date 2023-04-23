@@ -16,6 +16,6 @@ class Index
     }
     public function read($id)
     {
-        return 'a'.$id;
+        return 'a' . $id;
     }
 }

@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\edit.html";i:1681822995;s:37:"../app/common/view/public/header.html";i:1679836220;s:37:"../app/common/view/public/footer.html";i:1679812457;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\edit.html";i:1682088914;s:37:"../app/common/view/public/header.html";i:1679836220;s:37:"../app/common/view/public/footer.html";i:1679812457;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -105,9 +105,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">VIP：</label>
             <div class="layui-input-block">
-                <select name="vip">
+                <select name="vip" id="vip">
                     <option value=""></option>
-                    <option value="普通 VIP">普通 VIP</option>
+                    <option value="普通 VIP" class="vip_groups">普通 VIP</option>
                 </select>
                 <tip>插件可拓展更多 VIP</tip>
             </div>
@@ -163,6 +163,8 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/setToken.js" charset="utf-8"></script>
+
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
@@ -173,9 +175,17 @@
                 console.log(res.data);
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
+                    form.render();
                 })
             })
             // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
+            $.get('/addons/admin/users_vip_groups', {}, function (res) {
+                console.log(res.data);
+                res.data.forEach(data => {
+                    $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
+                    form.render();
+                })
+            })
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.post('../api/app_update', data.field, function (res) {

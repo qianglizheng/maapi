@@ -23,6 +23,8 @@ return [
     ],
     'route' => [
          '/addons/admin/users_groups' => 'admin_users_groups/UsersGroups/index', // 键为请求中的路由地址，值为插件/控制器/方法
+         '/addons/admin/users_vip_groups' => 'admin_users_vip_groups/VipGroups/index', // 键为请求中的路由地址，值为插件/控制器/方法
+
         "/smstop" => "smstop/Index/index",
         "/demo" => "demo/test/demo",
         "/test" => "test/index/link"

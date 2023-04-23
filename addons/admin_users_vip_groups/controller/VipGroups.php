@@ -1,11 +1,11 @@
 <?php
 
-namespace addons\admin_users_groups\controller;
+namespace addons\admin_users_vip_groups\controller;
 
-use app\admin\model\AdminUsersGroups as UserGroupsModel;
+use app\admin\model\AdminUsersVipGroups as VipGroupsModel;
 use app\common\controller\AddonsAuth;
 
-class UsersGroups extends AddonsAuth
+class VipGroups extends AddonsAuth
 {
     protected $middleware = app\common\middleware\CheckToken::class;
     public function index()
@@ -20,8 +20,8 @@ class UsersGroups extends AddonsAuth
                 }
             }
         }
-        $data = UserGroupsModel::select();
-        $count = UserGroupsModel::count('id');
+        $data = VipGroupsModel::select();
+        $count = VipGroupsModel::count('id');
         if ($data->isEmpty()) {
             return $this->returnJson($count, $data, '数据不存在');
         } else {

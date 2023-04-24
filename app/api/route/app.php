@@ -23,9 +23,11 @@ Route::post('v1/upload/:path', 'v1.Upload/upload');
 /**
  * 公共验证码路由
  */
-Route::get('v1/captcha/get_img', 'v1.captcha.ImgCode/getImg');                   //图片验证码
+Route::get('v1/captcha/get-img', 'v1.captcha.ImgCode/getImg');                   //图片验证码
 Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode');                  //图片验证码信息
-Route::get('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');            //邮件验证码
+Route::post('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');            //邮件验证码
+Route::post('v1/captcha/mobile', 'v1.captcha.MobileCode/sendMobileCode');            //邮件验证码
+
 
 /**
  * 管理后台路由

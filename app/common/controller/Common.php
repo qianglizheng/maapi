@@ -41,24 +41,4 @@ class Common extends BaseController
 
         return Response::create($result, 'json');
     }
-
-    /**
-     * 设置验证码 $key为缓存的键
-     */
-    public function setCode($key)
-    {
-        $code = substr(str_shuffle('123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'), 0, 4);
-        Cache::set($key, $code, 60);
-        $this->code = $code;
-    }
-
-    public function upload($path){
-        // 获取表单上传文件
-        $files = request()->file();
-        $savename = [];
-
-        foreach($files as $file){
-            var_dump($file);  $savename[] = \think\facade\Filesystem::putFile( $path, $file);
-        }
-    }
 }

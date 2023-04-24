@@ -2,9 +2,9 @@
 
 namespace app\api\controller\v1\captcha;
 
-use app\api\controller\v1\send\Email;
+use app\api\controller\v1\send\Mobile;
 
-class EmailCode extends Email
+class MobileCode extends Mobile
 {
     /**
      * 调用父类生成验证码并且存放在redis中
@@ -17,8 +17,8 @@ class EmailCode extends Email
     /**
      * 发送短信验证码
      */
-    public function sendEmailCode($email)
+    public function sendMobileCode($email)
     {
-        return $this->sendEmail($email, $this->code);
+        return $this->sendMobile($email, $this->code);
     }
 }

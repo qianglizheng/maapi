@@ -4,7 +4,7 @@ namespace app\api\controller\v1;
 
 use app\common\controller\Common;
 
-class Upload extends Common
+class LocalUpload extends Common
 {
     public function upload($path)
     {
@@ -19,7 +19,7 @@ class Upload extends Common
         if ($count != 0) {
             return $this->returnJson($count, $savename, '文件上传成功');
         } else {
-            return $this->returnJson(0,[],'文件上传失败');
+            return $this->returnJson(0, [], '文件上传失败');
         }
     }
 }

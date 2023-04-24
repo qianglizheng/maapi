@@ -1,6 +1,8 @@
 <?php
 
-namespace app\api\controller\admin\v1;
+declare(strict_types=1);
+
+namespace app\api\controller\admin\v1\auth;
 
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
@@ -29,7 +31,7 @@ class Login extends Common
             if ($res->password == $data['password']) {
                 //登录成功根据管理后台key下发token
                 $jwt = JwtAuth::getInstance();
-                $token = $jwt->setKey($key)->setId(5)->getToken();
+                $token = $jwt->setKey($key)->setId($res->id)->getToken();
                 return $this->returnJson(1, ['token' => $token], '登录成功', 200);
             } else {
                 return $this->returnJson(0, [], '账号或者密码错误', 400);
@@ -48,11 +50,11 @@ class Login extends Common
      */
     public function checkImgCode($data)
     {
-        if (strtolower(Cache::get($data['uuid'])) != strtolower($data['captcha'])) {
-            Cache::delete($data['uuid']);//验证码验证失败删除验证码
+        if (strtolower(Cache::get($data['uid'])) != strtolower($data['captcha'])) {
+            Cache::delete($data['uid']);                     //验证码验证失败删除验证码
             return $this->returnJson(0, [], '验证码错误', 400);
         } else {
-            Cache::delete($data['uuid']);//验证码验证成功删除验证码
+            Cache::delete($data['uid']);                     //验证码验证成功删除验证码
         }
     }
 }

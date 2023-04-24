@@ -1,16 +1,24 @@
 <?php
 
-namespace app\api\controller\v1\captcha;
+namespace app\api\controller\v1\send;
 
-use app\common\controller\Common;
-use app\common\model\AdminEmailConfig;
+use app\api\controller\v1\captcha\SetCode;
+use app\admin\model\AdminEmailConfig;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
+// use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class Email extends Common
+class Email extends SetCode
 {
-    public function send($receiver='', $content='')
+    /**
+     * 调用SetCode类的构造方法生成验证码并且存放在redis中
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function sendEmail($receiver='', $content='')
     {
         $mail = new PHPMailer(true);
         $config = AdminEmailConfig::find(1);
@@ -36,7 +44,8 @@ class Email extends Common
             //内容
             $mail->isHTML(true);     //将电子邮件格式设置为HTML
             $mail->Subject = 'Here is the subject';
-            $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+            // $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+            $mail->Body = $content;
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();

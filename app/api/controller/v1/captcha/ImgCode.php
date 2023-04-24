@@ -2,36 +2,19 @@
 
 namespace app\api\controller\v1\captcha;
 
-use app\common\controller\Common;
 use think\facade\Cache;
 use think\facade\Request;
 
-class ImgCode extends Common
+class ImgCode extends SetCode
 {
     /**
-     * 用户标识
-     */
-    protected $uuid;
-    /**
-     * 验证码
-     */
-    protected $code;
-    /**
-     * 设置用户标识
-     */
-    protected function setuuid()
-    {
-        $this->uuid = time() . mt_rand(100000, 9999999);
-        return $this;
-    }
-    /**
-     * 构造函数
+     * 调用父类生成验证码并且存放在redis中
      */
     public function __construct()
     {
-        $this->setuuid();                            //uuid
-        $this->setCode((string) $this->uuid);        //生成验证码
+        parent::__construct();
     }
+
     /**
      * 添加干扰元素 线条
      */
@@ -42,7 +25,8 @@ class ImgCode extends Common
             imageline($image, rand(0, 100), rand(0, 30), rand(0, 100), rand(0, 30), $lineColor);
         }
     }
-    /**
+
+    /** 
      * 绘制验证码图片
      */
     protected function codeImg($image, $code)
@@ -52,6 +36,7 @@ class ImgCode extends Common
             imagestring($image, 5, 20 + $i * 20, 8, $code[$i], $digitColor);
         }
     }
+
     /**
      * 创建画布
      */
@@ -62,8 +47,9 @@ class ImgCode extends Common
         imagefill($image, 0, 0, $bgColor);
         return $image;
     }
+
     /**
-     * 获取验证码图片
+     * 显示验证码图片
      */
     public function getImg($uuid)
     {
@@ -76,10 +62,11 @@ class ImgCode extends Common
         $this->codeImg($image, $code);         // 在画布上绘制验证码文本
         imagepng($image);                      // 输出验证码图片
         imagedestroy($image);                  // 释放画布资源
-        return   response()->header([
+        return response()->header([
             'Content-Type' => ' image/png'
         ]);                                    // 设置响应头，告诉浏览器输出的是图片
     }
+
     /**
      * 返回验证码相关信息
      */

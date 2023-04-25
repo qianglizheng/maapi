@@ -7,11 +7,11 @@ use think\api\Client;
 class Mobile extends SetCode
 {
     /**
-     * 调用SetCode类的构造方法生成验证码并且存放在redis中
+     * 调用SetCode类的构造方法生成验证码并且存放在redis中 键为手机号 值为邮箱
      */
-    public function __construct()
+    public function __construct($mobile)
     {
-        parent::__construct();
+        parent::__construct($mobile);
     }
 
     public function sendMobile($receiver = '', $content = '')

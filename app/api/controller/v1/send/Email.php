@@ -7,15 +7,16 @@ use app\admin\model\AdminEmailConfig;
 use PHPMailer\PHPMailer\PHPMailer;
 // use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use think\facade\Cache;
 
 class Email extends SetCode
 {
     /**
-     * 调用SetCode类的构造方法生成验证码并且存放在redis中
+     * 调用SetCode类的构造方法生成验证码并且存放在redis中 键为邮箱 值为验证码
      */
-    public function __construct()
+    public function __construct($email)
     {
-        parent::__construct();
+        parent::__construct($email);
     }
 
     public function sendEmail($receiver='', $content='')
@@ -49,7 +50,7 @@ class Email extends SetCode
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
-            return $this->returnJson(0, [], '邮件发送成功');
+            return $this->returnJson(0, [], '邮件发送成功'.Cache::get($receiver));
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

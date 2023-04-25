@@ -17,8 +17,12 @@ class SetCode extends Common
      */
     public $code;
 
-    public function __construct()
+    public function __construct($emailOrMobile)
     {
+        //邮件验证码或者手机验证码设置key为邮箱或者手机号
+        if (!empty($emailOrMobile)) {
+            $this->setUuid()->setCode($emailOrMobile);
+        }
         $this->setUuid()->setCode($this->uuid);
     }
 

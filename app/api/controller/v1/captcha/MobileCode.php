@@ -13,13 +13,13 @@ class MobileCode extends Mobile
     public function __construct()
     {
         $mobile = Request::post('mobile');
-        parent::__construct($mobile);  
+        parent::__construct($mobile);
     }
     /**
      * 发送短信验证码
      */
     public function sendMobileCode($mobile)
     {
-        return $this->sendMobile($mobile, $this->code);
+        return $this->sendMobile($mobile, $this->code, );
     }
 }

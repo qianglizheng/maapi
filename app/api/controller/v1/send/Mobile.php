@@ -3,8 +3,8 @@
 namespace app\api\controller\v1\send;
 
 use app\api\controller\v1\captcha\SetCode;
-use think\api\Client;
-use addons\smsbao\controller\smsbao;
+use addons\smsbao\controller\Smsbao;
+use addons\smstop\controller\Smstop;
 
 class Mobile extends SetCode
 {
@@ -20,18 +20,17 @@ class Mobile extends SetCode
     {
         $this->smsbao();
         return 1;
-        $client = new Client("2455c797f4bb73f0d450c83505eb09bb");
-        $result = $client->smsSend()
-            ->withSignId('1265')
-            ->withTemplateId('4')
-            ->withPhone('18785674348')
-            ->withParams('{"code": "7865"}')
-            ->request();
-        dump($result);
     }
 
-    public function smsbao(){
-        $smsbao = new smsbao();
+    public function smsbao()
+    {
+        $smsbao = new Smsbao();
+        $smsbao->send();
+    }
+
+    public function smstop()
+    {
+        $smsbao = new Smstop();
         $smsbao->send();
     }
 }

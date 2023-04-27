@@ -7,7 +7,6 @@ use app\admin\model\AdminEmailConfig;
 use PHPMailer\PHPMailer\PHPMailer;
 // use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-use think\facade\Cache;
 
 class Email extends SetCode
 {
@@ -25,7 +24,7 @@ class Email extends SetCode
         $config = AdminEmailConfig::find(1);
         try {
             //服务器设置
-            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //启用详细调试输出
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                     //启用详细调试输出
             $mail->isSMTP();                                              //使用SMTP发送
             $mail->Host       = $config['host'];                          //将SMTP服务器设置为通过
             $mail->SMTPAuth   = true;                                     //启用SMTP身份验证
@@ -50,7 +49,7 @@ class Email extends SetCode
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
-            return $this->returnJson(0, [], '邮件发送成功'.Cache::get($receiver));
+            return $this->returnJson(0, [], '邮件发送成功');
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

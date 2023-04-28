@@ -1,6 +1,6 @@
 <?php
 
-namespace addons\smstop;
+namespace addons\smsbao;
 
 use think\Addons;
 use think\facade\Db;
@@ -15,10 +15,10 @@ class Plugin extends Addons
      * 插件的基础信息
      */
     public $info = [
-        'name' => 'smstop',	                     // 插件标识
-        'title' => '顶想云短信',	              // 插件名称
-        'description' => '顶想云短信',	          // 插件简介
-        'status' => 1,	                         // 状态
+        'name' => 'smsbao',	                      // 插件标识
+        'title' => '短信宝',	                  // 插件名称
+        'description' => '短信宝',	              // 插件简介
+        'status' => 1,	                          // 状态
         'author' => '创梦流浪人',
         'version' => '1.0.0'
     ];
@@ -31,7 +31,7 @@ class Plugin extends Addons
     {
         Db::name('system_menu')->insert([
             "pid" => 3,
-            "title" => "顶想云短信",
+            "title" => "顶想云",
             "href" => "admin/config/smstop",
             "target" => "_self"
         ]);

@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1680786691;s:37:"../app/common/view/public/header.html";i:1679836220;s:37:"../app/common/view/public/footer.html";i:1679812457;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1682947795;s:37:"../app/common/view/public/header.html";i:1682947624;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/static/css/themes/default.css" media="all">
     <link rel="stylesheet" href="/static/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="/static/css/public.css" media="all">
+    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <style id="layuimini-bg-color">
     </style>
     <script>
@@ -138,7 +139,6 @@
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script src="/static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <script>
         layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji'], function () {
             var $ = layui.jquery,
@@ -186,5 +186,6 @@
             });
         })
     </script>
+<script src="/static/js/setToken.js" charset="utf-8"></script>
 </body>
 </html>

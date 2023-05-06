@@ -20,6 +20,6 @@ class MobileCode extends Mobile
      */
     public function sendMobileCode($mobile)
     {
-        return $this->sendMobile($mobile, $this->code, );
+        return $this->sendMobile($mobile, $this->code);
     }
 }

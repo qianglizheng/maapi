@@ -30,7 +30,8 @@
         "topthink/think-captcha": "^3.0",
         "phpmailer/phpmailer": "^6.7",
         "zzstudio/think-addons": "^2.0.5",
-        "topthink/think-api": "^1.0"
+        "topthink/think-api": "^1.0",
+        "alibabacloud/dysmsapi-20170525": "^2.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

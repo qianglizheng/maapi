@@ -13,17 +13,17 @@ class AddonsAuth extends Common
     {
         $token = Request::header('authorization');
         $request = Request::param();
+
         if (empty($token)) {
             return $this->returnJson(0, [], 'token不能为空', 400);
         } else {
             $token = substr($token, 6);
         }
+
+        //根据是否有参数app_id和uid判断是否是应用接口->判断应用和用户是否对应->防止获取不到key  如果没有这两个参数就将它们置为null
         if (!isset($request['app_id'], $request['uid'])) {
             $request['app_id'] = $request['uid'] = null;
-        }
-
-        //根据是否有参数app_id和uid判断是否是应用接口->判断应用和用户是否对应->防止获取不到key
-        if ($request['app_id'] && $request['uid']) {
+        } else {
             if (!$this->checkApp($request['app_id'], $request['uid'])) {
                 return $this->returnJson(0, [], '应用不存在或者不属于该用户', 400);
             }
@@ -43,6 +43,7 @@ class AddonsAuth extends Common
             // return $this->returnJson(1, ['id' => $data['id']]);//解析id
         }
     }
+
     /**
      * 根据前端的地址判断是哪个接口，获取相应的key
      */
@@ -57,6 +58,7 @@ class AddonsAuth extends Common
         }
         return $key;
     }
+
     /**
      * 判断应用是否存在和是否是当前用户的
      */

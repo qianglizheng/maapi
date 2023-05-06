@@ -3,8 +3,8 @@
 namespace addons\admin_users_groups;
 
 use think\Addons;
-use think\facade\Db;
 use app\common\model\SystemMenu as SystemMenuModel;
+
 /**
  * 管理后台用户分组
  * @author byron sampson
@@ -16,8 +16,8 @@ class Plugin extends Addons
      */
     public $info = [
         'name' => 'admin_users_groups',	                      // 插件标识
-        'title' => '管理后台用户分组',	          // 插件名称
-        'description' => '管理后台用户分组',	  // 插件简介
+        'title' => '用户分组',	          // 插件名称
+        'description' => '用户分组',	  // 插件简介
         'status' => 1,	                         // 状态
         'author' => '创梦流浪人',
         'version' => '1.0.0'
@@ -29,8 +29,8 @@ class Plugin extends Addons
      */
     public function install()
     {
-        SystemMenuModel::save([
-            "pid" => 2,
+        return SystemMenuModel::create([
+            "pid" => 8,
             "title" => "用户分组",
             "href" => "admin/addons/admin_users_groups",
             "target" => "_self"
@@ -50,7 +50,7 @@ class Plugin extends Addons
      * 实现的testhook钩子方法
      * @return mixed
      */
-    public function smstophook($param)
+    public function admin_users_groups($param)
     {
         // 调用钩子时候的参数信息
         echo $this->install();

@@ -2,11 +2,10 @@
 
 namespace app\common\controller;
 
-use app\BaseController;
 use think\Response;
-use think\facade\Cache;
+use app\Basecontroller;
 
-class Common extends BaseController
+class Common extends Basecontroller
 {
     /**
      * 接口返回数据方法
@@ -19,6 +18,7 @@ class Common extends BaseController
                 $msg == "数据为空";
             }
         }
+
         if ($count == 0) {
             $result = [
                 //状态码
@@ -38,7 +38,6 @@ class Common extends BaseController
                 "data" => $data
             ];
         }
-
         return Response::create($result, 'json');
     }
 }

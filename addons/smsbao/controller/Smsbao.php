@@ -4,7 +4,7 @@ namespace addons\smsbao\controller;
 
 class smsbao
 {
-    public function send()
+    public static function send($receiver,$content)
     {
         $statusStr = array(
             "0" => "短信发送成功",
@@ -20,8 +20,8 @@ class smsbao
         $smsapi = "http://api.smsbao.com/";
         $user = "2325727631"; //短信平台帐号
         $pass = md5("laozi123"); //短信平台密码
-        $content="你的验证码是1234";//要发送的短信内容
-        $phone = "18785674348";//要发送短信的手机号码
+        $content="你的验证码是".$content;//要发送的短信内容
+        $phone = $receiver;//要发送短信的手机号码
         $sendurl = $smsapi."sms?u=".$user."&p=".$pass."&m=".$phone."&c=".urlencode($content);
         $result =file_get_contents($sendurl) ;
         echo $statusStr[$result];

@@ -41,6 +41,7 @@ class Api extends Common
      */
     public function update(Request $request, $id)
     {
+        echo $request->id;
         $request = $request->only(['login_img','login_email','login_mobile']);
         $res = $this->model::where('id', $id)->save($request);
         if ($res) {

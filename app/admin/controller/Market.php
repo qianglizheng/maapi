@@ -14,8 +14,9 @@ class Market
     {
         return View::fetch('users');
     }
-    public function web()
+    public function install()
     {
-        return View::fetch('web');
+        return View::fetch('install');
     }
+
 }

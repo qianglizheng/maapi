@@ -1,3 +1,4 @@
+<?php /*a:3:{s:62:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\market\install.html";i:1683295196;s:37:"../app/common/view/public/header.html";i:1682947624;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -29,3 +30,28 @@
         }
     </script>
 </head>
+<div id="test" style="margin-bottom: 10px;"></div>
+<div style="width: 380px;">
+    <button type="button" class="layui-btn layui-btn-fluid">流体按钮（宽度自适应）</button>
+  </div>
+<script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(function () {
+        var element = layui.element;
+        var $ = layui.$;
+        // 动态插入进度条元素
+        $('#test').html(`
+        <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo-filter-progress">
+          <div class="layui-progress-bar" lay-percent="70%"></div>
+        </div>
+        `);
+        // 渲染进度条组件
+        element.render('progress', 'demo-filter-progress');
+        $('.layui-btn').click(function(){
+          alert(111);
+        })
+    });
+</script>
+<script src="/static/js/setToken.js" charset="utf-8"></script>
+</body>
+</html>

@@ -22,8 +22,8 @@ return [
         'admin_users_groups_hook' => 'admin_users_groups'
     ],
     'route' => [
-         '/addons/admin/users_groups' => 'admin_users_groups/UsersGroups/index', // 键为请求中的路由地址，值为插件/控制器/方法
-         '/addons/admin/users_vip_groups' => 'admin_users_vip_groups/VipGroups/index', // 键为请求中的路由地址，值为插件/控制器/方法
+         '/addons/admin/users-groups' => 'admin_users_groups/AdminUsersGroups/index',       //获取后台用户分组列表
+         '/addons/admin/vip-groups' => 'admin_vip_groups/AdminVipGroups/index',             //获取后台用户VIP列表
 
         "/smstop" => "smstop/Index/index",
         "/demo" => "demo/test/demo",

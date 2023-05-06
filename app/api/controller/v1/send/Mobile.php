@@ -5,6 +5,7 @@ namespace app\api\controller\v1\send;
 use app\api\controller\v1\captcha\SetCode;
 use addons\smsbao\controller\Smsbao;
 use addons\smstop\controller\Smstop;
+use addons\Smsali\controller\Smsali;
 
 class Mobile extends SetCode
 {
@@ -16,21 +17,9 @@ class Mobile extends SetCode
         parent::__construct($mo);
     }
 
-    public function sendMobile($receiver = '', $content = '')
+    public function sendMobile($receiver = null, $content = null)
     {
-        $this->smsbao();
-        return 1;
-    }
-
-    public function smsbao()
-    {
-        $smsbao = new Smsbao();
-        $smsbao->send();
-    }
-
-    public function smstop()
-    {
-        $smsbao = new Smstop();
-        $smsbao->send();
+        //阿里云
+        Smsali::send($receiver,$content);
     }
 }

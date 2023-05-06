@@ -1,4 +1,4 @@
-<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\market\users.html";i:1682174645;s:37:"../app/common/view/public/header.html";i:1679836220;s:37:"../app/common/view/public/footer.html";i:1679812457;}*/ ?>
+<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\market\users.html";i:1682865245;s:37:"../app/common/view/public/header.html";i:1679836220;s:37:"../app/common/view/public/footer.html";i:1679812457;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -33,7 +33,7 @@
 <body>
     <div class="layuimini-container">
         <div class="layuimini-main">
-            <fieldset class="table-search-fieldset">
+            <!-- <fieldset class="table-search-fieldset">
                 <legend>搜索信息</legend>
                 <div style="margin: 10px 10px 10px 10px">
                     <form class="layui-form layui-form-pane" action="">
@@ -51,26 +51,24 @@
                         </div>
                     </form>
                 </div>
-            </fieldset>
-            <script type="text/html" id="toolbarDemo">
+            </fieldset> -->
+            <!-- <script type="text/html" id="toolbarDemo"> -->
                 <!-- <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
                     <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
                 </div> -->
-            </script>
+            <!-- </script> -->
 
             <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
             <script type="text/html" id="currentTableBar">
-                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="check">编辑</a>
-                <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="check">安装</a>
+                <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">卸载</a>
             </script>
 
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
-
     <script>
         layui.use(['form', 'table'], function () {
             var $ = layui.jquery,
@@ -79,7 +77,7 @@
 
             table.render({
                 elem: '#currentTableId',
-                url: '/api/admin/v1/users',
+                url: 'http://120.48.58.230/addons/sql.php/users',
                 toolbar: '#toolbarDemo',
                 defaultToolbar: ['filter', 'exports', 'print', {
                     title: '提示',
@@ -89,24 +87,20 @@
                 cols: [
                     [
                         {
-                            type: "checkbox",
-                            width: 50
-                        },
-                        {
                             field: 'id',
                             width: 60,
                             title: 'ID',
                             sort: true
                         },
                         {
-                            field: 'name',
+                            field: 'title',
                             width: 120,
                             title: '插件名'
                         },
                         {
-                            field: 'detail',
+                            field: 'description',
                             width: 120,
-                            title: '插件详情'
+                            title: '描述'
                         },
                         {
                             field: 'version',
@@ -184,7 +178,7 @@
                         content: '../add/app_add',
                         end: function () {
                             table.reload('currentTableId', {
-                                url: '/api/admin/v1/users',
+                                url: 'http://120.48.58.230/addons/sql.php/users',
                                 where: {}
                             });
                         }
@@ -207,7 +201,7 @@
                             if (res !== 0) {
                                 //重载表格
                                 table.reload('currentTableId', {
-                                    url: '/api/admin/v1/users',
+                                    url: 'http://120.48.58.230/addons/sql.php/users',
                                     where: {}
                                 });
                             }
@@ -262,7 +256,7 @@
                         end: function () {
                             //重载表格
                             table.reload('currentTableId', {
-                                url: '/api/admin/v1/users',
+                                url: 'http://120.48.58.230/addons/sql.php/users',
                                 where: {}
                             });
                         }
@@ -291,7 +285,7 @@
                 table.render({
                     initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                     elem: '#currentTableId',
-                    url: '/api/admin/v1/users',
+                    url: 'http://120.48.58.230/addons/sql.php/users',
                     toolbar: '#toolbarDemo',
                     defaultToolbar: ['filter', 'exports', 'print', {
                         title: '提示',
@@ -311,14 +305,14 @@
                             sort: true
                         },
                         {
-                            field: 'name',
+                            field: 'title',
                             width: 120,
                             title: '插件名'
                         },
                         {
-                            field: 'detail',
+                            field: 'description',
                             width: 120,
-                            title: '插件详情'
+                            title: '描述'
                         },
                         {
                             field: 'version',

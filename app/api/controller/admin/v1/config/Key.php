@@ -10,7 +10,7 @@ use app\admin\model\AdminKeyConfig as AdminKeyConfigModel;
 
 class Key extends Common
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->model = new AdminKeyConfigModel();
     }

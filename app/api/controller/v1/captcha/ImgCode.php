@@ -26,7 +26,7 @@ class ImgCode extends SetCode
         }
     }
 
-    /** 
+    /**
      * 绘制验证码图片
      */
     protected function codeImg($image, $code)
@@ -74,7 +74,7 @@ class ImgCode extends SetCode
     {
         $data = [
             'uuid' => $this->uuid,
-            'url' => Request::domain() . '/api/v1/captcha/get_img?uuid=' . $this->uuid,
+            'url' => Request::domain() . '/api/v1/captcha/get-img?uuid=' . $this->uuid,
         ];
         return $this->returnJson(1, $data);
     }

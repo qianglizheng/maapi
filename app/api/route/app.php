@@ -48,4 +48,4 @@ Route::group(function () {
     Route::resource('admin/v1/base', 'admin.v1.config.Base');
 
     Route::resource('admin/v1/users', 'admin.v1.Users');
-})->middleware(\app\common\middleware\CheckToken::class);
+})->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);

@@ -1,6 +1,6 @@
 <?php
 
-namespace addons\admin_users_vip_groups\controller;
+namespace addons\admin_vip_groups\controller;
 
 use app\admin\model\AdminUsersVipGroups as AdminVipGroupsModel;
 use app\common\controller\AddonsAuth;
@@ -21,7 +21,7 @@ class AdminVipGroups extends AddonsAuth
             }
         }
         $data = AdminVipGroupsModel::select();
-        $count = AdminVipGroupsModel::count('id');
+        $count = count($data);
         if ($data->isEmpty()) {
             return $this->returnJson($count, $data, '数据不存在');
         } else {

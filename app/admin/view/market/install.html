@@ -1,0 +1,26 @@
+{include file="../app/common/view/public/header.html" /}
+<div id="test" style="margin-bottom: 10px;"></div>
+<div style="width: 380px;">
+    <button type="button" class="layui-btn layui-btn-fluid">流体按钮（宽度自适应）</button>
+  </div>
+<script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(function () {
+        var element = layui.element;
+        var $ = layui.$;
+        // 动态插入进度条元素
+        $('#test').html(`
+        <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo-filter-progress">
+          <div class="layui-progress-bar" lay-percent="70%"></div>
+        </div>
+        `);
+        // 渲染进度条组件
+        element.render('progress', 'demo-filter-progress');
+        $('.layui-btn').click(function(){
+          $.get(url,function(res){
+
+          })
+        })
+    });
+</script>
+{include file="../app/common/view/public/footer.html" /}

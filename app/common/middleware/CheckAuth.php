@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\common\middleware;
 
-use think\facade\Request;
+use app\common\controller\Common;
 
-class CheckAuth
+class CheckAuth extends Common
 {
     /**
      * 用户鉴权
@@ -17,9 +17,19 @@ class CheckAuth
      */
     public function handle($request, \Closure $next)
     {
-        dump($request->data);
+        switch ($request->type) {
+            case  'admin':
+                if($request->data['id'] != '1'){
+                    return $this->returnJson(0, [], '你没有权限', 400);
+                }
+                break;
+            case  'user':
+                echo $request->data->id;
+                break;
+            case  'web':
+                echo $request->data->id;
+                break;
+        }
         return $next($request);
-        
     }
-
 }

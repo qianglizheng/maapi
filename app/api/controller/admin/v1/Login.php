@@ -29,7 +29,7 @@ class Login extends Common
             if ($res->password == $data['password']) {
                 //登录成功根据管理后台key下发token
                 $jwt = JwtAuth::getInstance();
-                $token = $jwt->setKey($key)->setId(5)->getToken();
+                $token = $jwt->setKey($key)->setId($res->id)->getToken();
                 return $this->returnJson(1, ['token' => $token], '登录成功', 200);
             } else {
                 return $this->returnJson(0, [], '账号或者密码错误', 400);

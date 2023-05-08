@@ -116,7 +116,7 @@
                 miniTongji = layui.miniTongji;
 
                 $.get('/api/admin/v1/menu',{}, function (res) {
-                    if (res.code == '400' && res.msg=='token错误') {
+                    if (res.code == 400) {
                         layer.msg(res.msg, { icon: 2 });
                         localStorage.removeItem('token');
                         window.location = "/admin/login/index";

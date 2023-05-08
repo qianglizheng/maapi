@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1682947795;s:37:"../app/common/view/public/header.html";i:1682947624;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1683462979;s:37:"../app/common/view/public/header.html";i:1682947624;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -147,7 +147,7 @@
                 miniTongji = layui.miniTongji;
 
                 $.get('/api/admin/v1/menu',{}, function (res) {
-                    if (res.code == '400' && res.msg=='token错误') {
+                    if (res.code == 400) {
                         layer.msg(res.msg, { icon: 2 });
                         localStorage.removeItem('token');
                         window.location = "/admin/login/index";

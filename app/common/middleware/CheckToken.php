@@ -56,7 +56,7 @@ class CheckToken extends Common
     }
 
     /**
-     * 根据前端的地址判断是哪个接口，获取相应的key
+     * 根据前端的地址判断是哪个接口，获取相应的key和传递接口类型到鉴权中间件
      */
     public function getKey($type, $app_id, $uid,$request)
     {

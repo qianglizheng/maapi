@@ -42,10 +42,10 @@ Route::group(function () {
     Route::get('admin/v1/menu', 'admin.v1.Menu/menu');
     Route::get('user/v1/menu', 'user.v1.Menu/menu');
     //管理后台
-    Route::resource('admin/v1/email', 'admin.v1.config.Email');
-    Route::resource('admin/v1/key', 'admin.v1.config.Key');
-    Route::resource('admin/v1/api', 'admin.v1.config.Api');
-    Route::resource('admin/v1/base', 'admin.v1.config.Base');
+    Route::resource('admin/v1/email', 'admin.v1.config.Email');   //邮件设置
+    Route::resource('admin/v1/key', 'admin.v1.config.Key');       //密钥设置
+    Route::resource('admin/v1/api', 'admin.v1.config.Api');       //接口设置
+    Route::resource('admin/v1/base', 'admin.v1.config.Base');     //基本设置
 
     Route::resource('admin/v1/users', 'admin.v1.Users');
 })->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);

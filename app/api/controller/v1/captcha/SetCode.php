@@ -10,12 +10,12 @@ class SetCode extends Common
     /**
      * 用户标识
      */
-    public $uuid;
+    private $uuid;
 
     /**
      * 验证码
      */
-    public $code;
+    protected $code;
 
     public function __construct($emailOrMobile=null)
     {

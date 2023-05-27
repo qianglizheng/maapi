@@ -39,8 +39,8 @@ Route::post('admin/v1/login', 'admin.v1.Login/login');                          
  */
 Route::group(function () {
     //菜单栏
-    Route::get('admin/v1/menu', 'admin.v1.Menu/menu');
-    Route::get('user/v1/menu', 'user.v1.Menu/menu');
+    Route::get('admin/v1/menu', 'admin.v1.Menu/menu');            //管理后台菜单栏
+    Route::get('user/v1/menu', 'user.v1.Menu/menu');              //用户后台菜单栏
     //管理后台
     Route::resource('admin/v1/email', 'admin.v1.config.Email');   //邮件设置
     Route::resource('admin/v1/key', 'admin.v1.config.Key');       //密钥设置

@@ -19,7 +19,7 @@ class SetCode extends Common
 
     public function __construct($emailOrMobile=null)
     {
-        //邮件验证码或者手机验证码设置key为邮箱或者手机号，否则是图片验证码
+        //邮件验证码或者手机验证码设置key为邮箱或者手机号，否则是图片验证码设置key为随机生成的uuid
         if (!empty($emailOrMobile)) {
             $this->setUuid()->setCode($emailOrMobile,true);
         }else{

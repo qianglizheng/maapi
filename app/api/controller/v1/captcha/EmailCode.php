@@ -13,7 +13,7 @@ class EmailCode extends Email
     public function __construct()
     {
         $email = Request::post('email');
-        parent::__construct($email);  
+        $this->setEmailCode($email);
     }
     /**
      * 发送短信验证码

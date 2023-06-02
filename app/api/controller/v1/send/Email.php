@@ -11,14 +11,14 @@ use PHPMailer\PHPMailer\Exception;
 class Email extends SetCode
 {
     /**
-     * 调用SetCode类的构造方法生成验证码并且存放在redis中 键为邮箱 值为验证码
+     * 如果是发送验证码调用此方法设置验证码 键值分别是邮箱和验证码
      */
-    public function __construct($email)
+    public function setEmailCode($email)
     {
         parent::__construct($email);
     }
 
-    public function sendEmail($receiver='', $content='')
+    public function sendEmail($email = '', $content = '')
     {
         $mail = new PHPMailer(true);
         $config = AdminEmailConfig::find(1);
@@ -35,7 +35,7 @@ class Email extends SetCode
 
             //接收者
             $mail->setFrom($config['username'], '');
-            $mail->addAddress($receiver, '');                             //添加收件人 名字是可选的
+            $mail->addAddress($email, '');                             //添加收件人 名字是可选的
             $mail->addReplyTo($config['username'], $config['username']);
 
             //附件

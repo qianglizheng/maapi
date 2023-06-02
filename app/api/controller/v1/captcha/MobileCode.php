@@ -8,12 +8,12 @@ use think\facade\Request;
 class MobileCode extends Mobile
 {
     /**
-     * 调用父类生成验证码并且存放在redis中，键为手机号 值为验证码
+     * 如果是发送验证码调用此方法设置验证码 键值分别是手机号和验证码
      */
     public function __construct()
     {
         $mobile = Request::post('mobile');
-        parent::__construct($mobile);
+        $this->setMobileCode($mobile);
     }
     /**
      * 发送短信验证码

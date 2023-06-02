@@ -10,16 +10,16 @@ use addons\Smsali\controller\Smsali;
 class Mobile extends SetCode
 {
     /**
-     * 调用SetCode类的构造方法生成验证码并且存放在redis中 键为手机号 值为邮箱
+     * 如果是发送验证码调用此方法设置验证码 键值分别是邮箱和验证码
      */
-    public function __construct($mo)
+    public function setMobileCode($mobile)
     {
-        parent::__construct($mo);
+        parent::__construct($mobile);
     }
 
-    public function sendMobile($receiver = null, $content = null)
+    public function sendMobile($mobile = null, $content = null)
     {
         //阿里云
-        Smsali::send($receiver,$content);
+        Smsali::send($mobile, $content);
     }
 }

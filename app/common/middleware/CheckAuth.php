@@ -24,10 +24,10 @@ class CheckAuth extends Common
                 }
                 break;
             case  'user':
-                echo $request->data->id;
+                // echo $request->data['id'];
                 break;
             case  'web':
-                echo $request->data->id;
+                // echo $request->data['id'];
                 break;
         }
         return $next($request);

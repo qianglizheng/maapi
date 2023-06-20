@@ -26,8 +26,8 @@ class Login extends jwtAuth
     public function login()
     {
         $jwtAuth = jwtAuth::getInstance();
-        $token = $jwtAuth->setUid($this->id)->getToken();
-        $uid = $jwtAuth->decode($token)->getUid();
+        $token = $jwtAuth->setUid($this->id)->getToken(); //获取token
+        $uid = $jwtAuth->decode($token)->getUid();        //获取用户id
         if (is_null($uid)) {
             $errorInfo = $jwtAuth->decode($token)->getError();
             return $errorInfo;

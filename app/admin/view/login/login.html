@@ -81,7 +81,7 @@
                 $.get("/api/v1/captcha/img", function (res) {
                     if (res.code == 200) {
                         $("#refreshCaptcha").attr("src", res.data.url);
-                        localStorage.setItem("uid", res.data.uid)
+                        localStorage.setItem("uuid", res.data.uuid)
                     } else {
                         layer.msg(res.msg, { icon: 2 });
                     }
@@ -107,7 +107,7 @@
             form.on("submit(login)", function (data) {
                 data = data.field;
                 data.password = data.password.MD5(32);
-                data.uid = localStorage.getItem("uid");
+                data.uid = localStorage.getItem("uuid");
                 $.post("/api/admin/v1/login", data, function (res) {
                     console.log(res);
                     if (res.code == "200") {

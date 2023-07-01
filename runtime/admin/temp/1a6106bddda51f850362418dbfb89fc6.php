@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\login\login.html";i:1680443917;s:35:"../app/common/view/public/style.txt";i:1679819247;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\login\login.html";i:1688028369;s:35:"../app/common/view/public/style.txt";i:1679819247;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -365,7 +365,7 @@ html {
                 $.get("/api/v1/captcha/img", function (res) {
                     if (res.code == 200) {
                         $("#refreshCaptcha").attr("src", res.data.url);
-                        localStorage.setItem("uid", res.data.uid)
+                        localStorage.setItem("uuid", res.data.uuid)
                     } else {
                         layer.msg(res.msg, { icon: 2 });
                     }
@@ -391,7 +391,7 @@ html {
             form.on("submit(login)", function (data) {
                 data = data.field;
                 data.password = data.password.MD5(32);
-                data.uid = localStorage.getItem("uid");
+                data.uid = localStorage.getItem("uuid");
                 $.post("/api/admin/v1/login", data, function (res) {
                     console.log(res);
                     if (res.code == "200") {

@@ -10,7 +10,7 @@ class SetCode extends Common
     /**
      * 用户标识
      */
-    private $uuid;
+    protected $uuid;
 
     /**
      * 验证码
@@ -21,8 +21,8 @@ class SetCode extends Common
     {
         //邮件验证码或者手机验证码设置key为邮箱或者手机号，否则是图片验证码设置key为随机生成的uuid
         if (!empty($emailOrMobile)) {
-            $this->setUuid()->setCode($emailOrMobile,true);
-        }else{
+            $this->setUuid()->setCode($emailOrMobile, true);
+        } else {
             $this->setUuid()->setCode($this->uuid);
         }
     }
@@ -39,11 +39,11 @@ class SetCode extends Common
     /**
      * 设置验证码 $key为缓存的键
      */
-    public function setCode($key,$num=null)
+    public function setCode($key, $num=null)
     {
-        if($num == true){
+        if($num == true) {
             $code = mt_rand(100000, 999999);
-        }else{
+        } else {
             $code = substr(str_shuffle('123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'), 0, 4);
         }
         $this->code = $code;

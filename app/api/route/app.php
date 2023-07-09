@@ -11,14 +11,10 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-$index = [
-    'page' => 'require|number',
-    'limit' => 'require|number',
-    'token' => 'require'
-];
+//检查token中间件会检查token是否存在，所以不需要验证器再判断一遍
 
 /**
- * 公共验证码路由
+ * 公共验证码路由 不需要登录
  */
 Route::get('v1/captcha/get-img', 'v1.captcha.ImgCode/getImg');                   //图片验证码
 Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode');                  //图片验证码信息
@@ -26,16 +22,18 @@ Route::post('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');          
 Route::post('v1/captcha/mobile', 'v1.captcha.MobileCode/sendMobileCode');        //邮件验证码
 
 /**
- * 公共路由 需要鉴权
+ * 公共路由 需要登录
  */
 Route::group(function () {
     //文件上传
-    Route::post('v1/upload/local', 'v1.upload.LocalUpload/upload');               //上传到本地
+    Route::post('v1/upload/local', 'v1.upload.LocalUpload/upload')->validate([
+        'path'    =>    'require'
+    ]);               //上传到本地
 })->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);
 
 
 /**
- * 管理后台路由
+ * 管理后台路由 不需要登录
  */
 Route::post('admin/v1/login', 'admin.v1.Login/login')->validate([
     'username'    =>    'require',
@@ -43,7 +41,7 @@ Route::post('admin/v1/login', 'admin.v1.Login/login')->validate([
 ]);                                                                            //管理员登录
 
 /**
- * 路由分组 需要鉴权
+ * 路由分组 需要登录
  */
 Route::group(function () {
     //菜单栏

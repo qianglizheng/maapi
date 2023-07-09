@@ -35,20 +35,40 @@ class CheckToken extends Common
             }
         }
 
-        //根据地址判断接口类型然后获取key->$type为a：admin接口->$type为u->user接口->$type为v->web接口
+        //根据地址判断接口类型然后获取key->$type为a：admin接口 $type为u->user接口 $type为w->web接口  $type为v->公共接口
         $type = $request->url()[5];
         $key = $this->getKey($type, $request['app_id'], $request['uid'], $request);
 
-        //解码token获取数据或者提示错误
-        $jwt = JwtAuth::getInstance();
-        $data = $jwt->setKey($key)->decode($token)->getData();
-
-        if ($data == null) {
-            return $this->returnJson(0, [], 'token错误', 400);
+        //如果$kye是一个数组说明是公共接口，所以用户、管理员、web用户的token均可
+        if (is_array($key)) {
+            //解码token获取数据或者提示错误 $data为解析token后得到的用户信息
+            $jwt = JwtAuth::getInstance();
+            $data = $jwt->setKey($key[0])->decode($token)->getData();          //判断是不是用户token
+            if ($data == null) {
+                $data = $jwt->setKey($key[1])->decode($token)->getData();      //判断是不是管理token
+                if ($data == null) {
+                    $data = $jwt->setKey($key[2])->decode($token)->getData();  //判断是不是web token
+                    if ($data == null) {
+                        return $this->returnJson(0, [], 'token错误', 400);
+                    } else {
+                        $request->data = $data;
+                    }
+                }else {
+                    $request->data = $data;
+                }
+            }else {
+                $request->data = $data;
+            }
         } else {
-            // $request->id = $data['id'];
-            $request->data = $data;
-            // return $this->returnJson(1, ['id' => $data['id']]);//解析id
+            //解码token获取数据或者提示错误
+            $jwt = JwtAuth::getInstance();
+            $data = $jwt->setKey($key)->decode($token)->getData();
+
+            if ($data == null) {
+                return $this->returnJson(0, [], 'token错误', 400);
+            } else {
+                $request->data = $data;
+            }
         }
         return $next($request);
     }
@@ -64,9 +84,14 @@ class CheckToken extends Common
         } elseif ($type == 'a') {
             $request->type = 'admin';
             $key = AdminKeyConfig::find(1)['admin'];                            //管理接口
-        } else {
+        } elseif ($type  == 'w') {
             $request->type = 'web';
             $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
+        } else {
+            $key_user = AdminKeyConfig::find(1)['user'];
+            $key_admin = AdminKeyConfig::find(1)['admin'];
+            $key_web = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key');
+            return $arr = [$key_user, $key_admin, $key_web];
         }
         return $key;
     }

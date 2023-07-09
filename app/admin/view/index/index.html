@@ -119,7 +119,9 @@
                     if (res.code == 400) {
                         layer.msg(res.msg, { icon: 2 });
                         localStorage.removeItem('token');
-                        window.location = "/admin/login/index";
+                        setTimeout(function(){
+                            window.location = "/admin/login/index";
+                        },2000)
                     } 
                 })
 

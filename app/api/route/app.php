@@ -37,7 +37,10 @@ Route::group(function () {
 /**
  * 管理后台路由
  */
-Route::post('admin/v1/login', 'admin.v1.Login/login');                          //管理员登录
+Route::post('admin/v1/login', 'admin.v1.Login/login')->validate([
+    'username'    =>    'require',
+    'password'    =>    'require',
+]);                                                                            //管理员登录
 
 /**
  * 路由分组 需要鉴权
@@ -52,5 +55,8 @@ Route::group(function () {
     Route::resource('admin/v1/api', 'admin.v1.config.Api');                    //接口设置
     Route::resource('admin/v1/base', 'admin.v1.config.Base');                  //基本设置
 
-    Route::resource('admin/v1/users', 'admin.v1.Users');
+    Route::resource('admin/v1/users', 'admin.v1.Users')->validate([
+        'page'    =>    'require',
+        'limit'   =>    'require',
+    ]);
 })->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);

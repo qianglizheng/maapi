@@ -19,7 +19,7 @@ class CheckAuth extends Common
     {
         switch ($request->type) {
             case  'admin':
-                if($request->data['id'] != '1'){
+                if($request->data['id'] != '1') {
                     return $this->returnJson(0, [], '你没有权限', 400);
                 }
                 break;

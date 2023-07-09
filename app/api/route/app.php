@@ -22,7 +22,7 @@ Route::post('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');          
 Route::post('v1/captcha/mobile', 'v1.captcha.MobileCode/sendMobileCode');        //邮件验证码
 
 /**
- * 公共路由 需要登录
+ * 公共接口路由 需要登录
  */
 Route::group(function () {
     //文件上传

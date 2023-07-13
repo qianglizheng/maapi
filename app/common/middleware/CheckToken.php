@@ -103,9 +103,9 @@ class CheckToken extends Common
     {
         $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty();
         if ($res->isEmpty()) {
-            return 0;
+            return false;
         } else {
-            return 1;
+            return true;
         }
     }
 }

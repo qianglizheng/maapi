@@ -47,6 +47,7 @@ class SetCode extends Common
             $code = substr(str_shuffle('123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'), 0, 4);
         }
         $this->code = $code;
+        //设置验证码 默认有效时间为一分钟
         Cache::set($key, $code, 60);
     }
 }

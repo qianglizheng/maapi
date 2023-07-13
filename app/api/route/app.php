@@ -18,8 +18,12 @@ use think\facade\Route;
  */
 Route::get('v1/captcha/get-img', 'v1.captcha.ImgCode/getImg');                   //图片验证码
 Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode');                  //图片验证码信息
-Route::post('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode');           //邮件验证码
-Route::post('v1/captcha/mobile', 'v1.captcha.MobileCode/sendMobileCode');        //邮件验证码
+Route::post('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode')->validate([
+    'email'    =>    'require|email'
+]);                                                                               //邮件验证码
+Route::post('v1/captcha/mobile', 'v1.captcha.MobileCode/sendMobileCode')->validate([
+    'mobile'    =>    'require|mobile'
+]);                                                                               //手机验证码
 
 /**
  * 公共接口 需要登录
@@ -29,7 +33,7 @@ Route::group(function () {
     Route::post('v1/upload/local', 'v1.upload.LocalUpload/upload')->validate([
         'path'    =>    'require'
     ]);                                                                          //上传到本地
-    
+
 })->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);
 
 
@@ -48,13 +52,13 @@ Route::group(function () {
     //菜单栏
     Route::get('admin/v1/menu', 'admin.v1.Menu/menu');                         //管理后台菜单栏
     Route::get('user/v1/menu', 'user.v1.Menu/menu');                           //用户后台菜单栏
-    
+
     //系统设置
     Route::resource('admin/v1/email', 'admin.v1.config.Email');                //邮件设置
     Route::resource('admin/v1/key', 'admin.v1.config.Key');                    //密钥设置
     Route::resource('admin/v1/api', 'admin.v1.config.Api');                    //接口设置
     Route::resource('admin/v1/base', 'admin.v1.config.Base');                  //基本设置
-    
+
     //用户中心
     Route::resource('admin/v1/users', 'admin.v1.Users')->validate([
         'page'    =>    'require',

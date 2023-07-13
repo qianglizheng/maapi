@@ -13,8 +13,8 @@ class Common extends Basecontroller
     public function returnJson($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
     {
         if (empty($data) && $code == 200) {
-            $code = 204;
-            if($msg == "数据请求成功"){
+            $code = 204; //请求已成功但是没有内容
+            if($msg == "数据请求成功") {
                 $msg == "数据为空";
             }
         }

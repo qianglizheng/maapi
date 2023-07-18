@@ -6,18 +6,17 @@ use app\common\controller\Common;
 use app\common\controller\jwtAuth;
 use think\facade\Request;
 use app\admin\model\AdminKeyConfig;
+use app\user\model\Apps;
 
 class AddonsAuth extends Common
 {
-    public function CheckToken()
+    public function addonsAuth()
     {
         $token = Request::header('authorization');
-        $request = Request::param();
+        $request = Request::param(); //这是一个数组
 
         if (empty($token)) {
             return $this->returnJson(0, [], 'token不能为空', 400);
-        } else {
-            $token = substr($token, 6);
         }
 
         //根据是否有参数app_id和uid判断是否是应用接口->判断应用和用户是否对应->防止获取不到key  如果没有这两个参数就将它们置为null
@@ -29,32 +28,44 @@ class AddonsAuth extends Common
             }
         }
 
-        //根据地址判断接口类型然后获取key->$type为a：admin接口->$type为u->user接口->$type为v->web接口
-        $type = Request::url()[8];
-        $key = $this->getKey($type, $request['app_id'], $request['uid']);
+        //根据地址判断接口类型然后获取key->$type为a：admin接口 $type为u->user接口 $type为w->web接口  $type为其他->公共接口
+        $type = $request['addon'][0];
+        $key = $this->getKey($type, $request['app_id'], $request['uid'], $request);
 
-        //解码token获取数据或者提示错误
-        $jwt = JwtAuth::getInstance();
-        $data = $jwt->setKey($key)->decode($token)->getData();
+        //解码token得到用户信息 如果$kye是一个数组说明是公共接口，所以用户、管理员、web用户的token均可
+        $request['data'] = $this->decodeData($token, $key);
 
-        if ($data == null) {
-            echo $this->returnJson(0, [], 'token错误', 400);
-        } else {
-            // return $this->returnJson(1, ['id' => $data['id']]);//解析id
+        //获取接口类型
+        $request['type'] = $this->getType($type);
+
+        $res = $this->checkAuth($request['data'], $request['type']);
+        if (!$res) {
+            //权限不够
+            return $this->returnJson(0, [], '没有权限', 400);
         }
+
+        return $request;
     }
 
     /**
-     * 根据前端的地址判断是哪个接口，获取相应的key
+     * 根据前端的地址判断是哪个接口，获取相应的key和传递接口类型到鉴权中间件
      */
-    public function getKey($type, $app_id, $uid)
+    public function getKey($type, $app_id, $uid, $request)
     {
         if ($type == 'u') {
+            $request['type'] = 'user';
             $key = AdminKeyConfig::find(1)['user'];                             //用户接口
         } elseif ($type == 'a') {
+            $request['type'] = 'admin';
             $key = AdminKeyConfig::find(1)['admin'];                            //管理接口
-        } elseif ($type == 'v') {
+        } elseif ($type  == 'w') {
+            $request['type'] = 'web';
             $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
+        } else {
+            $key_user = AdminKeyConfig::find(1)['user'];
+            $key_admin = AdminKeyConfig::find(1)['admin'];
+            $key_web = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key');
+            return $arr = [$key_user, $key_admin, $key_web];                    //公共接口
         }
         return $key;
     }
@@ -66,9 +77,90 @@ class AddonsAuth extends Common
     {
         $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty();
         if ($res->isEmpty()) {
-            return 0;
+            return false;
         } else {
-            return 1;
+            return true;
+        }
+    }
+
+    /**
+     * 解码token到$request数组里面的data
+     */
+    public function decodeData($token, $key)
+    {
+        if (is_array($key)) {
+            //解码token获取数据或者提示错误 $data为解析token后得到的用户信息
+            $jwt = JwtAuth::getInstance();
+            $data = $jwt->setKey($key[0])->decode($token)->getData();          //判断是不是用户token
+            if ($data == null) {
+                $data = $jwt->setKey($key[1])->decode($token)->getData();      //判断是不是管理token
+                if ($data == null) {
+                    $data = $jwt->setKey($key[2])->decode($token)->getData();  //判断是不是web token
+                    if ($data == null) {
+                        return $this->returnJson(0, [], 'token错误', 400);
+                    } else {
+                        return $data;
+                    }
+                } else {
+                    return $data;
+                }
+            } else {
+                return $data;
+            }
+        } else {
+            //解码token获取数据或者提示错误
+            $jwt = JwtAuth::getInstance();
+            $data = $jwt->setKey($key)->decode($token)->getData();
+            if ($data == null) {
+                return $this->returnJson(0, [], 'token错误', 400);
+            } else {
+                return $data;
+            }
+        }
+    }
+
+    /**
+     * 获取接口类型
+     */
+    public function getType($type)
+    {
+        switch ($type) {
+            case 'a':
+                return $request['type'] = 'admin';
+                break;
+            case 'u':
+                return $request['type'] = 'user';
+                break;
+            case 'w':
+                return $request['type'] = 'web';
+                break;
+            case  'all':
+                return $request['type'] = 'all';
+                break;
+        }
+    }
+
+    /**
+     * 检查访问者权限
+     */
+    public function checkAuth($data, $type)
+    {
+        switch ($type) {
+            case  'admin':
+                //可以在这里根据用户的身份来做一些权限判断
+                if ($data['id'] != '1') {
+                    return $this->returnJson(0, [], '你没有权限', 400);
+                }
+                break;
+            case  'user':
+                // echo $request->data['id'];
+                break;
+            case  'web':
+                // echo $request->data['id'];
+                break;
+            case  'all':
+                // echo $request->data['id'];
+                break;
         }
     }
 }

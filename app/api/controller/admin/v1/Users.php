@@ -73,6 +73,7 @@ class Users extends Common
     public function update(Request $request, $id)
     {
         //
+        return 1;
     }
 
     /**

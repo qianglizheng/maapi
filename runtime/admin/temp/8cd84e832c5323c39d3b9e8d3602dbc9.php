@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Base.html";i:1682947834;s:37:"../app/common/view/public/header.html";i:1682947624;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Base.html";i:1689571685;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,22 +15,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="/static/images/favicon.ico">
-    <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
-    <link rel="stylesheet" href="/static/css/layuimini.css?v=2.0.4.2" media="all">
-    <link rel="stylesheet" href="/static/css/themes/default.css" media="all">
-    <link rel="stylesheet" href="/static/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-    <link rel="stylesheet" href="/static/css/public.css" media="all">
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
-    <style id="layuimini-bg-color">
-    </style>
-    <script>
-        //判断是否登录
-        if (!window.localStorage.getItem('token')) {
-            window.location = "/admin/login/index";
-        }
-    </script>
-</head>
-
+<link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
+<link rel="stylesheet" href="/static/css/public.css" media="all">
+<style>
+    .layui-form-item .layui-input-company {width: auto;padding-right: 10px;line-height: 38px;}
+</style>
 <body>
     <div class="layuimini-container">
         <div class="layuimini-main">
@@ -46,7 +35,7 @@
                             <div class="layui-upload-list">
                                 <img class="layui-upload-img logo" style="width:92px;height:92px;" id="demo1">
                                 <p id="demoText"></p>
-                                <input type="hidden" name="logo" placeholder="请输入邮箱" value="" class="layui-input">
+                                <input type="hidden" name="logo" placeholder="请输入邮箱" value="" class="layui-input logo">
                             </div>
                             <div style="width: 95px;">
                                 <div class="layui-progress layui-progress-big" lay-showpercent="yes" lay-filter="demo">
@@ -137,17 +126,19 @@
         <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
         <script src="/static/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
         <script>
-            layui.use(['form', 'miniTab'], function () {
+            layui.use(['form', 'miniTab','upload','element'], function () {
                 var form = layui.form,
                     upload = layui.upload,
                     layer = layui.layer,
+                    element = layui.element,
                     miniTab = layui.miniTab;
                 $ = layui.$;
 
                 //常规使用 - 普通图片上传
                 var uploadInst = upload.render({
                     elem: '#test1'
-                    , url: 'https://httpbin.org/post' //此处用的是第三方的 http 请求演示，实际使用时改成您自己的上传接口即可。
+                    , url: 'http://127.0.0.1/api/v1/upload/local' //此处用的是第三方的 http 请求演示，实际使用时改成您自己的上传接口即可。
+                    , data: {path:'logo'}
                     , before: function (obj) {
                         //预读本地文件示例，不支持ie8
                         obj.preview(function (index, file, result) {
@@ -159,11 +150,13 @@
                     }
                     , done: function (res) {
                         //如果上传失败
-                        if (res.code > 0) {
+                        if (res.code != 200) {
                             return layer.msg('上传失败');
                         }
                         //上传成功的一些操作
                         //……
+                        $('.logo').val(res.data[0]);
+                        console.log(res.data[0]);
                         $('#demoText').html(''); //置空上传失败的状态
                     }
                     , error: function () {
@@ -186,7 +179,7 @@
                 //获取信息
                 $.get('/api/admin/v1/base/1', {}, function (res) {
                     if (res.code == '200') {
-                        $('.logo').attr('src',res.data.logo);
+                        $('.logo').attr('src','//'+res.data.logo);
                         $('.title').val(res.data.title);
                         $('.subhead').val(res.data.subhead);
                         $('.keyword').val(res.data.keyword);
@@ -219,6 +212,13 @@
                 });
             });
         </script>
-        <script src="/static/js/setToken.js" charset="utf-8"></script>
+        <script>
+    //判断是否登录
+    if (!window.localStorage.getItem('token')) {
+        window.location = "/admin/login/index";
+    }
+</script>
+<script src="/static/js/setToken.js" charset="utf-8"></script>
 </body>
+
 </html>

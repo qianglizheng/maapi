@@ -9,6 +9,7 @@ class Common extends Basecontroller
 {
     /**
      * 接口返回数据方法
+     * @param $count $data $msg $code
      */
     public function returnJson($count = 0, $data = [], $msg = "数据请求成功", $code = 200)
     {

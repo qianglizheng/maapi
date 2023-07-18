@@ -54,15 +54,27 @@ Route::group(function () {
     Route::get('user/v1/menu', 'user.v1.Menu/menu');                           //用户后台菜单栏
 
     //系统设置
-    Route::resource('admin/v1/email', 'admin.v1.config.Email');                //邮件设置
-    Route::resource('admin/v1/key', 'admin.v1.config.Key');                    //密钥设置
-    Route::resource('admin/v1/api', 'admin.v1.config.Api');                    //接口设置
-    Route::resource('admin/v1/base', 'admin.v1.config.Base');                  //基本设置
+    Route::resource('admin/v1/email', 'admin.v1.config.Email')->only(['read', 'update']);                //邮件设置
+    Route::resource('admin/v1/key', 'admin.v1.config.Key')->only(['read', 'update']);                    //密钥设置
+    Route::resource('admin/v1/api', 'admin.v1.config.Api')->only(['read', 'update']);                    //接口设置
+    Route::resource('admin/v1/base', 'admin.v1.config.Base')->only(['read', 'update']);                  //基本设置
 
-    //用户中心
-    Route::resource('admin/v1/users', 'admin.v1.Users')->validate([
-        'page'    =>    'require',
-        'limit'   =>    'require',
-    ]);                                                                        //用户列表
+    Route::group(function () {
+        //用户中心
+        Route::get('admin/v1/users', 'admin.v1.Users/index')->validate([
+            'page'    =>    'require',
+            'limit'   =>    'require',
+        ]);
+        Route::post('admin/v1/users', 'admin.v1.Users/save');
+        Route::get('admin/v1/users/:id', 'admin.v1.Users/read');
+        Route::put('admin/v1/users/:id', 'admin.v1.Users/update');
+        Route::delete('admin/v1/users/:id', 'admin.v1.Users/delete');
+
+
+        // Route::resource('admin/v1/users', 'admin.v1.Users');
+        // Route::rest('index', ['GET', '/users', 'users']);
+        
+        //用户列表
+    })->only(['index', 'save', 'delete', 'read', 'update']);//限定执行的方法 增删查改
 
 })->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);

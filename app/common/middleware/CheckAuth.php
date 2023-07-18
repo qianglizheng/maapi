@@ -19,6 +19,7 @@ class CheckAuth extends Common
     {
         switch ($request->type) {
             case  'admin':
+                //可以在这里根据用户的身份来做一些权限判断
                 if($request->data['id'] != '1') {
                     return $this->returnJson(0, [], '你没有权限', 400);
                 }
@@ -27,6 +28,9 @@ class CheckAuth extends Common
                 // echo $request->data['id'];
                 break;
             case  'web':
+                // echo $request->data['id'];
+                break;
+            case  'all':
                 // echo $request->data['id'];
                 break;
         }

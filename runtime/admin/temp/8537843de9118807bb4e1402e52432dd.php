@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\edit.html";i:1683296249;s:37:"../app/common/view/public/header.html";i:1682947624;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\edit.html";i:1689601466;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,22 +15,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="/static/images/favicon.ico">
-    <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
-    <link rel="stylesheet" href="/static/css/layuimini.css?v=2.0.4.2" media="all">
-    <link rel="stylesheet" href="/static/css/themes/default.css" media="all">
-    <link rel="stylesheet" href="/static/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-    <link rel="stylesheet" href="/static/css/public.css" media="all">
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
-    <style id="layuimini-bg-color">
-    </style>
-    <script>
-        //判断是否登录
-        if (!window.localStorage.getItem('token')) {
-            window.location = "/admin/login/index";
-        }
-    </script>
-</head>
-
+<link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
+<link rel="stylesheet" href="/static/css/public.css" media="all">
 <body>
     <div class="layui-form layuimini-form">
         <!-- <input type="hidden" name="id" value="" class="id"> -->
@@ -164,7 +150,7 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-
+    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
@@ -188,34 +174,42 @@
             })
             //监听提交
             form.on('submit(saveBtn)', function (data) {
-                $.post('../api/app_update', data.field, function (res) {
-                    console.log(res)
-                    if (res == '0') {
-                        layer.msg('修改失败')
-                        setTimeout(function () {
-                            var iframeIndex = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(iframeIndex);
-                        }, 1000)
+                $.ajax({
+                    url: `/api/admin/v1/users/${data.field.id}`, //请求url
+                    method: 'PUT', //请求方法
+                    data: JSON.stringify(data.field), //请求数据
+                    contentType: 'application/json', //请求数据类型
+                    success: function (res) {
+                        if (res == '0') {
+                            layer.msg('修改失败')
+                            setTimeout(function () {
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            }, 1000)
+                        }
+                        if (res == '1') {
+                            layer.msg('修改成功')
+                            setTimeout(function () {
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            }, 1000)
+                        };
+                    },
+                    error: function () {
+                        console.log('Put request error!');
                     }
-                    if (res == '1') {
-                        layer.msg('修改成功')
-                        setTimeout(function () {
-                            var iframeIndex = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(iframeIndex);
-                        }, 1000)
-                    }
-                    if (res == '2') {
-                        layer.msg('软件已存在')
-                        setTimeout(function () {
-                            var iframeIndex = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(iframeIndex);
-                        }, 1000)
-                    }
-                })
+                });
                 return false;
             });
         });
     </script>
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
+    <script>
+    //判断是否登录
+    if (!window.localStorage.getItem('token')) {
+        window.location = "/admin/login/index";
+    }
+</script>
+<script src="/static/js/setToken.js" charset="utf-8"></script>
 </body>
+
 </html>

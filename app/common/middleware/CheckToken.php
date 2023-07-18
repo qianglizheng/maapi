@@ -40,6 +40,51 @@ class CheckToken extends Common
         $key = $this->getKey($type, $request['app_id'], $request['uid'], $request);
 
         //如果$kye是一个数组说明是公共接口，所以用户、管理员、web用户的token均可
+        $this->decodeData($token,$key,$request);
+        return $next($request);
+    }
+
+    /**
+     * 根据前端的地址判断是哪个接口，获取相应的key和传递接口类型到鉴权中间件
+     */
+    public function getKey($type, $app_id, $uid, $request)
+    {
+        if ($type == 'u') {
+            $request->type = 'user';
+            $key = AdminKeyConfig::find(1)['user'];                             //用户接口
+        } elseif ($type == 'a') {
+            $request->type = 'admin';
+            $key = AdminKeyConfig::find(1)['admin'];                            //管理接口
+        } elseif ($type  == 'w') {
+            $request->type = 'web';
+            $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
+        } else {
+            $request->type = 'all';
+            $key_user = AdminKeyConfig::find(1)['user'];
+            $key_admin = AdminKeyConfig::find(1)['admin'];
+            $key_web = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key');
+            return $arr = [$key_user, $key_admin, $key_web];
+        }
+        return $key;
+    }
+
+    /**
+     * 判断应用是否存在和是否是当前用户的
+     */
+    public function checkApp($app_id, $uid)
+    {
+        $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty();
+        if ($res->isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 解码token
+     */
+    public function decodeData($token,$key,$request){
         if (is_array($key)) {
             //解码token获取数据或者提示错误 $data为解析token后得到的用户信息
             $jwt = JwtAuth::getInstance();
@@ -69,43 +114,6 @@ class CheckToken extends Common
             } else {
                 $request->data = $data;
             }
-        }
-        return $next($request);
-    }
-
-    /**
-     * 根据前端的地址判断是哪个接口，获取相应的key和传递接口类型到鉴权中间件
-     */
-    public function getKey($type, $app_id, $uid, $request)
-    {
-        if ($type == 'u') {
-            $request->type = 'user';
-            $key = AdminKeyConfig::find(1)['user'];                             //用户接口
-        } elseif ($type == 'a') {
-            $request->type = 'admin';
-            $key = AdminKeyConfig::find(1)['admin'];                            //管理接口
-        } elseif ($type  == 'w') {
-            $request->type = 'web';
-            $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
-        } else {
-            $key_user = AdminKeyConfig::find(1)['user'];
-            $key_admin = AdminKeyConfig::find(1)['admin'];
-            $key_web = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key');
-            return $arr = [$key_user, $key_admin, $key_web];
-        }
-        return $key;
-    }
-
-    /**
-     * 判断应用是否存在和是否是当前用户的
-     */
-    public function checkApp($app_id, $uid)
-    {
-        $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty();
-        if ($res->isEmpty()) {
-            return false;
-        } else {
-            return true;
         }
     }
 }

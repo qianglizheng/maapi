@@ -7,18 +7,12 @@ use app\common\controller\AddonsAuth;
 
 class AdminVipGroups extends AddonsAuth
 {
-    protected $middleware = app\common\middleware\CheckToken::class;
     public function index()
     {
-        $res = (array) $this->CheckToken();
-        foreach ($res as $key => $res) {
-            if (is_array($res)) {
-                foreach ($res as $key => $res) {
-                    if ($res == 400) {
-                        return $this->returnJson(0, [], 'token错误或者没有token', 400);
-                    }
-                }
-            }
+        $res = $this->addonsAuth();
+        //如果$res是对象，说明没有token或者是错误，否则应该是返回一个数组
+        if (is_object($res)) {
+            return $this->returnJson(0, [], 'token错误或者没有token', 400);
         }
         $data = AdminVipGroupsModel::select();
         $count = count($data);

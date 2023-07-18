@@ -1,4 +1,4 @@
-<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\market\users.html";i:1682865245;s:37:"../app/common/view/public/header.html";i:1682947624;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
+<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\market\users.html";i:1682865245;s:37:"../app/common/view/public/header.html";i:1689428714;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="/static/css/themes/default.css" media="all">
     <link rel="stylesheet" href="/static/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="/static/css/public.css" media="all">
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <style id="layuimini-bg-color">
     </style>
     <script>

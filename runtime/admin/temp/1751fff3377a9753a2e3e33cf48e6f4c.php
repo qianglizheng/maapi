@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1689570611;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1689679490;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,9 +15,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="/static/images/favicon.ico">
-    <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
-    <link rel="stylesheet" href="/static/css/public.css" media="all">
+<link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
+<link rel="stylesheet" href="/static/css/public.css" media="all">
 </head>
+
 <body>
     <div class="layuimini-container">
         <div class="layuimini-main">
@@ -27,9 +28,9 @@
                     <form class="layui-form layui-form-pane" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">应用名称</label>
+                                <label class="layui-form-label">用户名</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="app_name" autocomplete="off" class="layui-input">
+                                    <input type="text" name="username" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -167,8 +168,6 @@
                 skin: 'line',
                 parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                     var result;
-                    console.log(this);
-                    console.log(JSON.stringify(res));
                     if (this.page.curr) {
                         result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
                     } else {
@@ -195,8 +194,8 @@
                         curr: 1
                     },
                     where: {
-                        app_name: data.field.app_name
-                    }
+                        username: data.field.username
+                    },
                 }, 'data');
                 return false;
             });
@@ -210,13 +209,13 @@
             table.on('toolbar(currentTableFilter)', function (obj) {
                 if (obj.event === 'add') { // 监听添加操作
                     var index = layer.open({
-                        title: '添加软件',
+                        title: '添加用户',
                         type: 2,
                         shade: 0.2,
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '../add/app_add',
+                        content: '/admin/users/save',
                         end: function () {
                             table.reload('currentTableId', {
                                 url: '/api/admin/v1/users',
@@ -235,18 +234,24 @@
                         for (var i = 0; i < data.length; i++) {
                             arr[i] = data[i].id;
                         }
-                        $.post('../api/app_del', {
-                            'id': arr
-                        }, function (res) {
-                            console.log(res)
-                            if (res !== 0) {
+                        $.ajax({
+                            url: '/api/admin/v1/users/' + arr,
+                            method: 'delete',
+                            data: { 'id': arr },
+                            contentType: 'application/json',
+                            success: function (res) {
+                                console.log(arr);
                                 //重载表格
                                 table.reload('currentTableId', {
                                     url: '/api/admin/v1/users',
                                     where: {}
                                 });
+                            },
+                            error: function () {
+                                layer.msg('删除失败');
                             }
                         })
+
                         layer.close(index);
                     });
                 }
@@ -273,7 +278,6 @@
                             body.find(".id").val(data.id);
                             body.find(".username").val(data.username);
                             body.find(".email").val(data.email);
-
                             body.find(".mobile").val(data.mobile);
                             body.find(".nickname").val(data.nickname);
                             body.find(".money").val(data.money);
@@ -282,15 +286,37 @@
                             body.find(".create_time").val(data.create_time);
                             body.find(".last_login_ip").val(data.last_login_ip);
                             body.find(".last_login_time").val(data.last_login_time);
-                            if (body.find('.users_groups').val() == data.group) {
-                                body.find('.users_groups').attr('selected', 'selected');
+                            body.find(".update_time").val(data.update_time);
+
+                            let nowTime = new Date().toLocaleString();
+                            nowTime = nowTime.replaceAll('/', '-');
+                            let a = nowTime.split('-');
+                            if (a[1] < 10) {
+                                a[1] = '0' + a[1];
                             }
+                            if (a[2].slice(0, 2) < 10) {
+                                a[2].slice(0, 2) = '0' + a[2].slice(0, 2);
+                            }
+                            nowTime = a[0] + '-' + a[1] + '-' + a[2].slice(0, 2) + ' ' + a[2].slice(3, 11);
+
+                            if (data.vip_end_time <= nowTime) {
+                                console.log(data.vip_end_time);
+                                body.find(".vip_end_time").val('已过期');
+                            } else {
+                                body.find(".vip_end_time").val(data.vip_end_time);
+                            }
+
+                            body.find('.vip-groups').text(data.vip);
+                            body.find('.vip-groups').val(data.vip);
+                            body.find('.users-groups').text(data.group);
+                            body.find('.users-groups').val(data.group);
 
                             if (data.status == '正常') {
                                 body.find('.ok').attr('selected', 'selected');
                             } else if (data.status == '封禁') {
                                 body.find('.no').attr('selected', 'selected');
                             }
+
                             var iframeWin = window[layero.find('iframe')[0]['name']];
                             iframeWin.layui.form.render()
                         },
@@ -310,11 +336,17 @@
                 } else if (obj.event === 'delete') {
                     layer.confirm('真的删除么', function (index) {
                         var id = data.id;
-                        $.post('../api/app_del', {
-                            'id': id
-                        }, function (res) {
-                            if (res == '1') {
+                        $.ajax({
+                            url: '/api/admin/v1/users/' + id,
+                            method: 'delete',
+                            data: '',
+                            contentType: 'application/json',
+                            success: function (res) {
+                                layer.msg('删除成功');
                                 obj.del();
+                            },
+                            error: function () {
+                                layer.msg('删除失败');
                             }
                         })
                         layer.close(index);

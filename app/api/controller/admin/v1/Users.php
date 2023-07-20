@@ -4,33 +4,48 @@ declare(strict_types=1);
 
 namespace app\api\controller\admin\v1;
 
-use app\common\controller\Common;
+use app\common\controller\CheckSignTimes;
 use think\facade\Request;
 use app\admin\model\AdminUsers as AdminUsersModel;
-use app\admin\model\AdminUsersGroups as UserGroups;
-use app\admin\model\AdminUsersVipGroups as VipGroups;
+// use app\admin\model\AdminUsersGroups as UserGroups;
+// use app\admin\model\AdminUsersVipGroups as VipGroups;
 
-class Users extends Common
+class Users extends CheckSignTimes
 {
     public function __construct()
     {
         $this->model = new AdminUsersModel();
         $this->params = Request::param();
+        //根据用户的分组和VIP分组享受某些功能
+        //查询用户分组
+        //$user_group = UserGroups::field('name')->select();
+        //查询 VIP 分组
+        //$vip_group = VipGroups::field('name')->select();
     }
     /**
      * 显示资源列表
      *
      * @return \think\Response
      */
-    public function index($page, $limit)
+    public function index()
     {
-        //查询用户分组
-        $user_group = UserGroups::field('name')->select();
-        //查询 VIP 分组
-        $vip_group = VipGroups::field('name')->select();
+        $page = $this->params['page'];
+        $limit = $this->params['limit'];
+
+        //搜索 查询指定数据
+        if (!empty($this->params['username'])) {
+            $data = $this->model::where('username', $this->params['username'])->findOrEmpty();
+            if (!$data->isEmpty()) {
+                $res[] = $data;
+                return $this->returnJson(1, $res);
+            }
+        }
+
+        //查询全部数据
 
         //获取数据条数
         $count = $this->model->count('id');
+        //获取全部数据
         $data = $this->model->page($page, $limit)->order('id desc')->select();
         if ($data->isEmpty()) {
             return $this->returnJson($count, $data, '数据不存在');
@@ -47,7 +62,19 @@ class Users extends Common
      */
     public function save(Request $request)
     {
-        //
+        //判断用户名是否存在
+        $res = $this->model::where('username',$this->params['username'])->find();
+        if($res){
+            return $this->returnJson(0, [], '用户名已存在',400);
+        }
+
+        //添加用户
+        $res = $this->model::create($this->params);
+        dump($this->model->getLastSql());
+        if($res){
+            return $this->returnJson(0, [], '添加用户成功');
+        }
+        return $this->returnJson(0, [], '添加用户失败',400);
     }
 
     /**
@@ -58,8 +85,11 @@ class Users extends Common
      */
     public function read($id)
     {
-        //
-        return 'read';
+        $data = $this->model::find($id);//没有则返回null
+        if ($data) {
+            return $this->returnJson(1, $data);
+        }
+        return $this->returnJson(0, [], '用户不存在', 400);
     }
 
 
@@ -72,8 +102,15 @@ class Users extends Common
      */
     public function update(Request $request, $id)
     {
-        //
-        return 1;
+        unset($this->params['id']);
+
+        //create_time 和update_time 会自动设置为当前时间
+        $user = $this->model::find($id);
+        $res = $user->save($this->params);
+        if ($res) {
+            return $this->returnJson(0, [], '用户信息更新成功');
+        }
+        return $this->returnJson(0, [], '用户信息更新失败', 400);
     }
 
     /**
@@ -84,6 +121,10 @@ class Users extends Common
      */
     public function delete($id)
     {
-        //
+        $res = $this->model::destroy($id);
+        if ($res) {
+            return $this->returnJson(0, [], '用户删除成功');
+        }
+        return $this->returnJson(0, [], '用户删除失败',400);
     }
 }

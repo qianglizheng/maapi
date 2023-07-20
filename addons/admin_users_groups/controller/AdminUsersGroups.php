@@ -11,10 +11,9 @@ class AdminUsersGroups extends AddonsAuth
     {
         $res = $this->addonsAuth();
         //如果$res是对象，说明没有token或者是错误，否则应该是返回一个数组
-        dump($res);die;
-        if(is_object($res)){
+        if (is_object($res)) {
             return $this->returnJson(0, [], 'token错误或者没有token', 400);
-           }
+        }
         $data = AdminUserGroupsModel::select();
         $count = count($data);
         if ($data->isEmpty()) {

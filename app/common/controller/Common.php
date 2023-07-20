@@ -41,4 +41,7 @@ class Common extends Basecontroller
         }
         return Response::create($result, 'json');
     }
+    public function a(){
+        return 'a';
+    }
 }

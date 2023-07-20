@@ -16,13 +16,18 @@ use think\facade\Route;
 /**
  * 公共接口 不需要登录
  */
-Route::get('v1/captcha/get-img', 'v1.captcha.ImgCode/getImg');                   //图片验证码
-Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode');                  //图片验证码信息
+Route::get('v1/captcha/get-img', 'v1.captcha.ImgCode/getImg');                   //图片验证码 这个不是接口 是验证码图片
+
+Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode')->validate([
+    'type'     =>    'require'
+]);            
 Route::post('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode')->validate([
-    'email'    =>    'require|email'
+    'email'    =>    'require|email',
+    'type'     =>    'require'
 ]);                                                                               //邮件验证码
 Route::post('v1/captcha/mobile', 'v1.captcha.MobileCode/sendMobileCode')->validate([
-    'mobile'    =>    'require|mobile'
+    'mobile'   =>    'require|mobile',
+    'type'     =>    'require'
 ]);                                                                               //手机验证码
 
 /**
@@ -34,7 +39,7 @@ Route::group(function () {
         'path'    =>    'require'
     ]);                                                                          //上传到本地
 
-})->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);
+})->middleware(\app\common\middleware\CheckAuth::class);
 
 
 /**
@@ -59,22 +64,15 @@ Route::group(function () {
     Route::resource('admin/v1/api', 'admin.v1.config.Api')->only(['read', 'update']);                    //接口设置
     Route::resource('admin/v1/base', 'admin.v1.config.Base')->only(['read', 'update']);                  //基本设置
 
-    Route::group(function () {
-        //用户中心
-        Route::get('admin/v1/users', 'admin.v1.Users/index')->validate([
-            'page'    =>    'require',
-            'limit'   =>    'require',
-        ]);
-        Route::post('admin/v1/users', 'admin.v1.Users/save');
-        Route::get('admin/v1/users/:id', 'admin.v1.Users/read');
-        Route::put('admin/v1/users/:id', 'admin.v1.Users/update');
-        Route::delete('admin/v1/users/:id', 'admin.v1.Users/delete');
+    //用户中心
+    Route::post('admin/v1/users', 'admin.v1.Users/save');                   //新增用户
+    Route::get('admin/v1/users/:id', 'admin.v1.Users/read');                //查询指定用户
+    Route::get('admin/v1/users', 'admin.v1.Users/index')->validate([
+        'page'    =>    'require',
+        'limit'   =>    'require',
+    ]);                                                                     //查询全部用户
+    Route::put('admin/v1/users/:id', 'admin.v1.Users/update');
+    Route::delete('admin/v1/users/:id', 'admin.v1.Users/delete');           //删除指定用户
 
 
-        // Route::resource('admin/v1/users', 'admin.v1.Users');
-        // Route::rest('index', ['GET', '/users', 'users']);
-        
-        //用户列表
-    })->only(['index', 'save', 'delete', 'read', 'update']);//限定执行的方法 增删查改
-
-})->middleware(\app\common\middleware\CheckToken::class)->middleware(\app\common\middleware\CheckAuth::class);
+})->middleware(\app\common\middleware\CheckAuth::class);

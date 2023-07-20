@@ -10,10 +10,12 @@ class EmailCode extends Email
     /**
      * 调用父类生成验证码并且存放在redis中，键为邮箱 值为验证码
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
+        $type = Request::param('type');
+        $this->checkSignTimes($type);
         $email = Request::post('email');
-        $this->setEmailCode($email);
+        $this->setEmailCode($email); //设置键值
     }
     /**
      * 发送短信验证码

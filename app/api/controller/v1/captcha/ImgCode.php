@@ -12,6 +12,8 @@ class ImgCode extends SetCode
      */
     public function __construct()
     {
+        $type = Request::param('type');
+        $this->checkSignTimes($type);
         parent::__construct();
     }
 

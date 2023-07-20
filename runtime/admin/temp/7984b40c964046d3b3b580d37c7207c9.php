@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Api.html";i:1689571663;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Api.html";i:1689760301;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -47,6 +47,35 @@
                             lay-text="ON|OFF">
                     </div>
                 </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+                <legend>接口安全</legend>
+            </fieldset>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Sign签名验证</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" value="1" name="security_sign" lay-skin="switch" lay-text="ON|OFF">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Sign签名盐</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="security_sign_key" placeholder="请输入签名加密盐" value="" class="layui-input security_sign_key">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">时间戳验证</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" value="1" name="security_timestamp" lay-skin="switch" lay-filter="switchTest"
+                            lay-text="ON|OFF">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">超时时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="security_timestamp_timeout" placeholder="请输入超时时间" value="" class="layui-input security_timestamp_timeout">
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
                         <button type="submit" class="layui-btn layui-btn-normal" lay-submit
@@ -70,6 +99,8 @@
             $.get('/api/admin/v1/api/1', {}, function (res) {
                 console.log(res);
                 if (res.code == '200') {
+                    $('[name=security_sign_key]').val(res.data.security_sign_key);
+                    $('[name=security_timestamp_timeout]').val(res.data.security_timestamp_timeout);
                     if (res.data.login_img == 1) {
                         $('[name=login_img]').attr('checked', 'checked');
                     }
@@ -78,6 +109,12 @@
                     }
                     if (res.data.login_mobile == 1) {
                         $('[name=login_mobile]').attr('checked', 'checked');
+                    }
+                    if (res.data.security_sign == 1) {
+                        $('[name=security_sign]').attr('checked', 'checked');
+                    }
+                    if (res.data.security_timestamp == 1) {
+                        $('[name=security_timestamp]').attr('checked', 'checked');
                     }
                     form.render();
                 } else {
@@ -96,6 +133,12 @@
                 }
                 if (data.field.login_img == undefined) {
                     data.field.login_img = 0;
+                }
+                if (data.field.security_sign == undefined) {
+                    data.field.security_sign  = 0;
+                }
+                if (data.field.security_timestamp == undefined) {
+                    data.field.security_timestamp = 0;
                 }
                 $.post('/api/admin/v1/api/1', data.field, function (res) {
                     if (res.code == '200') {

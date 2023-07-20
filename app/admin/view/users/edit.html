@@ -77,17 +77,23 @@
             <label class="layui-form-label">VIP：</label>
             <div class="layui-input-block">
                 <select name="vip" id="vip">
-                    <option value=""></option>
-                    <option value="普通 VIP" class="vip_groups">普通 VIP</option>
+                    <option value="" class="vip-groups"></option>
+                    <option value="普通VIP" class="vip_groups">普通VIP</option>
                 </select>
                 <tip>插件可拓展更多 VIP</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">到期时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_end_time">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">分组：</label>
             <div class="layui-input-block">
                 <select name="group" lay-filter="aihao" id="users">
-                    <option value=""></option>
+                    <option value="" class="users-groups"></option>
                     <option value="普通会员" class="users_groups">普通会员</option>
                 </select>
                 <tip>插件可拓展更多分组</tip>
@@ -98,8 +104,8 @@
             <div class="layui-input-block">
                 <select name="status" lay-filter="aihao">
                     <option value=""></option>
-                    <option value="正常" class="no">封禁</option>
-                    <option value="封禁" class="ok">正常</option>
+                    <option value="封禁" class="no">封禁</option>
+                    <option value="正常" class="ok">正常</option>
                 </select>
             </div>
         </div>
@@ -125,6 +131,12 @@
             <label class="layui-form-label">登录时间：</label>
             <div class="layui-input-block">
                 <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_time">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">更新时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input update_time">
             </div>
         </div>
         <div class="layui-form-item">
@@ -164,14 +176,14 @@
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型
                     success: function (res) {
-                        if (res == '0') {
-                            layer.msg('修改失败')
+                        if (res.code == '204' || res.code == '200') {
+                            layer.msg('修改成功')
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
                             }, 1000)
-                        }
-                        if (res == '1') {
+                        };
+                        if (res.code == '400') {
                             layer.msg('修改成功')
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
@@ -180,7 +192,11 @@
                         };
                     },
                     error: function () {
-                        console.log('Put request error!');
+                        layer.msg('修改失败')
+                            setTimeout(function () {
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            }, 1000)
                     }
                 });
                 return false;

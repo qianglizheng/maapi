@@ -2,11 +2,20 @@
 
 namespace app\api\controller\v1\upload;
 
-use app\common\controller\Common;
 use think\facade\Request;
+use app\common\controller\CheckSignTimes;
 
-class LocalUpload extends Common
+class LocalUpload extends CheckSignTimes
 {
+    public function __construct()
+    {
+        //检查是否需要验证签名和时间 request()->type是检查权限中间件设置根据token的类型设置的接口类型
+        $this->checkSignTimes(request()->type);
+    }
+
+    /**
+     * 上传文件到本地服务器
+     */
     public function upload($path)
     {
         // 获取表单上传文件

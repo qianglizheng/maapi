@@ -12,8 +12,10 @@ class MobileCode extends Mobile
      */
     public function __construct()
     {
+        $type = Request::param('type');
+        $this->checkSignTimes($type);
         $mobile = Request::post('mobile');
-        $this->setMobileCode($mobile);
+        $this->setMobileCode($mobile); //设置键值
     }
     /**
      * 发送短信验证码

@@ -2,10 +2,10 @@
 
 namespace app\api\controller\v1\captcha;
 
-use app\common\controller\Common;
+use app\common\controller\CheckSignTimes;
 use think\facade\Cache;
 
-class SetCode extends Common
+class SetCode extends CheckSignTimes
 {
     /**
      * 用户标识

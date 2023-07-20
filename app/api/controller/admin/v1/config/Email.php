@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace app\api\controller\admin\v1\config;
 
-use app\common\controller\Common;
-use think\Request;
+use app\common\controller\CheckSignTimes;
+use think\facade\Request;
 use app\admin\model\AdminEmailConfig as AdminEmailConfigModel;
 
-class Email extends Common
+class Email extends CheckSignTimes
 {
     public function __construct()
     {
+        //检查是否需要验证签名和时间
+        $this->checkSignTimes('admin');
+
         $this->model = new AdminEmailConfigModel();
+        $this->params = Request::param();
     }
 
     /**
@@ -41,12 +45,11 @@ class Email extends Common
      */
     public function update(Request $request, $id)
     {
-        $request = $request->only(['host','port','username','password']);
-        $res = $this->model::where('id', $id)->save($request);
+        unset($this->params['id']);
+        $res = $this->model::where('id', $id)->save($this->params);
         if ($res) {
             return $this->returnJson(1, $res, '数据修改成功');
-        } else {
-            return $this->returnJson(0, $res, '没有修改任何配置或者修改失败', 400);
         }
+        return $this->returnJson(0, $res, '没有修改任何配置或者修改失败', 400);
     }
 }

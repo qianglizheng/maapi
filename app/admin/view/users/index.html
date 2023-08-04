@@ -199,7 +199,7 @@
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '/admin/users/save',
+                        content: '/admin/users/add',
                         end: function () {
                             table.reload('currentTableId', {
                                 url: '/api/admin/v1/users',
@@ -271,23 +271,25 @@
                             body.find(".last_login_ip").val(data.last_login_ip);
                             body.find(".last_login_time").val(data.last_login_time);
                             body.find(".update_time").val(data.update_time);
+                            body.find(".vip_end_time").val(data.vip_end_time);
 
                             let nowTime = new Date().toLocaleString();
                             nowTime = nowTime.replaceAll('/', '-');
                             let a = nowTime.split('-');
+                            console.log(a);
                             if (a[1] < 10) {
                                 a[1] = '0' + a[1];
                             }
+                            // console.log(a[2].slice(0, 2));
                             if (a[2].slice(0, 2) < 10) {
-                                a[2].slice(0, 2) = '0' + a[2].slice(0, 2);
+                                s = '0' + a[2].slice(0, 2);
                             }
-                            nowTime = a[0] + '-' + a[1] + '-' + a[2].slice(0, 2) + ' ' + a[2].slice(3, 11);
+                            nowTime = a[0] + '-' + a[1] + '-' + s + ' ' + a[2].slice(3, 11);
 
                             if (data.vip_end_time <= nowTime) {
-                                console.log(data.vip_end_time);
-                                body.find(".vip_end_time").val('已过期');
+                                body.find(".vip_end_time_tip").text('已过期');
                             } else {
-                                body.find(".vip_end_time").val(data.vip_end_time);
+                                body.find(".vip_end_time_tip").text(data.vip_end_time);
                             }
 
                             body.find('.vip-groups').text(data.vip);

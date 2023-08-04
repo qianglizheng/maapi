@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\login\login.html";i:1688028369;s:35:"../app/common/view/public/style.txt";i:1679819247;s:37:"../app/common/view/public/footer.html";i:1682947773;}*/ ?>
+<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\login\login.html";i:1690440312;s:35:"../app/common/view/public/style.txt";i:1679819247;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -326,7 +326,7 @@ html {
                     </div>
 
                     <div id="validatePanel" class="item" style="width: 137px">
-                        <input type="text" name="captcha" placeholder="请输入验证码" maxlength="6" />
+                        <input type="text" name="code" placeholder="请输入验证码" maxlength="6" />
                         <img id="refreshCaptcha" class="validateImg"
                             src="https://img.zcool.cn/community/01f679594b2e58a8012193a3ba7fce.gif" alt="captcha" />
                     </div>
@@ -362,7 +362,7 @@ html {
             }
             //获取验证码函数
             function getCode() {
-                $.get("/api/v1/captcha/img", function (res) {
+                $.get("/api/v1/captcha/img?type=admin", function (res) {
                     if (res.code == 200) {
                         $("#refreshCaptcha").attr("src", res.data.url);
                         localStorage.setItem("uuid", res.data.uuid)
@@ -391,9 +391,10 @@ html {
             form.on("submit(login)", function (data) {
                 data = data.field;
                 data.password = data.password.MD5(32);
-                data.uid = localStorage.getItem("uuid");
+                data.uuid = localStorage.getItem("uuid");
                 $.post("/api/admin/v1/login", data, function (res) {
                     console.log(res);
+
                     if (res.code == "200") {
                         layer.msg(res.msg, { icon: 1 }, function () {
                             window.localStorage.setItem("token", res.data.token);
@@ -402,6 +403,7 @@ html {
                     } else {
                         getCode();
                         layer.msg(res.msg, { icon: 2 });
+                        console.log(res);
                     }
                 });
                 return false;
@@ -409,9 +411,6 @@ html {
         });
         $ = layui.jquery;
     </script>
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
-</body>
-</html>
 </body>
 
 </html>

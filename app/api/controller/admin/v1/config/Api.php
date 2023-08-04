@@ -14,7 +14,6 @@ class Api extends CheckSignTimes
     {
         //检查是否需要验证签名和时间
         $this->checkSignTimes('admin');
-        
         $this->model = new AdminApiConfigModel();
         $this->params = Request::param();
     }
@@ -45,7 +44,7 @@ class Api extends CheckSignTimes
     public function update(Request $request, $id)
     {
         unset($this->params['id']);
-        $res = $this->model::where('id', $id)->save($this->params);
+        $res = $this->model::update($this->params, ['id' => $id]);
         if ($res) {
             return $this->returnJson(1, $res, '数据修改成功');
         }

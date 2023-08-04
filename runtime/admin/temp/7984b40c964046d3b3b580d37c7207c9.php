@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Api.html";i:1689760301;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Api.html";i:1691150351;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -18,39 +18,20 @@
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 <style>
-    .layui-form-item .layui-input-company {width: auto;padding-right: 10px;line-height: 38px;}
+    .layui-form-item .layui-input-company {
+        width: auto;
+        padding-right: 10px;
+        line-height: 38px;
+    }
 </style>
+
 <body>
     <div class="layuimini-container">
         <div class="layuimini-main">
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-                <legend>登录验证</legend>
-            </fieldset>
             <div class="layui-form layuimini-form">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">图片验证码</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" value="1" name="login_img" lay-skin="switch" lay-text="ON|OFF">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">短信验证码</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" value="1" name="login_mobile" lay-skin="switch" lay-filter="switchTest"
-                            lay-text="ON|OFF">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">邮件验证码</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" value="1" name="login_email" lay-skin="switch" lay-filter="switchTest"
-                            lay-text="ON|OFF">
-                    </div>
-                </div>
-
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-                <legend>接口安全</legend>
-            </fieldset>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+                    <legend>接口安全</legend>
+                </fieldset>
                 <div class="layui-form-item">
                     <label class="layui-form-label">Sign签名验证</label>
                     <div class="layui-input-block">
@@ -60,20 +41,22 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">Sign签名盐</label>
                     <div class="layui-input-block">
-                        <input type="text" name="security_sign_key" placeholder="请输入签名加密盐" value="" class="layui-input security_sign_key">
+                        <input type="text" name="security_sign_key" placeholder="请输入签名加密盐" value=""
+                            class="layui-input security_sign_key">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">时间戳验证</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" value="1" name="security_timestamp" lay-skin="switch" lay-filter="switchTest"
-                            lay-text="ON|OFF">
+                        <input type="checkbox" value="1" name="security_timestamp" lay-skin="switch"
+                            lay-filter="switchTest" lay-text="ON|OFF">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">超时时间</label>
+                    <label class="layui-form-label">请求超时时间</label>
                     <div class="layui-input-block">
-                        <input type="text" name="security_timestamp_timeout" placeholder="请输入超时时间" value="" class="layui-input security_timestamp_timeout">
+                        <input type="text" name="security_timestamp_timeout" placeholder="请输入超时时间" value=""
+                            class="layui-input security_timestamp_timeout">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -101,15 +84,6 @@
                 if (res.code == '200') {
                     $('[name=security_sign_key]').val(res.data.security_sign_key);
                     $('[name=security_timestamp_timeout]').val(res.data.security_timestamp_timeout);
-                    if (res.data.login_img == 1) {
-                        $('[name=login_img]').attr('checked', 'checked');
-                    }
-                    if (res.data.login_email == 1) {
-                        $('[name=login_email]').attr('checked', 'checked');
-                    }
-                    if (res.data.login_mobile == 1) {
-                        $('[name=login_mobile]').attr('checked', 'checked');
-                    }
                     if (res.data.security_sign == 1) {
                         $('[name=security_sign]').attr('checked', 'checked');
                     }
@@ -125,17 +99,8 @@
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 data.field._method = 'PUT';
-                if (data.field.login_email == undefined) {
-                    data.field.login_email = 0;
-                }
-                if (data.field.login_mobile == undefined) {
-                    data.field.login_mobile = 0;
-                }
-                if (data.field.login_img == undefined) {
-                    data.field.login_img = 0;
-                }
                 if (data.field.security_sign == undefined) {
-                    data.field.security_sign  = 0;
+                    data.field.security_sign = 0;
                 }
                 if (data.field.security_timestamp == undefined) {
                     data.field.security_timestamp = 0;

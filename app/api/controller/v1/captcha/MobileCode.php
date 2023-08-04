@@ -13,9 +13,9 @@ class MobileCode extends Mobile
     public function __construct()
     {
         $type = Request::param('type');
-        $this->checkSignTimes($type);
+        $this->checkSignTimes($type);//检查有没有开启参数加密和超时验证
         $mobile = Request::post('mobile');
-        $this->setMobileCode($mobile); //设置键值
+        $this->setMobileCode($mobile); //调用父类方法设置键值
     }
     /**
      * 发送短信验证码

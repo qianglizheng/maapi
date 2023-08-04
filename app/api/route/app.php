@@ -20,7 +20,7 @@ Route::get('v1/captcha/get-img', 'v1.captcha.ImgCode/getImg');                  
 
 Route::get('v1/captcha/img', 'v1.captcha.ImgCode/sendImgCode')->validate([
     'type'     =>    'require'
-]);            
+]);
 Route::post('v1/captcha/email', 'v1.captcha.EmailCode/sendEmailCode')->validate([
     'email'    =>    'require|email',
     'type'     =>    'require'
@@ -45,10 +45,20 @@ Route::group(function () {
 /**
  * 管理后台接口 不需要登录
  */
-Route::post('admin/v1/login', 'admin.v1.Login/login')->validate([
+Route::post('admin/v1/login/using-password', 'admin.v1.Login/loginPassword')->validate([
     'username'    =>    'require',
     'password'    =>    'require',
-]);                                                                            //管理员登录
+    'code'        =>    'require',
+    'uuid'        =>    'require'
+]);                                                                            
+Route::post('admin/v1/login/using-email', 'admin.v1.Login/loginEmail')->validate([
+    'email'    =>    'require',
+    'code'     =>    'require',
+]);   
+Route::post('admin/v1/login/using-mobile', 'admin.v1.Login/loginMobile')->validate([
+    'mobile'    =>    'require',
+    'code'      =>    'require',
+]);   
 
 /**
  * 管理后台接口 需要登录
@@ -67,11 +77,12 @@ Route::group(function () {
     //用户中心
     Route::post('admin/v1/users', 'admin.v1.Users/save');                   //新增用户
     Route::get('admin/v1/users/:id', 'admin.v1.Users/read');                //查询指定用户
+    Route::get('admin/v1/user', 'admin.v1.Users/user');                //查询指定用户
     Route::get('admin/v1/users', 'admin.v1.Users/index')->validate([
         'page'    =>    'require',
         'limit'   =>    'require',
     ]);                                                                     //查询全部用户
-    Route::put('admin/v1/users/:id', 'admin.v1.Users/update');
+    Route::put('admin/v1/users/:id', 'admin.v1.Users/update');              //更新指定用户信息
     Route::delete('admin/v1/users/:id', 'admin.v1.Users/delete');           //删除指定用户
 
 

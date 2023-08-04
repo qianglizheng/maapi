@@ -46,7 +46,7 @@ class Key extends CheckSignTimes
     public function update(Request $request, $id)
     {
         unset($this->params['id']);
-        $res = $this->model::where('id', $id)->save($this->params);
+        $res = $this->model::update($this->params, ['id' => $id]);
         if ($res) {
             return $this->returnJson(1, $res, '数据修改成功');
         }

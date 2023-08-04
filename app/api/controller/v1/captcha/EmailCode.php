@@ -13,9 +13,9 @@ class EmailCode extends Email
     public function __construct(Request $request)
     {
         $type = Request::param('type');
-        $this->checkSignTimes($type);
+        $this->checkSignTimes($type);//检查有没有开启参数加密和超时验证
         $email = Request::post('email');
-        $this->setEmailCode($email); //设置键值
+        $this->setEmailCode($email); //调用父类方法设置键值
     }
     /**
      * 发送短信验证码

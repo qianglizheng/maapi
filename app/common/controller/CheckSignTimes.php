@@ -13,18 +13,20 @@ class CheckSignTimes extends Common
 {
     public function checkSignTimes($type = null)
     {
+        header('Content-Type:application/json; charset=utf-8');
+
         $this->params = Request::param();
 
         //检查接口设置的配置缓存是否存在，不存在则从数据库查询，放入缓存
-        $this->checkCache($type);
+        $this->checkCache($type);//type是接口类型
 
-        //判断签名验证有没有开启
-        if (Cache::get('security_sign')) {
+        //判断签名验证有没有开启 开启则执行验证
+        if (Cache::get('web_security_sign') || Cache::get('user_security_sign') || Cache::get('admin_security_sign')) {
             $this->checkSign();
         }
 
-        //判断时间戳验证有没有开启
-        if (Cache::get('security_timestamp')) {
+        //判断时间戳验证有没有开启 开启则执行验证
+        if (Cache::get('web_security_timestamp') || Cache::get('user_security_timestamp') || Cache::get('admin_security_timestamp')) {
             $this->checkTimes();
         }
     }
@@ -92,7 +94,7 @@ class CheckSignTimes extends Common
                 Cache::set('admin_timestamp', $this->apiConfig->security_timestamp);
                 Cache::set('admin_security_timestamp_timeout', $this->apiConfig->security_timestamp_timeout);
             }
-        } else if ($type == 'user') {
+        } elseif ($type == 'user') {
             if (Cache::get('user_timestamp') == null) {
                 $this->apiConfig = UserApiConfig::find(1);
                 Cache::set('user_security_timestamp', $this->apiConfig->security_timestamp);

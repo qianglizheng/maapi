@@ -52,32 +52,12 @@
                     autocomplete="off" class="layui-input score">
             </div>
         </div>
-        <!-- <div class="layui-form-item">
-            <label class="layui-form-label">VIP：</label>
-            <div class="layui-input-block" id="vip">
-                <input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">
-                <tip>插件可拓展更多 VIP</tip>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">分组：</label>
-            <div class="layui-input-block">
-                <input type="radio" name="group" value="普通用户" title="普通用户" class="group">
-                <tip>插件可拓展更多分组</tip>
-            </div>
-        </div> -->
-        <!-- <div class="layui-form-item">
-            <label class="layui-form-label">状态：</label>
-            <div class="layui-input-block">
-                <input type="radio" name="status" value="正常" title="正常" class="status-1">
-                <input type="radio" name="status" value="封禁" title="封禁" class="status-0">
-            </div>
-        </div> -->
         <div class="layui-form-item">
             <label class="layui-form-label">VIP：</label>
             <div class="layui-input-block">
                 <select name="vip" id="vip">
                     <option value="" class="vip-groups"></option>
+                    <option value="0" class="vip-groups" selected>无</option>
                     <option value="普通VIP" class="vip_groups">普通VIP</option>
                 </select>
                 <tip>插件可拓展更多 VIP</tip>
@@ -86,7 +66,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">到期时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_end_time">
+                <input type="date" name="vip_end_time" value="0" class="layui-input vip_end_time">
+                <tip class="vip_end_time_tip"></tip>
             </div>
         </div>
         <div class="layui-form-item">
@@ -184,7 +165,7 @@
                             }, 1000)
                         };
                         if (res.code == '400') {
-                            layer.msg('修改成功')
+                            layer.msg('修改失败'+res.msg)
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);

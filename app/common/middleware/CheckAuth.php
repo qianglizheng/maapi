@@ -35,7 +35,7 @@ class CheckAuth extends Common
             }
         }
 
-        //根据地址判断接口类型同时设置type 然后获取key->$type为a：admin接口 $type为u->user接口 $type为w->web接口  $type为v->公共接口
+        //根据地址判断接口类型同时设置type 然后获取key $type为a：admin接口 $type为u->user接口 $type为w->web接口  $type为v->公共接口
         $type = $request->url()[5];
         $key = $this->getKeyType($type, $request['app_id'], $request['uid'], $request);
 

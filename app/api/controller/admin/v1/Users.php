@@ -7,6 +7,7 @@ namespace app\api\controller\admin\v1;
 use app\common\controller\CheckSignTimes;
 use think\facade\Request;
 use app\admin\model\AdminUsers as AdminUsersModel;
+
 // use app\admin\model\AdminUsersGroups as UserGroups;
 // use app\admin\model\AdminUsersVipGroups as VipGroups;
 
@@ -14,6 +15,8 @@ class Users extends CheckSignTimes
 {
     public function __construct()
     {
+        //检查是否需要验证签名和时间
+        $this->checkSignTimes('admin');
         $this->model = new AdminUsersModel();
         $this->params = Request::param();
         //根据用户的分组和VIP分组享受某些功能
@@ -41,8 +44,6 @@ class Users extends CheckSignTimes
             }
         }
 
-        //查询全部数据
-
         //获取数据条数
         $count = $this->model->count('id');
         //获取全部数据
@@ -63,18 +64,17 @@ class Users extends CheckSignTimes
     public function save(Request $request)
     {
         //判断用户名是否存在
-        $res = $this->model::where('username',$this->params['username'])->find();
-        if($res){
-            return $this->returnJson(0, [], '用户名已存在',400);
+        $res = $this->model::where('username', $this->params['username'])->find();
+        if ($res) {
+            return $this->returnJson(0, [], '用户名已存在', 400);
         }
 
         //添加用户
         $res = $this->model::create($this->params);
-        dump($this->model->getLastSql());
-        if($res){
+        if ($res) {
             return $this->returnJson(0, [], '添加用户成功');
         }
-        return $this->returnJson(0, [], '添加用户失败',400);
+        return $this->returnJson(0, [], '添加用户失败', 400);
     }
 
     /**
@@ -85,7 +85,7 @@ class Users extends CheckSignTimes
      */
     public function read($id)
     {
-        $data = $this->model::find($id);//没有则返回null
+        $data = $this->model::find($id); //没有则返回null
         if ($data) {
             return $this->returnJson(1, $data);
         }
@@ -100,13 +100,33 @@ class Users extends CheckSignTimes
      * @param  int  $id
      * @return \think\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
+        //这个判断是解决前端的问题
+        if (empty($this->params['vip_end_time'])) {
+            unset($this->params['vip_end_time']);
+        }
+        if (isset($this->params['username'])) {
+            $res = $this->model::where('username', $this->params['username'])->where('id', '<>', $id)->findOrEmpty();
+            if (!$res->isEmpty()) {
+                return $this->returnJson(0, [], '用户名已存在', 400);
+            }
+        }
+        if (isset($this->params['mobile'])) {
+            $res = $this->model::where('mobile', $this->params['mobile'])->where('id', '<>', $id)->findOrEmpty();
+            if (!$res->isEmpty()) {
+                return $this->returnJson(0, [], '手机已存在', 400);
+            }
+        }
+        if (isset($this->params['email'])) {
+            $res = $this->model::where('email', $this->params['email'])->where('id', '<>', $id)->findOrEmpty();
+            if (!$res->isEmpty()) {
+                return $this->returnJson(0, [], '邮箱已存在', 400);
+            }
+        }
         unset($this->params['id']);
-
         //create_time 和update_time 会自动设置为当前时间
-        $user = $this->model::find($id);
-        $res = $user->save($this->params);
+        $res = $this->model::update($this->params, ['id' => $id]);
         if ($res) {
             return $this->returnJson(0, [], '用户信息更新成功');
         }
@@ -125,6 +145,6 @@ class Users extends CheckSignTimes
         if ($res) {
             return $this->returnJson(0, [], '用户删除成功');
         }
-        return $this->returnJson(0, [], '用户删除失败',400);
+        return $this->returnJson(0, [], '用户删除失败', 400);
     }
 }

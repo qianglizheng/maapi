@@ -1,4 +1,4 @@
-<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1689571895;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1691155991;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -73,10 +73,6 @@
                                 <a href="javascript:;" layuimini-content-href="admin/user/user_setting"
                                     data-title="基本资料" data-icon="fa fa-gears">基本资料<span
                                         class="layui-badge-dot"></span></a>
-                            </dd>
-                            <dd>
-                                <a href="javascript:;" layuimini-content-href="admin/epay/index" data-title="余额充值"
-                                    data-icon="fa fa-gears">余额充值</a>
                             </dd>
                             <dd>
                                 <hr>

@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\edit.html";i:1691156808;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\add.html";i:1690727017;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -19,18 +19,18 @@
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 <body>
     <div class="layui-form layuimini-form">
-        <!-- <input type="hidden" name="id" value="" class="id"> -->
-        <div class="layui-form-item">
-            <label class="layui-form-label">用户 ID：</label>
-            <div class="layui-input-block">
-                <input type="text" name="id" value="" autocomplete="off" disabled="disabled" class="layui-input id">
-            </div>
-        </div>
         <div class="layui-form-item">
             <label class="layui-form-label required">用户名：</label>
             <div class="layui-input-block">
                 <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名"
                     value="" autocomplete="off" class="layui-input username">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">用户密码：</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" lay-verify="required" lay-reqtext="用户密码不能为空" placeholder="请输入用户密码"
+                    value="" autocomplete="off" class="layui-input password">
             </div>
         </div>
         <div class="layui-form-item">
@@ -51,49 +51,29 @@
             <label class="layui-form-label required">昵称：</label>
             <div class="layui-input-block">
                 <input type="text" name="nickname" lay-verify="required" lay-reqtext="昵称不能为空" placeholder="请输入昵称"
-                    value="" autocomplete="off" class="layui-input nickname">
+                    value="默认昵称" autocomplete="off" class="layui-input nickname">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label required">余额：</label>
             <div class="layui-input-block">
-                <input type="text" name="money" lay-verify="required" lay-reqtext="余额不能为空" placeholder="请输入余额" value=""
+                <input type="text" name="money" lay-verify="required" lay-reqtext="余额不能为空" placeholder="请输入余额" value="0"
                     autocomplete="off" class="layui-input money">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label required">积分：</label>
             <div class="layui-input-block">
-                <input type="text" name="score" lay-verify="required" lay-reqtext="积分不能为空" placeholder="请输入积分" value=""
+                <input type="text" name="score" lay-verify="required" lay-reqtext="积分不能为空" placeholder="请输入积分" value="0"
                     autocomplete="off" class="layui-input score">
             </div>
         </div>
-        <!-- <div class="layui-form-item">
-            <label class="layui-form-label">VIP：</label>
-            <div class="layui-input-block" id="vip">
-                <input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">
-                <tip>插件可拓展更多 VIP</tip>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">分组：</label>
-            <div class="layui-input-block">
-                <input type="radio" name="group" value="普通用户" title="普通用户" class="group">
-                <tip>插件可拓展更多分组</tip>
-            </div>
-        </div> -->
-        <!-- <div class="layui-form-item">
-            <label class="layui-form-label">状态：</label>
-            <div class="layui-input-block">
-                <input type="radio" name="status" value="正常" title="正常" class="status-1">
-                <input type="radio" name="status" value="封禁" title="封禁" class="status-0">
-            </div>
-        </div> -->
         <div class="layui-form-item">
             <label class="layui-form-label">VIP：</label>
             <div class="layui-input-block">
                 <select name="vip" id="vip">
                     <option value="" class="vip-groups"></option>
+                    <option value="0" class="vip-groups" selected>无</option>
                     <option value="普通VIP" class="vip_groups">普通VIP</option>
                 </select>
                 <tip>插件可拓展更多 VIP</tip>
@@ -102,7 +82,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">到期时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_end_time">
+                <input type="date" name="vip_end_time" value=""  class="layui-input vip_end_time">
             </div>
         </div>
         <div class="layui-form-item">
@@ -110,7 +90,7 @@
             <div class="layui-input-block">
                 <select name="group" lay-filter="aihao" id="users">
                     <option value="" class="users-groups"></option>
-                    <option value="普通会员" class="users_groups">普通会员</option>
+                    <option value="普通会员" class="users_groups" selected>普通会员</option>
                 </select>
                 <tip>插件可拓展更多分组</tip>
             </div>
@@ -121,38 +101,8 @@
                 <select name="status" lay-filter="aihao">
                     <option value=""></option>
                     <option value="封禁" class="no">封禁</option>
-                    <option value="正常" class="ok">正常</option>
+                    <option value="正常" class="ok" selected>正常</option>
                 </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">注册 IP：</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input create_ip">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">注册时间：</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input create_time">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">登录 IP：</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_ip">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">登录时间：</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_time">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">更新时间：</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input update_time">
             </div>
         </div>
         <div class="layui-form-item">
@@ -187,20 +137,20 @@
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.ajax({
-                    url: `/api/admin/v1/users/${data.field.id}`, //请求url
-                    method: 'PUT', //请求方法
+                    url: "/api/admin/v1/users", //请求url
+                    method: 'POST', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型
                     success: function (res) {
                         if (res.code == '204' || res.code == '200') {
-                            layer.msg('修改成功')
+                            layer.msg('添加成功')
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
                             }, 1000)
                         };
                         if (res.code == '400') {
-                            layer.msg('修改成功')
+                            layer.msg('添加成功')
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
@@ -208,7 +158,7 @@
                         };
                     },
                     error: function () {
-                        layer.msg('修改失败')
+                        layer.msg('添加失败')
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);

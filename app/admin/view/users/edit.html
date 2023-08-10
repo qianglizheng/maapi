@@ -135,7 +135,6 @@
                 $ = layui.$;
 
             $.get('/addons/admin/users-groups', {}, function (res) {
-                console.log(res.data);
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
                     form.render();
@@ -143,7 +142,6 @@
             })
             // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
             $.get('/addons/admin/vip-groups', {}, function (res) {
-                console.log(res.data);
                 res.data.forEach(data => {
                     $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
                     form.render();

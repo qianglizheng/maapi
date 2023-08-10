@@ -1,4 +1,4 @@
-<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1691155991;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1691385639;s:37:"../app/common/view/public/footer.html";i:1691251626;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,7 +15,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="images/favicon.ico">
+    <!-- <link rel="icon" href="images/favicon.ico"> -->
     <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/static/css/layuimini.css?v=2.0.4.2" media="all">
     <link rel="stylesheet" href="/static/css/themes/default.css" media="all">
@@ -70,7 +70,7 @@
                         <a href="javascript:;">我的</a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a href="javascript:;" layuimini-content-href="admin/user/user_setting"
+                                <a href="javascript:;" layuimini-content-href="admin/user/"
                                     data-title="基本资料" data-icon="fa fa-gears">基本资料<span
                                         class="layui-badge-dot"></span></a>
                             </dd>
@@ -188,7 +188,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.location = "/admin/login/index";
+        window.top.location.href = "/admin/login/index";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

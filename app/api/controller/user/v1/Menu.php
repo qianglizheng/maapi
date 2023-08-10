@@ -2,6 +2,7 @@
 
 namespace app\api\controller\user\v1;
 
+use app\user\model\UserSystemMenu as UserSystemMenuModel;
 
 class Menu
 {
@@ -33,8 +34,7 @@ class Menu
      * */
     private function getMenuList()
     {
-        $menuList = Db::name('system_menu')
-            ->field('id,pid,title,icon,href,target')
+        $menuList = UserSystemMenuModel::field('id,pid,title,icon,href,target')
             ->where('status', 1)
             ->order('sort', 'desc')
             ->select();

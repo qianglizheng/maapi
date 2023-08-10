@@ -50,15 +50,15 @@ Route::post('admin/v1/login/using-password', 'admin.v1.Login/loginPassword')->va
     'password'    =>    'require',
     'code'        =>    'require',
     'uuid'        =>    'require'
-]);                                                                            
+]);
 Route::post('admin/v1/login/using-email', 'admin.v1.Login/loginEmail')->validate([
     'email'    =>    'require',
     'code'     =>    'require',
-]);   
+]);
 Route::post('admin/v1/login/using-mobile', 'admin.v1.Login/loginMobile')->validate([
     'mobile'    =>    'require',
     'code'      =>    'require',
-]);   
+]);
 
 /**
  * 管理后台接口 需要登录
@@ -66,7 +66,6 @@ Route::post('admin/v1/login/using-mobile', 'admin.v1.Login/loginMobile')->valida
 Route::group(function () {
     //菜单栏
     Route::get('admin/v1/menu', 'admin.v1.Menu/menu');                         //管理后台菜单栏
-    Route::get('user/v1/menu', 'user.v1.Menu/menu');                           //用户后台菜单栏
 
     //系统设置
     Route::resource('admin/v1/email', 'admin.v1.config.Email')->only(['read', 'update']);                //邮件设置
@@ -77,7 +76,6 @@ Route::group(function () {
     //用户中心
     Route::post('admin/v1/users', 'admin.v1.Users/save');                   //新增用户
     Route::get('admin/v1/users/:id', 'admin.v1.Users/read');                //查询指定用户
-    Route::get('admin/v1/user', 'admin.v1.Users/user');                //查询指定用户
     Route::get('admin/v1/users', 'admin.v1.Users/index')->validate([
         'page'    =>    'require',
         'limit'   =>    'require',
@@ -85,5 +83,15 @@ Route::group(function () {
     Route::put('admin/v1/users/:id', 'admin.v1.Users/update');              //更新指定用户信息
     Route::delete('admin/v1/users/:id', 'admin.v1.Users/delete');           //删除指定用户
 
+    //管理员信息
+    Route::get('admin/v1/user', 'admin.v1.User/read');                //查询指定用户
+    Route::put('admin/v1/user', 'admin.v1.User/update');              //更新指定用户信息
 
+})->middleware(\app\common\middleware\CheckAuth::class);
+
+/**
+ *用户后台接口 需要登录
+ */
+Route::group(function(){
+    Route::get('user/v1/menu', 'user.v1.Menu/menu');                           //用户后台菜单栏
 })->middleware(\app\common\middleware\CheckAuth::class);

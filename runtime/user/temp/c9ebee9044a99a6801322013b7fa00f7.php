@@ -1,3 +1,4 @@
+<?php /*a:2:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\index\index.html";i:1691394666;s:37:"../app/common/view/public/footer.html";i:1691251626;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -141,7 +142,7 @@
                 miniAdmin = layui.miniAdmin,
                 miniTongji = layui.miniTongji;
 
-            $.get('/api/admin/v1/menu', {}, function (res) {
+            $.get('/api/user/v1/menu', {}, function (res) {
                 if (res.code == 400) {
                     layer.msg(res.msg, { icon: 2 });
                     localStorage.removeItem('token');
@@ -152,8 +153,8 @@
             })
 
             var options = {
-                iniUrl: "{$Request.domain}/api/admin/v1/menu", // 初始化接口
-                clearUrl: "{$Request.domain}/static/api/clear.json", // 缓存清理接口
+                iniUrl: "<?php echo htmlentities(app('request')->domain()); ?>/api/user/v1/menu", // 初始化接口
+                clearUrl: "<?php echo htmlentities(app('request')->domain()); ?>/static/api/clear.json", // 缓存清理接口
                 urlHashLocation: true, // 是否打开hash定位
                 bgColorDefault: false, // 主题默认配置
                 multiModule: false, // 是否开启多模块
@@ -184,4 +185,13 @@
             });
         })
     </script>
-    {include file="../app/common/view/public/footer.html" /}
+    <script>
+    //判断是否登录
+    if (!window.localStorage.getItem('token')) {
+        window.top.location.href = "/admin/login/index";
+    }
+</script>
+<script src="/static/js/setToken.js" charset="utf-8"></script>
+</body>
+
+</html>

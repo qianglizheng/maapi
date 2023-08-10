@@ -1,7 +1,8 @@
 <?php
 
 namespace app\api\controller\admin\v1;
-use app\common\model\SystemMenu as SystemMenuModel;
+
+use app\admin\model\AdminSystemMenu as AdminSystemMenuModel;
 
 class Menu
 {
@@ -33,7 +34,7 @@ class Menu
      * */
     private function getMenuList()
     {
-        $menuList = SystemMenuModel::field('id,pid,title,icon,href,target')
+        $menuList = AdminSystemMenuModel::field('id,pid,title,icon,href,target')
             ->where('status', 1)
             ->order('sort', 'desc')
             ->select();

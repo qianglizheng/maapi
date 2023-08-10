@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1691156812;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1691249940;s:37:"../app/common/view/public/header.html";i:1691385662;s:37:"../app/common/view/public/footer.html";i:1691251626;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="/static/images/favicon.ico">
+    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 </head>
@@ -215,7 +215,7 @@
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '/admin/users/save',
+                        content: '/admin/users/add',
                         end: function () {
                             table.reload('currentTableId', {
                                 url: '/api/admin/v1/users',
@@ -287,23 +287,25 @@
                             body.find(".last_login_ip").val(data.last_login_ip);
                             body.find(".last_login_time").val(data.last_login_time);
                             body.find(".update_time").val(data.update_time);
+                            body.find(".vip_end_time").val(data.vip_end_time);
 
                             let nowTime = new Date().toLocaleString();
                             nowTime = nowTime.replaceAll('/', '-');
                             let a = nowTime.split('-');
+                            console.log(a);
                             if (a[1] < 10) {
                                 a[1] = '0' + a[1];
                             }
+                            // console.log(a[2].slice(0, 2));
                             if (a[2].slice(0, 2) < 10) {
-                                a[2].slice(0, 2) = '0' + a[2].slice(0, 2);
+                                s = '0' + a[2].slice(0, 2);
                             }
-                            nowTime = a[0] + '-' + a[1] + '-' + a[2].slice(0, 2) + ' ' + a[2].slice(3, 11);
+                            nowTime = a[0] + '-' + a[1] + '-' + s + ' ' + a[2].slice(3, 11);
 
                             if (data.vip_end_time <= nowTime) {
-                                console.log(data.vip_end_time);
-                                body.find(".vip_end_time").val('已过期');
+                                body.find(".vip_end_time_tip").text('已过期');
                             } else {
-                                body.find(".vip_end_time").val(data.vip_end_time);
+                                body.find(".vip_end_time_tip").text(data.vip_end_time);
                             }
 
                             body.find('.vip-groups').text(data.vip);
@@ -460,8 +462,6 @@
                     skin: 'line',
                     parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                         var result;
-                        console.log(this);
-                        console.log(JSON.stringify(res));
                         if (this.page.curr) {
                             result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
                         } else {
@@ -485,7 +485,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.location = "/admin/login/index";
+        window.top.location.href = "/admin/login/index";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

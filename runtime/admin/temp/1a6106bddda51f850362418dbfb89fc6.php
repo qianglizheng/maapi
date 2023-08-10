@@ -1,4 +1,4 @@
-<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\login\login.html";i:1690440312;s:35:"../app/common/view/public/style.txt";i:1679819247;}*/ ?>
+<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\login\login.html";i:1691150422;s:35:"../app/common/view/public/style.txt";i:1679819247;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -392,7 +392,7 @@ html {
                 data = data.field;
                 data.password = data.password.MD5(32);
                 data.uuid = localStorage.getItem("uuid");
-                $.post("/api/admin/v1/login", data, function (res) {
+                $.post("/api/admin/v1/login/using-password", data, function (res) {
                     console.log(res);
 
                     if (res.code == "200") {

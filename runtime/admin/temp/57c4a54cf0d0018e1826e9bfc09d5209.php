@@ -1,4 +1,4 @@
-<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Email.html";i:1689571689;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Email.html";i:1689571689;s:37:"../app/common/view/public/header.html";i:1691385662;s:37:"../app/common/view/public/footer.html";i:1691251626;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="/static/images/favicon.ico">
+    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 <style>
@@ -100,7 +100,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.location = "/admin/login/index";
+        window.top.location.href = "/admin/login/index";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

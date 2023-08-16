@@ -90,6 +90,24 @@ Route::group(function () {
 })->middleware(\app\common\middleware\CheckAuth::class);
 
 /**
+ *用户后台接口 不需要登录
+ */
+Route::post('user/v1/login/using-password', 'user.v1.Login/loginPassword')->validate([
+    'username'    =>    'require',
+    'password'    =>    'require',
+    'code'        =>    'require',
+    'uuid'        =>    'require'
+]);
+Route::post('user/v1/login/using-email', 'user.v1.Login/loginEmail')->validate([
+    'email'    =>    'require',
+    'code'     =>    'require',
+]);
+Route::post('user/v1/login/using-mobile', 'user.v1.Login/loginMobile')->validate([
+    'mobile'    =>    'require',
+    'code'      =>    'require',
+]);
+
+/**
  *用户后台接口 需要登录
  */
 Route::group(function(){

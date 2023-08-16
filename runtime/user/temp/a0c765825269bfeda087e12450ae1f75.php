@@ -1,3 +1,4 @@
+<?php /*a:1:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\login\login.html";i:1691930502;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -10,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="{$Request.domain}/static/lib/layui-v2.6.3/css/layui.css" media="all" />
+    <link rel="stylesheet" href="<?php echo htmlentities(app('request')->domain()); ?>/static/lib/layui-v2.6.3/css/layui.css" media="all" />
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -356,12 +357,12 @@
                 layer = layui.layer,
                 $ = layui.jquery;
             //判断是否登录
-            if (window.localStorage.getItem("token")) {
-                window.location = "/admin";
+            if (window.localStorage.getItem("uToken")) {
+                window.location = "/user";
             }
             //获取验证码函数
             function getCode() {
-                $.get("/api/v1/captcha/img?type=admin", function (res) {
+                $.get("/api/v1/captcha/img?type=user", function (res) {
                     if (res.code == 200) {
                         $("#refreshCaptcha").attr("src", res.data.url);
                         localStorage.setItem("uuid", res.data.uuid)
@@ -391,13 +392,13 @@
                 data = data.field;
                 data.password = data.password.MD5(32);
                 data.uuid = localStorage.getItem("uuid");
-                $.post("/api/admin/v1/login/using-password", data, function (res) {
+                $.post("/api/user/v1/login/using-password", data, function (res) {
                     console.log(res);
 
                     if (res.code == "200") {
                         layer.msg(res.msg, { icon: 1 }, function () {
-                            window.localStorage.setItem("token", res.data.token);
-                            window.location = "/admin";
+                            window.localStorage.setItem("uToken", res.data.token);
+                            window.location = "/user";
                         });
                     } else {
                         getCode();

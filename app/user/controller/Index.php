@@ -16,4 +16,9 @@ class Index
     {
         return View::fetch('index');
     }
+
+    public function index2()
+    {
+        return View::fetch('index2');
+    }
 }

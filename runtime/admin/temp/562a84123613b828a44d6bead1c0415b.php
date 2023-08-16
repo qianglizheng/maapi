@@ -1,4 +1,4 @@
-<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1691385639;s:37:"../app/common/view/public/footer.html";i:1691251626;}*/ ?>
+<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1691385639;s:37:"../app/common/view/public/footer.html";i:1691675885;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -188,7 +188,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.top.location.href = "/admin/login/index";
+        window.top.location.href = "/admin/login";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

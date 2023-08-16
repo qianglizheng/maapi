@@ -18,6 +18,7 @@ class Login extends CheckSignTimes
         $this->params = Request::post();
         header('Content-Type:application/json; charset=utf-8');
     }
+
     /**
      * 用户登录 图片验证码 用户名、手机号、邮箱+密码
      */

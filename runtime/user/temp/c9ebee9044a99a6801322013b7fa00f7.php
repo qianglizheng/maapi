@@ -1,4 +1,4 @@
-<?php /*a:2:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\index\index.html";i:1691394666;s:37:"../app/common/view/public/footer.html";i:1691251626;}*/ ?>
+<?php /*a:2:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\index\index.html";i:1692178007;s:38:"../app/common/view/public/Ufooter.html";i:1691675885;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -147,7 +147,7 @@
                     layer.msg(res.msg, { icon: 2 });
                     localStorage.removeItem('token');
                     setTimeout(function () {
-                        window.location = "/admin/login/index";
+                        window.location = "user/login";
                     }, 2000)
                 }
             })
@@ -176,7 +176,7 @@
                 $.post('admin/login/login_out', {}, function (res) {
                     if (res == '1') {
                         layer.msg('退出登录成功', function () {
-                            window.location = 'admin/login';
+                            window.location = 'user/login';
                         });
                     } else {
                         layer.alert('修改失败')
@@ -188,7 +188,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.top.location.href = "/admin/login/index";
+        window.top.location.href = "/admin/login";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

@@ -14,8 +14,4 @@ class Index
     {
         return View::fetch('index2');
     }
-    public function read($id)
-    {
-        return 'a' . $id;
-    }
 }

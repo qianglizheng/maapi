@@ -146,7 +146,7 @@
                     layer.msg(res.msg, { icon: 2 });
                     localStorage.removeItem('token');
                     setTimeout(function () {
-                        window.location = "/admin/login/index";
+                        window.location = "user/login";
                     }, 2000)
                 }
             })
@@ -175,7 +175,7 @@
                 $.post('admin/login/login_out', {}, function (res) {
                     if (res == '1') {
                         layer.msg('退出登录成功', function () {
-                            window.location = 'admin/login';
+                            window.location = 'user/login';
                         });
                     } else {
                         layer.alert('修改失败')
@@ -184,4 +184,4 @@
             });
         })
     </script>
-    {include file="../app/common/view/public/footer.html" /}
+    {include file="../app/common/view/public/Ufooter.html" /}

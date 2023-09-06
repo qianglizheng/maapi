@@ -1,4 +1,4 @@
-<?php /*a:2:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index2.html";i:1689572076;s:37:"../app/common/view/public/header.html";i:1691385662;}*/ ?>
+<?php /*a:2:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index2.html";i:1689572076;s:37:"../app/common/view/public/header.html";i:1692460682;}*/ ?>
 <!DOCTYPE html>
 <html>
 

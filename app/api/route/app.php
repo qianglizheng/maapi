@@ -110,6 +110,20 @@ Route::post('user/v1/login/using-mobile', 'user.v1.Login/loginMobile')->validate
 /**
  *用户后台接口 需要登录
  */
-Route::group(function(){
-    Route::get('user/v1/menu', 'user.v1.Menu/menu');                           //用户后台菜单栏
+Route::group(function () {
+    //菜单栏
+    Route::get('user/v1/menu', 'user.v1.Menu/menu');
+
+    //邮件设置
+    Route::resource('user/v1/email', 'user.v1.config.Email')->only(['read', 'update']);
+
+    //用户中心
+    Route::post('user/v1/users', 'user.v1.Users/save');                   //新增用户
+    Route::get('user/v1/users/:id', 'user.v1.Users/read');                //查询指定用户
+    Route::get('user/v1/users', 'user.v1.Users/index')->validate([
+        'page'    =>    'require',
+        'limit'   =>    'require',
+    ]);                                                                   //查询全部用户
+    Route::put('user/v1/users/:id', 'user.v1.Users/update');              //更新指定用户信息
+    Route::delete('user/v1/users/:id', 'user.v1.Users/delete');           //删除指定用户
 })->middleware(\app\common\middleware\CheckAuth::class);

@@ -1,10 +1,10 @@
-<?php /*a:2:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\index\index.html";i:1692178007;s:38:"../app/common/view/public/Ufooter.html";i:1691675885;}*/ ?>
+<?php /*a:2:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\index\index.html";i:1692460009;s:38:"../app/common/view/public/Ufooter.html";i:1692460672;}*/ ?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>layuimini-iframe版 v2 - 基于Layui的后台管理系统前端模板</title>
+    <title>零咣API</title>
     <meta name="keywords" content="layuimini,layui,layui模板,layui后台,后台模板,admin,admin模板,layui mini">
     <meta name="description"
         content="layuimini基于layui的轻量级前端后台管理框架，最简洁、易用的后台框架模板，面向所有层次的前后端程序,只需提供一个接口就直接初始化整个框架，无需复杂操作。">
@@ -135,13 +135,14 @@
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
     <script src="/static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+
     <script>
         layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji'], function () {
             var $ = layui.jquery,
                 layer = layui.layer,
                 miniAdmin = layui.miniAdmin,
                 miniTongji = layui.miniTongji;
-
+            //获取菜单
             $.get('/api/user/v1/menu', {}, function (res) {
                 if (res.code == 400) {
                     layer.msg(res.msg, { icon: 2 });
@@ -153,8 +154,8 @@
             })
 
             var options = {
-                iniUrl: "<?php echo htmlentities(app('request')->domain()); ?>/api/user/v1/menu", // 初始化接口
-                clearUrl: "<?php echo htmlentities(app('request')->domain()); ?>/static/api/clear.json", // 缓存清理接口
+                iniUrl: "/api/user/v1/menu", // 初始化接口
+                clearUrl: "/static/api/clear.json", // 缓存清理接口
                 urlHashLocation: true, // 是否打开hash定位
                 bgColorDefault: false, // 主题默认配置
                 multiModule: false, // 是否开启多模块
@@ -163,7 +164,6 @@
                 pageAnim: true, // iframe窗口动画
                 maxTabNum: 20, // 最大的tab打开数量
             };
-            console.log(options.iniUrl);
             miniAdmin.render(options);
 
             // 百度统计代码，只统计指定域名
@@ -187,11 +187,10 @@
     </script>
     <script>
     //判断是否登录
-    if (!window.localStorage.getItem('token')) {
-        window.top.location.href = "/admin/login";
+    if (!window.localStorage.getItem('uToken')) {
+        window.top.location.href = "/user/login";
     }
 </script>
-<script src="/static/js/setToken.js" charset="utf-8"></script>
+<script src="/static/js/setUtoken.js" charset="utf-8"></script>
 </body>
-
 </html>

@@ -1,6 +1,7 @@
 {include file="../app/common/view/public/header.html" /}
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
+
 <body>
     <div class="layui-form layuimini-form">
         <!-- <input type="hidden" name="id" value="" class="id"> -->
@@ -13,8 +14,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label required">用户名：</label>
             <div class="layui-input-block">
-                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名"
-                    value="" autocomplete="off" class="layui-input username">
+                <input type="text" name="username" value="" autocomplete="off" class="layui-input username" disabled>
             </div>
         </div>
         <div class="layui-form-item">
@@ -61,6 +61,12 @@
                     <option value="普通VIP" class="vip_groups">普通VIP</option>
                 </select>
                 <tip>插件可拓展更多 VIP</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开通时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_start_time">
             </div>
         </div>
         <div class="layui-form-item">
@@ -127,26 +133,28 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
                 layer = layui.layer,
                 $ = layui.$;
 
+            //获取用户分组
             $.get('/addons/admin/users-groups', {}, function (res) {
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
                     form.render();
                 })
             })
-            // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
+
+            //获取 VIP 分组
             $.get('/addons/admin/vip-groups', {}, function (res) {
                 res.data.forEach(data => {
                     $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
                     form.render();
                 })
             })
+
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.ajax({
@@ -163,7 +171,7 @@
                             }, 1000)
                         };
                         if (res.code == '400') {
-                            layer.msg('修改失败'+res.msg)
+                            layer.msg('修改失败' + res.msg)
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
@@ -172,10 +180,10 @@
                     },
                     error: function () {
                         layer.msg('修改失败')
-                            setTimeout(function () {
-                                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(iframeIndex);
-                            }, 1000)
+                        setTimeout(function () {
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        }, 1000)
                     }
                 });
                 return false;

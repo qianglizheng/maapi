@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\edit.html";i:1691156808;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\edit.html";i:1693210545;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -14,9 +14,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="/static/images/favicon.ico">
+    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
+
 <body>
     <div class="layui-form layuimini-form">
         <!-- <input type="hidden" name="id" value="" class="id"> -->
@@ -29,8 +30,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label required">用户名：</label>
             <div class="layui-input-block">
-                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名"
-                    value="" autocomplete="off" class="layui-input username">
+                <input type="text" name="username" value="" autocomplete="off" class="layui-input username" disabled>
             </div>
         </div>
         <div class="layui-form-item">
@@ -68,41 +68,28 @@
                     autocomplete="off" class="layui-input score">
             </div>
         </div>
-        <!-- <div class="layui-form-item">
-            <label class="layui-form-label">VIP：</label>
-            <div class="layui-input-block" id="vip">
-                <input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">
-                <tip>插件可拓展更多 VIP</tip>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">分组：</label>
-            <div class="layui-input-block">
-                <input type="radio" name="group" value="普通用户" title="普通用户" class="group">
-                <tip>插件可拓展更多分组</tip>
-            </div>
-        </div> -->
-        <!-- <div class="layui-form-item">
-            <label class="layui-form-label">状态：</label>
-            <div class="layui-input-block">
-                <input type="radio" name="status" value="正常" title="正常" class="status-1">
-                <input type="radio" name="status" value="封禁" title="封禁" class="status-0">
-            </div>
-        </div> -->
         <div class="layui-form-item">
             <label class="layui-form-label">VIP：</label>
             <div class="layui-input-block">
                 <select name="vip" id="vip">
                     <option value="" class="vip-groups"></option>
+                    <option value="0" class="vip-groups" selected>无</option>
                     <option value="普通VIP" class="vip_groups">普通VIP</option>
                 </select>
                 <tip>插件可拓展更多 VIP</tip>
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">开通时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_start_time">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">到期时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_end_time">
+                <input type="date" name="vip_end_time" value="0" class="layui-input vip_end_time">
+                <tip class="vip_end_time_tip"></tip>
             </div>
         </div>
         <div class="layui-form-item">
@@ -162,28 +149,28 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
                 layer = layui.layer,
                 $ = layui.$;
 
+            //获取用户分组
             $.get('/addons/admin/users-groups', {}, function (res) {
-                console.log(res.data);
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
                     form.render();
                 })
             })
-            // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
+
+            //获取 VIP 分组
             $.get('/addons/admin/vip-groups', {}, function (res) {
-                console.log(res.data);
                 res.data.forEach(data => {
                     $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
                     form.render();
                 })
             })
+
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.ajax({
@@ -200,7 +187,7 @@
                             }, 1000)
                         };
                         if (res.code == '400') {
-                            layer.msg('修改成功')
+                            layer.msg('修改失败' + res.msg)
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
@@ -209,10 +196,10 @@
                     },
                     error: function () {
                         layer.msg('修改失败')
-                            setTimeout(function () {
-                                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(iframeIndex);
-                            }, 1000)
+                        setTimeout(function () {
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        }, 1000)
                     }
                 });
                 return false;
@@ -222,7 +209,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.location = "/admin/login/index";
+        window.top.location.href = "/admin/login";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

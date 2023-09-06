@@ -1,4 +1,4 @@
-<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1691385639;s:37:"../app/common/view/public/footer.html";i:1691675885;}*/ ?>
+<?php /*a:2:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\index\index.html";i:1692178064;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -147,7 +147,7 @@
                     layer.msg(res.msg, { icon: 2 });
                     localStorage.removeItem('token');
                     setTimeout(function () {
-                        window.location = "/admin/login/index";
+                        window.location = "/admin/login";
                     }, 2000)
                 }
             })

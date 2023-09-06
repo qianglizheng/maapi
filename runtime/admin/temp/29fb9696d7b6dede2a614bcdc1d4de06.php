@@ -1,4 +1,4 @@
-<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\add.html";i:1690727017;s:37:"../app/common/view/public/header.html";i:1689570562;s:37:"../app/common/view/public/footer.html";i:1689570522;}*/ ?>
+<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\add.html";i:1692460127;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="/static/images/favicon.ico">
+    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 <body>
@@ -112,7 +112,6 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
@@ -150,7 +149,7 @@
                             }, 1000)
                         };
                         if (res.code == '400') {
-                            layer.msg('添加成功')
+                            layer.msg('添加失败')
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
@@ -172,7 +171,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.location = "/admin/login/index";
+        window.top.location.href = "/admin/login";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

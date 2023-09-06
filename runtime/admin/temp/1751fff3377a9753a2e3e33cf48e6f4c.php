@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1691249940;s:37:"../app/common/view/public/header.html";i:1691385662;s:37:"../app/common/view/public/footer.html";i:1691251626;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1693208152;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -287,33 +287,45 @@
                             body.find(".last_login_ip").val(data.last_login_ip);
                             body.find(".last_login_time").val(data.last_login_time);
                             body.find(".update_time").val(data.update_time);
+                            body.find(".vip_start_time").val(data.vip_start_time);
                             body.find(".vip_end_time").val(data.vip_end_time);
 
+                            //获取现在的时间
                             let nowTime = new Date().toLocaleString();
                             nowTime = nowTime.replaceAll('/', '-');
                             let a = nowTime.split('-');
-                            console.log(a);
+
+                            //月
                             if (a[1] < 10) {
                                 a[1] = '0' + a[1];
                             }
-                            // console.log(a[2].slice(0, 2));
+
+                            //日
                             if (a[2].slice(0, 2) < 10) {
                                 s = '0' + a[2].slice(0, 2);
+                            } else {
+                                s = a[2].slice(0, 2)
                             }
+
+                            //格式 y-m-d h:i:s 
                             nowTime = a[0] + '-' + a[1] + '-' + s + ' ' + a[2].slice(3, 11);
 
+                            //判断 VIP 是否过期
                             if (data.vip_end_time <= nowTime) {
                                 body.find(".vip_end_time_tip").text('已过期');
+                                body.find(".vip_start_time").val("未开通");
                             } else {
                                 body.find(".vip_end_time_tip").text(data.vip_end_time);
                             }
 
-                            body.find('.vip-groups').text(data.vip);
-                            body.find('.vip-groups').val(data.vip);
+                            body.find('.vip-groups').text(data.vip);//显示内容
+                            body.find('.vip-groups').val(data.vip);//设置值
                             body.find('.users-groups').text(data.group);
                             body.find('.users-groups').val(data.group);
 
+                            //设置状态
                             if (data.status == '正常') {
+                                console.log("正常");
                                 body.find('.ok').attr('selected', 'selected');
                             } else if (data.status == '封禁') {
                                 body.find('.no').attr('selected', 'selected');
@@ -485,7 +497,7 @@
     <script>
     //判断是否登录
     if (!window.localStorage.getItem('token')) {
-        window.top.location.href = "/admin/login/index";
+        window.top.location.href = "/admin/login";
     }
 </script>
 <script src="/static/js/setToken.js" charset="utf-8"></script>

@@ -7,31 +7,34 @@ namespace app\common\middleware;
 use app\common\controller\Common;
 use app\common\controller\JwtAuth;
 use app\admin\model\AdminKeyConfig;
-use app\user\model\Apps;
+use app\user\model\UserApps as Apps;
 use think\facade\Request;
 
 class CheckAuth extends Common
 {
     /**
      * 检查
-     *
+     * 返回的request里面的data是解码后的用户信息
      * @param \think\Request $request
      * @param \Closure       $next
      * @return Response
      */
     public function handle($request, \Closure $next)
     {
-        $token = Request::header('authorization');
-        if (empty($token)) {
-            return $this->returnJson(0, [], 'token不能为空', 400);
+        header('Content-Type:application/json; charset=utf-8');
+        $token = Request::header('Authorization');
+        if (empty($token) || $token == "null") {
+            echo json_encode(['code' => 400, 'msg' => 'token不能为空'], JSON_UNESCAPED_UNICODE);
+            die;
         }
 
         //根据是否有参数app_id和uid判断是否是应用接口->判断应用和用户是否对应->防止获取不到key  如果没有这两个参数就将它们置为null
         if (!isset($request['app_id'], $request['uid'])) {
-            $request['app_id'] = $request['uid'] = null;
+            $request['app_id'] = $request['uid']  = null;
         } else {
             if (!$this->checkApp($request['app_id'], $request['uid'])) {
-                return $this->returnJson(0, [], '应用不存在或者不属于该用户', 400);
+                echo json_encode(['code' => 400, 'msg' => '应用不存在或者不属于该用户'], JSON_UNESCAPED_UNICODE);
+                die;
             }
         }
 
@@ -43,10 +46,11 @@ class CheckAuth extends Common
         $this->decodeData($token, $key, $request);
 
         //权限验证 返回的是true或者false 表示权限验证通过和不通过 这里的$request和AddonsAuth的不一样，这里的是对象，插件是数组
-        $res = $this->checkAuth($request); 
+        $res = $this->checkAuth($request);
         if (!$res) {
             //权限不够
-            return $this->returnJson(0, [], '没有权限', 400);
+            echo json_encode(['code' => 400, 'msg' => '没有权限'], JSON_UNESCAPED_UNICODE);
+            die;
         }
         return $next($request);
     }
@@ -79,7 +83,11 @@ class CheckAuth extends Common
      */
     public function checkApp($app_id, $uid)
     {
-        $res = Apps::where(['id' => $app_id, 'uid' => $uid])->findOrEmpty();
+        $res = Apps::where([
+            'id' => $app_id,
+            'uid' => $uid
+        ])->findOrEmpty();
+
         if ($res->isEmpty()) {
             return false;
         } else {
@@ -101,7 +109,8 @@ class CheckAuth extends Common
                 if ($data == null) {
                     $data = $jwt->setKey($key[2])->decode($token)->getData();  //判断是不是web token
                     if ($data == null) {
-                        return $this->returnJson(0, [], 'token错误', 400);     //三种key都没有查询出来就说明token错误
+                        echo json_encode(['code' => 400, 'msg' => 'token错误'], JSON_UNESCAPED_UNICODE);
+                        die;                                                   //三种key都没有查询出来就说明token错误
                     } else {
                         $request->type = 'web'; //应用token
                         $request->data = $data;
@@ -118,9 +127,9 @@ class CheckAuth extends Common
             //解码token获取数据或者提示错误
             $jwt = JwtAuth::getInstance();
             $data = $jwt->setKey($key)->decode($token)->getData();
-
             if ($data == null) {
-                return $this->returnJson(0, [], 'token错误', 400);
+                echo json_encode(['code' => 400, 'msg' => 'token错误'], JSON_UNESCAPED_UNICODE);
+                die;
             } else {
                 $request->data = $data;
             }

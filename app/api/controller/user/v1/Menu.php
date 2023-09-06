@@ -13,7 +13,7 @@ class Menu
     {
         $homeInfo =  [
             "title" => "首页",
-            "href" => ""
+            "href" => "/user/index/index2"
         ];
         $logoInfo =  [
             "title" => "小码API",

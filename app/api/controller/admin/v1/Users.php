@@ -44,10 +44,10 @@ class Users extends CheckSignTimes
             }
         }
 
-        //获取数据条数
-        $count = $this->model->count('id');
         //获取全部数据
         $data = $this->model->page($page, $limit)->order('id desc')->select();
+        //获取数据条数
+        $count = count($data);
         if ($data->isEmpty()) {
             return $this->returnJson($count, $data, '数据不存在');
         } else {
@@ -106,12 +106,12 @@ class Users extends CheckSignTimes
         if (empty($this->params['vip_end_time'])) {
             unset($this->params['vip_end_time']);
         }
-        if (isset($this->params['username'])) {
-            $res = $this->model::where('username', $this->params['username'])->where('id', '<>', $id)->findOrEmpty();
-            if (!$res->isEmpty()) {
-                return $this->returnJson(0, [], '用户名已存在', 400);
-            }
-        }
+        // if (isset($this->params['username'])) {
+        //     $res = $this->model::where('username', $this->params['username'])->where('id', '<>', $id)->findOrEmpty();
+        //     if (!$res->isEmpty()) {
+        //         return $this->returnJson(0, [], '用户名已存在', 400);
+        //     }
+        // }
         if (isset($this->params['mobile'])) {
             $res = $this->model::where('mobile', $this->params['mobile'])->where('id', '<>', $id)->findOrEmpty();
             if (!$res->isEmpty()) {
@@ -124,7 +124,10 @@ class Users extends CheckSignTimes
                 return $this->returnJson(0, [], '邮箱已存在', 400);
             }
         }
+
         unset($this->params['id']);
+        unset($this->params['username']);
+
         //create_time 和update_time 会自动设置为当前时间
         $res = $this->model::update($this->params, ['id' => $id]);
         if ($res) {

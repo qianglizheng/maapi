@@ -26,11 +26,12 @@ class Api extends CheckSignTimes
      */
     public function read($id)
     {
-        $data = $this->model::find($id);
-        if ($data) {
+        $data = $this->model::findOrEmpty($id);
+        if ($data->isEmpty()) {
+            return $this->returnJson(0, $data, '数据不存在');
+        } else {
             return $this->returnJson(1, $data);
         }
-        return $this->returnJson(0, [], '数据不存在', 400);
     }
 
 
@@ -46,7 +47,7 @@ class Api extends CheckSignTimes
         unset($this->params['id']);
         $res = $this->model::update($this->params, ['id' => $id]);
         if ($res) {
-            return $this->returnJson(1, $res, '数据修改成功');
+            return $this->returnJson(0, $res, '数据修改成功',204);
         }
         return $this->returnJson(0, $res, '没有修改任何配置或者修改失败', 400);
     }

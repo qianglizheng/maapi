@@ -13,8 +13,8 @@ class Plugin extends Addons
      * 插件的基础信息
      */
     public $info = [
-        'name' => 'user_vip_groups',	                      // 插件标识
-        'title' => '用户后台用户VIP分组',	          // 插件名称
+        'name' => 'user_vip_groups',	         // 插件标识
+        'title' => '用户后台用户VIP分组',	      // 插件名称
         'description' => '用户后台用户VIP分组',	  // 插件简介
         'status' => 1,	                         // 状态
         'author' => '创梦流浪人',

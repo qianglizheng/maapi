@@ -8,13 +8,20 @@
         <div class="layui-form-item">
             <label class="layui-form-label">用户 ID：</label>
             <div class="layui-input-block">
-                <input type="text" name="id" value="" autocomplete="off" disabled="disabled" class="layui-input id">
+                <input type="text" name="id" value="" autocomplete="off" disabled="disabled" class="layui-input id" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label required">用户名：</label>
+            <label class="layui-form-label">用户名：</label>
             <div class="layui-input-block">
-                <input type="text" name="username" value="" autocomplete="off" class="layui-input username" disabled>
+                <input type="text" name="username" value="" autocomplete="off" class="layui-input username" disabled style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户密码：</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" placeholder="不修改不要填" value="" autocomplete="off"
+                    class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -64,10 +71,16 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">开通时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_start_time" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">到期时间：</label>
             <div class="layui-input-block">
                 <input type="date" name="vip_end_time" value="0" class="layui-input vip_end_time">
-                <tip class="vip_end_time_tip"></tip>
+                <tip class="vip_end_time_tip" style="color: red;"></tip>
             </div>
         </div>
         <div class="layui-form-item">
@@ -93,31 +106,37 @@
         <div class="layui-form-item">
             <label class="layui-form-label">注册 IP：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input create_ip">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input create_ip" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">注册时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input create_time">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input create_time" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">登录 IP：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_ip">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_ip" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">登录时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_time">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_time" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">更新时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input update_time">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input update_time" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">应用 ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input app_id" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
@@ -127,6 +146,7 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/md5.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
@@ -148,8 +168,11 @@
             })
             //监听提交
             form.on('submit(saveBtn)', function (data) {
+                if(data.field.password != "") {
+                    data.field.password = data.field.password.MD5(32);
+                }
                 $.ajax({
-                    url: `/api/admin/v1/users/${data.field.id}`, //请求url
+                    url: `/api/user/v1/users/${data.field.id}`, //请求url
                     method: 'PUT', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型

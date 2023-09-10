@@ -1,4 +1,20 @@
-{include file="../app/common/view/public/header.html" /}
+<?php /*a:3:{s:56:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\add.html";i:1694272152;s:38:"../app/common/view/public/uHeader.html";i:1692177891;s:38:"../app/common/view/public/uFooter.html";i:1692460672;}*/ ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>创梦API</title>
+    <meta name="keywords" content="iapp,iapp后台,创梦iapp,创梦API">
+    <meta name="description" content="好用的iapp后台管理系统">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 <body>
@@ -90,6 +106,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label required">应用 ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="app_id" value=""  class="layui-input app_ip">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
             </div>
@@ -103,7 +125,7 @@
                 layer = layui.layer,
                 $ = layui.$;
 
-            $.get('/addons/admin/users-groups', {}, function (res) {
+            $.get('/addons/user/users-groups', {}, function (res) {
                 console.log(res.data);
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
@@ -111,7 +133,7 @@
                 })
             })
             // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
-            $.get('/addons/admin/vip-groups', {}, function (res) {
+            $.get('/addons/user/vip-groups', {}, function (res) {
                 console.log(res.data);
                 res.data.forEach(data => {
                     $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
@@ -122,7 +144,7 @@
             form.on('submit(saveBtn)', function (data) {
                 data.field.password = data.field.password.MD5(32);
                 $.ajax({
-                    url: "/api/admin/v1/users", //请求url
+                    url: "/api/user/v1/users", //请求url
                     method: 'POST', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型
@@ -154,4 +176,12 @@
             });
         });
     </script>
-    {include file="../app/common/view/public/footer.html" /}
+    <script>
+    //判断是否登录
+    if (!window.localStorage.getItem('uToken')) {
+        window.top.location.href = "/user/login";
+    }
+</script>
+<script src="/static/js/setUtoken.js" charset="utf-8"></script>
+</body>
+</html>

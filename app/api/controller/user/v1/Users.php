@@ -7,6 +7,7 @@ namespace app\api\controller\user\v1;
 use app\common\controller\CheckSignTimes;
 use think\facade\Request;
 use app\user\model\UserUsers as UserUsersModel;
+use app\user\model\UserApps as Apps;
 
 // use app\admin\model\AdminUsersGroups as UserGroups;
 // use app\admin\model\AdminUsersVipGroups as VipGroups;
@@ -52,7 +53,7 @@ class Users extends CheckSignTimes
         //获取数据条数
         $count = count($data);
         if ($data->isEmpty()) {
-            return $this->returnJson($count, $data, '数据不存在');
+            return $this->returnJson(1, $data, '数据不存在', 400);
         } else {
             return $this->returnJson($count, $data);
         }
@@ -66,18 +67,73 @@ class Users extends CheckSignTimes
      */
     public function save(Request $request)
     {
-        //判断用户名是否存在
+        //这个判断是解决前端的问题
+        if (empty($this->params['vip_end_time'])) {
+            unset($this->params['vip_end_time']);
+        }
+
+        //判断应用是否存在
+        $res = Apps::where([
+            "uid" => $this->uid
+        ])->find($this->params['app_id']);
+        if (!$res) {
+            return $this->returnJson(0, [], '应用不存在', 400);
+        }
+
+        //检查
         $res = $this->model::where([
             'username' => $this->params['username'],
             'uid'      => $this->uid,
             'app_id'   => $this->params['app_id']
         ])->find();
-
         if ($res) {
             return $this->returnJson(0, [], '用户名已存在', 400);
         }
 
+        if (!empty($this->params['email'])) {
+            $res = $this->model::where([
+                'email' => $this->params['email'],
+                'uid'      => $this->uid,
+                'app_id'   => $this->params['app_id']
+            ])->find();
+            if ($res) {
+                return $this->returnJson(0, [], '用户邮箱已存在', 400);
+            }
+        }
+
+        if (!empty($this->params['mobile'])) {
+            $res = $this->model::where([
+                'mobile' => $this->params['mobile'],
+                'uid'      => $this->uid,
+                'app_id'   => $this->params['app_id']
+            ])->find();
+            if ($res) {
+                return $this->returnJson(0, [], '用户手机号已存在', 400);
+            }
+        }
+
+        //设置VIP开通时间 结束时间大于当前时间就把开通时间设置为当前时间 如果vip类型为0就设置为普通vip
+        $nowDate = date("Y-m-d H:i:s", time());
+        if ($this->params['vip_end_time'] > $nowDate) {
+            $this->params['vip_start_time'] = $nowDate;
+            if($this->params['vip'] == "0"){
+                $this->params['vip'] = "普通VIP";
+            }
+        }
+
+        //没有设置VIP到期时间，设置了VIP类型，则把 VIP 类型置为0
+        if ($this->params['vip_end_time'] < $nowDate) {
+            if($this->params['vip'] != "0"){
+                $this->params['vip'] = 0;
+            }
+        }
+
         //添加用户
+        $this->params['uid'] = $this->uid;
+        if (isset($this->params['create_ip'])) {
+            $this->params['last_login_ip'] = $this->params['create_ip'];
+        }
+
         $res = $this->model::create($this->params);
         if ($res) {
             return $this->returnJson(0, [], '添加用户成功');
@@ -115,28 +171,32 @@ class Users extends CheckSignTimes
             unset($this->params['vip_end_time']);
         }
 
+        if (empty($this->params['password'])) {
+            unset($this->params['password']);
+        }
+
         //检查
-        // if (isset($this->params['username'])) {
-        //     $res = $this->model::where('username', $this->params['username'])->where('id', '<>', $id)->findOrEmpty();
-        //     if (!$res->isEmpty()) {
-        //         return $this->returnJson(0, [], '用户名已存在', 400);
-        //     }
-        // }
-        if (isset($this->params['mobile'])) {
-            $res = $this->model::where('mobile', $this->params['mobile'])->where('id', '<>', $id)->findOrEmpty();
+        if (!empty($this->params['mobile'])) {
+            $res = $this->model::where('mobile', $this->params['mobile'])->where([
+                ["uid", '=', $this->uid],
+                ['id', '<>', $id]
+            ])->findOrEmpty();
             if (!$res->isEmpty()) {
                 return $this->returnJson(0, [], '手机已存在', 400);
             }
         }
-        if (isset($this->params['email'])) {
-            $res = $this->model::where('email', $this->params['email'])->where('id', '<>', $id)->findOrEmpty();
+        if (!empty($this->params['email'])) {
+            $res = $this->model::where('email', $this->params['email'])->where([
+                ["uid", '=', $this->uid],
+                ['id', '<>', $id]
+            ])->findOrEmpty();
             if (!$res->isEmpty()) {
                 return $this->returnJson(0, [], '邮箱已存在', 400);
             }
         }
 
-        unset($this->params['id']);
-        unset($this->params['username']);
+        unset($this->params['id']); //不允许修改用户ID
+        unset($this->params['username']); //不允许修改用户名
 
         //create_time 和update_time 会自动设置为当前时间
         $res = $this->model::update($this->params, ['id' => $id]);
@@ -154,7 +214,9 @@ class Users extends CheckSignTimes
      */
     public function delete($id)
     {
-        $res = $this->model::destroy($id);
+        $res = $this->model::where([
+            "uid" => $this->uid
+        ])->delete($id);
         if ($res) {
             return $this->returnJson(0, [], '用户删除成功');
         }

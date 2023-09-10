@@ -1,9 +1,9 @@
 <?php
 
-namespace addons\admin_users_groups;
+namespace addons\user_users_groups;
 
 use think\Addons;
-use app\admin\model\AdminSystemMenu;
+use app\common\model\SystemMenu as SystemMenuModel;
 
 /**
  * 管理后台用户分组
@@ -29,10 +29,10 @@ class Plugin extends Addons
      */
     public function install()
     {
-        return AdminSystemMenu::create([
+        return SystemMenuModel::create([
             "pid" => 8,
             "title" => "用户分组",
-            "href" => "admin/addons/admin_users_groups",
+            "href" => "user/addons/user_users_groups",
             "target" => "_self"
         ]);
     }
@@ -50,7 +50,7 @@ class Plugin extends Addons
      * 实现的testhook钩子方法
      * @return mixed
      */
-    public function admin_users_groups($param)
+    public function user_users_groups($param)
     {
         // 调用钩子时候的参数信息
         echo $this->install();

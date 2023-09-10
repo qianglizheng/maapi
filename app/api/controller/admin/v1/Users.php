@@ -49,7 +49,7 @@ class Users extends CheckSignTimes
         //获取数据条数
         $count = count($data);
         if ($data->isEmpty()) {
-            return $this->returnJson($count, $data, '数据不存在');
+            return $this->returnJson(1, $data, '数据不存在', 400);
         } else {
             return $this->returnJson($count, $data);
         }
@@ -63,10 +63,50 @@ class Users extends CheckSignTimes
      */
     public function save(Request $request)
     {
-        //判断用户名是否存在
+
+        //这个判断是解决前端的问题
+        if (empty($this->params['vip_end_time'])) {
+            unset($this->params['vip_end_time']);
+        }
+
+        //检查
         $res = $this->model::where('username', $this->params['username'])->find();
         if ($res) {
             return $this->returnJson(0, [], '用户名已存在', 400);
+        }
+
+        if (!empty($this->params['email'])) {
+            $res = $this->model::where([
+                'email' => $this->params['email'],
+            ])->find();
+            if ($res) {
+                return $this->returnJson(0, [], '用户邮箱已存在', 400);
+            }
+        }
+
+        if (!empty($this->params['mobile'])) {
+            $res = $this->model::where([
+                'mobile' => $this->params['mobile'],
+            ])->find();
+            if ($res) {
+                return $this->returnJson(0, [], '用户手机号已存在', 400);
+            }
+        }
+
+        //设置VIP开通时间 结束时间大于当前时间就把开通时间设置为当前时间 如果vip类型为0就设置为普通vip
+        $nowDate = date("Y-m-d H:i:s", time());
+        if ($this->params['vip_end_time'] > $nowDate) {
+            $this->params['vip_start_time'] = $nowDate;
+            if ($this->params['vip'] == "0") {
+                $this->params['vip'] = "普通VIP";
+            }
+        }
+
+        //没有设置VIP到期时间，设置了VIP类型，则把 VIP 类型置为0
+        if ($this->params['vip_end_time'] < $nowDate) {
+            if ($this->params['vip'] != "0") {
+                $this->params['vip'] = 0;
+            }
         }
 
         //添加用户
@@ -106,19 +146,13 @@ class Users extends CheckSignTimes
         if (empty($this->params['vip_end_time'])) {
             unset($this->params['vip_end_time']);
         }
-        // if (isset($this->params['username'])) {
-        //     $res = $this->model::where('username', $this->params['username'])->where('id', '<>', $id)->findOrEmpty();
-        //     if (!$res->isEmpty()) {
-        //         return $this->returnJson(0, [], '用户名已存在', 400);
-        //     }
-        // }
-        if (isset($this->params['mobile'])) {
+        if (!empty($this->params['mobile'])) {
             $res = $this->model::where('mobile', $this->params['mobile'])->where('id', '<>', $id)->findOrEmpty();
             if (!$res->isEmpty()) {
                 return $this->returnJson(0, [], '手机已存在', 400);
             }
         }
-        if (isset($this->params['email'])) {
+        if (!empty($this->params['email'])) {
             $res = $this->model::where('email', $this->params['email'])->where('id', '<>', $id)->findOrEmpty();
             if (!$res->isEmpty()) {
                 return $this->returnJson(0, [], '邮箱已存在', 400);

@@ -271,7 +271,9 @@
                             body.find(".last_login_ip").val(data.last_login_ip);
                             body.find(".last_login_time").val(data.last_login_time);
                             body.find(".update_time").val(data.update_time);
+                            body.find(".vip_start_time").val(data.vip_start_time);
                             body.find(".vip_end_time").val(data.vip_end_time);
+                            body.find(".app_id").val(data.app_id);
 
                             let nowTime = new Date().toLocaleString();
                             nowTime = nowTime.replaceAll('/', '-');
@@ -309,7 +311,7 @@
                         end: function () {
                             //重载表格
                             table.reload('currentTableId', {
-                                url: '/api/admin/v1/users',
+                                url: '/api/user/v1/users',
                                 where: {}
                             });
                         }

@@ -25,6 +25,9 @@ return [
          '/addons/admin/users-groups' => 'admin_users_groups/AdminUsersGroups/index',       //获取后台用户分组列表
          '/addons/admin/vip-groups' => 'admin_vip_groups/AdminVipGroups/index',             //获取后台用户VIP列表
 
+         '/addons/user/users-groups' => 'user_users_groups/UserUsersGroups/index',       //获取后台用户分组列表
+         '/addons/user/vip-groups' => 'user_vip_groups/UserVipGroups/index',             //获取后台用户VIP列表
+
         "/smstop" => "smstop/Index/index",
         "/demo" => "demo/test/demo",
         "/test" => "test/index/link"

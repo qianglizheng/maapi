@@ -1,20 +1,43 @@
-{include file="../app/common/view/public/header.html" /}
+<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\edit.html";i:1694245701;s:38:"../app/common/view/public/uHeader.html";i:1692177891;s:38:"../app/common/view/public/uFooter.html";i:1692460672;}*/ ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>创梦API</title>
+    <meta name="keywords" content="iapp,iapp后台,创梦iapp,创梦API">
+    <meta name="description" content="好用的iapp后台管理系统">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
+
 <body>
     <div class="layui-form layuimini-form">
+        <!-- <input type="hidden" name="id" value="" class="id"> -->
         <div class="layui-form-item">
-            <label class="layui-form-label required">用户名：</label>
+            <label class="layui-form-label">用户 ID：</label>
             <div class="layui-input-block">
-                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名"
-                    value="" autocomplete="off" class="layui-input username">
+                <input type="text" name="id" value="" autocomplete="off" disabled="disabled" class="layui-input id" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label required">用户密码：</label>
+            <label class="layui-form-label">用户名：</label>
             <div class="layui-input-block">
-                <input type="text" name="password" lay-verify="required" lay-reqtext="用户密码不能为空" placeholder="请输入用户密码"
-                    value="" autocomplete="off" class="layui-input password">
+                <input type="text" name="username" value="" autocomplete="off" class="layui-input username" disabled style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户密码：</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" placeholder="不修改不要填" value="" autocomplete="off"
+                    class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -35,20 +58,20 @@
             <label class="layui-form-label required">昵称：</label>
             <div class="layui-input-block">
                 <input type="text" name="nickname" lay-verify="required" lay-reqtext="昵称不能为空" placeholder="请输入昵称"
-                    value="默认昵称" autocomplete="off" class="layui-input nickname">
+                    value="" autocomplete="off" class="layui-input nickname">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label required">余额：</label>
             <div class="layui-input-block">
-                <input type="text" name="money" lay-verify="required" lay-reqtext="余额不能为空" placeholder="请输入余额" value="0"
+                <input type="text" name="money" lay-verify="required" lay-reqtext="余额不能为空" placeholder="请输入余额" value=""
                     autocomplete="off" class="layui-input money">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label required">积分：</label>
             <div class="layui-input-block">
-                <input type="text" name="score" lay-verify="required" lay-reqtext="积分不能为空" placeholder="请输入积分" value="0"
+                <input type="text" name="score" lay-verify="required" lay-reqtext="积分不能为空" placeholder="请输入积分" value=""
                     autocomplete="off" class="layui-input score">
             </div>
         </div>
@@ -64,9 +87,16 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">开通时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input vip_start_time" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">到期时间：</label>
             <div class="layui-input-block">
-                <input type="date" name="vip_end_time" value=""  class="layui-input vip_end_time">
+                <input type="date" name="vip_end_time" value="0" class="layui-input vip_end_time">
+                <tip class="vip_end_time_tip" style="color: red;"></tip>
             </div>
         </div>
         <div class="layui-form-item">
@@ -74,7 +104,7 @@
             <div class="layui-input-block">
                 <select name="group" lay-filter="aihao" id="users">
                     <option value="" class="users-groups"></option>
-                    <option value="普通会员" class="users_groups" selected>普通会员</option>
+                    <option value="普通会员" class="users_groups">普通会员</option>
                 </select>
                 <tip>插件可拓展更多分组</tip>
             </div>
@@ -85,8 +115,44 @@
                 <select name="status" lay-filter="aihao">
                     <option value=""></option>
                     <option value="封禁" class="no">封禁</option>
-                    <option value="正常" class="ok" selected>正常</option>
+                    <option value="正常" class="ok">正常</option>
                 </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">注册 IP：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input create_ip" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">注册时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input create_time" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录 IP：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_ip" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input last_login_time" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">更新时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input update_time" style="background-color: rgb(245,245,245);">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">应用 ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="" disabled="disabled" class="layui-input app_id" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
@@ -104,7 +170,6 @@
                 $ = layui.$;
 
             $.get('/addons/admin/users-groups', {}, function (res) {
-                console.log(res.data);
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
                     form.render();
@@ -112,7 +177,6 @@
             })
             // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
             $.get('/addons/admin/vip-groups', {}, function (res) {
-                console.log(res.data);
                 res.data.forEach(data => {
                     $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
                     form.render();
@@ -120,22 +184,24 @@
             })
             //监听提交
             form.on('submit(saveBtn)', function (data) {
-                data.field.password = data.field.password.MD5(32);
+                if(data.field.password != "") {
+                    data.field.password = data.field.password.MD5(32);
+                }
                 $.ajax({
-                    url: "/api/admin/v1/users", //请求url
-                    method: 'POST', //请求方法
+                    url: `/api/user/v1/users/${data.field.id}`, //请求url
+                    method: 'PUT', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型
                     success: function (res) {
                         if (res.code == '204' || res.code == '200') {
-                            layer.msg('添加成功')
+                            layer.msg('修改成功')
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
                             }, 1000)
                         };
                         if (res.code == '400') {
-                            layer.msg('添加失败')
+                            layer.msg('修改失败' + res.msg)
                             setTimeout(function () {
                                 var iframeIndex = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(iframeIndex);
@@ -143,15 +209,23 @@
                         };
                     },
                     error: function () {
-                        layer.msg('添加失败')
-                            setTimeout(function () {
-                                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(iframeIndex);
-                            }, 1000)
+                        layer.msg('修改失败')
+                        setTimeout(function () {
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        }, 1000)
                     }
                 });
                 return false;
             });
         });
     </script>
-    {include file="../app/common/view/public/footer.html" /}
+    <script>
+    //判断是否登录
+    if (!window.localStorage.getItem('uToken')) {
+        window.top.location.href = "/user/login";
+    }
+</script>
+<script src="/static/js/setUtoken.js" charset="utf-8"></script>
+</body>
+</html>

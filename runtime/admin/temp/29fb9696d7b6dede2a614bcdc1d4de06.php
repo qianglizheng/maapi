@@ -1,4 +1,4 @@
-<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\add.html";i:1692460127;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
+<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\add.html";i:1694244888;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -112,6 +112,7 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/md5.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
@@ -135,6 +136,7 @@
             })
             //监听提交
             form.on('submit(saveBtn)', function (data) {
+                data.field.password = data.field.password.MD5(32);
                 $.ajax({
                     url: "/api/admin/v1/users", //请求url
                     method: 'POST', //请求方法

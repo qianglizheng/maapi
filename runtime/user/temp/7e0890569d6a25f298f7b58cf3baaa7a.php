@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\index.html";i:1694001061;s:38:"../app/common/view/public/uHeader.html";i:1692177891;s:38:"../app/common/view/public/uFooter.html";i:1692460672;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\index.html";i:1694246682;s:38:"../app/common/view/public/uHeader.html";i:1692177891;s:38:"../app/common/view/public/uFooter.html";i:1692460672;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -287,7 +287,9 @@
                             body.find(".last_login_ip").val(data.last_login_ip);
                             body.find(".last_login_time").val(data.last_login_time);
                             body.find(".update_time").val(data.update_time);
+                            body.find(".vip_start_time").val(data.vip_start_time);
                             body.find(".vip_end_time").val(data.vip_end_time);
+                            body.find(".app_id").val(data.app_id);
 
                             let nowTime = new Date().toLocaleString();
                             nowTime = nowTime.replaceAll('/', '-');
@@ -325,7 +327,7 @@
                         end: function () {
                             //重载表格
                             table.reload('currentTableId', {
-                                url: '/api/admin/v1/users',
+                                url: '/api/user/v1/users',
                                 where: {}
                             });
                         }

@@ -90,19 +90,26 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label required">应用 ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="app_id" value=""  class="layui-input app_ip">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
             </div>
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/md5.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
                 layer = layui.layer,
                 $ = layui.$;
 
-            $.get('/addons/admin/users-groups', {}, function (res) {
+            $.get('/addons/user/users-groups', {}, function (res) {
                 console.log(res.data);
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
@@ -110,7 +117,7 @@
                 })
             })
             // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
-            $.get('/addons/admin/vip-groups', {}, function (res) {
+            $.get('/addons/user/vip-groups', {}, function (res) {
                 console.log(res.data);
                 res.data.forEach(data => {
                     $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
@@ -119,8 +126,9 @@
             })
             //监听提交
             form.on('submit(saveBtn)', function (data) {
+                data.field.password = data.field.password.MD5(32);
                 $.ajax({
-                    url: "/api/admin/v1/users", //请求url
+                    url: "/api/user/v1/users", //请求url
                     method: 'POST', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型

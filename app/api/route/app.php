@@ -118,7 +118,11 @@ Route::group(function () {
     Route::resource('user/v1/email', 'user.v1.config.Email')->only(['read', 'update']);
 
     //用户中心
-    Route::post('user/v1/users', 'user.v1.Users/save');                   //新增用户
+    Route::post('user/v1/users', 'user.v1.Users/save')->validate([
+        'username'  => 'require',
+        'password'  => 'require',
+        'app_id'    => 'require',
+    ]);                                                                   //新增用户
     Route::get('user/v1/users/:id', 'user.v1.Users/read');                //查询指定用户
     Route::get('user/v1/users', 'user.v1.Users/index')->validate([
         'page'    =>    'require',

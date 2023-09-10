@@ -29,11 +29,16 @@ class AddonsAuth extends Common
         }
 
         //根据地址判断接口类型 同时设置type 然后获取key->$type为a：admin接口 $type为u->user接口 $type为w->web接口  $type为其他->公共接口
-        $type = $request['addon'][0];  //addons是控制器的名子 
+        $type = $request['addon'][0];  //addons是控制器的名子
         $key = $this->getKeyType($type, $request['app_id'], $request['uid']);
-
+// echo $key;
+// die;
         //解码token得到用户信息 如果$kye是一个数组说明是公共接口，所以用户、管理员、web用户的token均可 公共接口会根据token设置$this->type
         $request['data'] = $this->decodeData($token, $key);
+
+        if(!$request['data']) {
+            return $this->returnJson(0, [], 'token错误', 400);
+        }
 
         $res = $this->checkAuth($request);
         if (!$res) {
@@ -94,7 +99,8 @@ class AddonsAuth extends Common
                 if ($data == null) {
                     $data = $jwt->setKey($key[2])->decode($token)->getData();  //判断是不是web token
                     if ($data == null) {
-                        return $this->returnJson(0, [], 'token错误', 400);
+                        echo json_encode(['code' => 400, 'msg' => 'token错误'], JSON_UNESCAPED_UNICODE);
+                        die;
                     } else {
                         $this->type = 'web';
                         return $data;
@@ -112,7 +118,8 @@ class AddonsAuth extends Common
             $jwt = JwtAuth::getInstance();
             $data = $jwt->setKey($key)->decode($token)->getData();
             if ($data == null) {
-                return $this->returnJson(0, [], 'token错误', 400);
+                echo json_encode(['code' => 400, 'msg' => 'token错误'], JSON_UNESCAPED_UNICODE);
+                die;
             } else {
                 return $data;
             }

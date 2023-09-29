@@ -68,7 +68,7 @@ class CheckAuth extends Common
             $key = AdminKeyConfig::find(1)['admin'];                            //管理接口
         } elseif ($type  == 'w') {
             $request->type = 'web';
-            $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('token_key'); //应用接口
+            $key = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key'); //应用接口
         } elseif ($type  == 'v') {                                               //公共接口 根据token来判断是谁在调用
             $key_user = AdminKeyConfig::find(1)['user'];
             $key_admin = AdminKeyConfig::find(1)['admin'];

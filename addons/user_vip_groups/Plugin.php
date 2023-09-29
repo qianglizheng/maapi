@@ -30,7 +30,7 @@ class Plugin extends Addons
         Db::name('system_menu')->insert([
             "pid" => 3,
             "title" => "VIP 分组",
-            "href" => "admin/addons/user_vip_groups",
+            "href" => "user/addons/user_vip_groups",
             "target" => "_self"
         ]);
     }

@@ -130,4 +130,16 @@ Route::group(function () {
     ]);                                                                   //查询全部用户
     Route::put('user/v1/users/:id', 'user.v1.Users/update');              //更新指定用户信息
     Route::delete('user/v1/users/:id', 'user.v1.Users/delete');           //删除指定用户
+
+    //应用管理
+    Route::post('user/v1/apps', 'user.v1.Apps/save')->validate([
+        'name'  => 'require',
+    ]);                                                                   //新增用户
+    Route::get('user/v1/apps/:id', 'user.v1.Apps/read');                //查询指定用户
+    Route::get('user/v1/apps', 'user.v1.Apps/index')->validate([
+        'page'    =>    'require',
+        'limit'   =>    'require',
+    ]);                                                                   //查询全部用户
+    Route::put('user/v1/apps/:id', 'user.v1.Apps/update');              //更新指定用户信息
+    Route::delete('user/v1/apps/:id', 'user.v1.Apps/delete');           //删除指定用户
 })->middleware(\app\common\middleware\CheckAuth::class);

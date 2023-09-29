@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace app\api\controller\user\v1;
 
-use app\common\controller\Common;
-use think\Request;
-use app\common\model\Apps as AppsModel;
+use app\common\controller\CheckSignTimes;
+use think\facade\Request;
+use app\user\model\UserApps as AppsModel;
 
-class Apps extends Common
+class Apps extends CheckSignTimes
 {
     public function __construct()
     {
+        //检查是否需要验证签名和时间
+        $this->checkSignTimes('admin');
         $this->model = new AppsModel();
+        $this->params = Request::param();
+        $this->uid = request()->data['id'];
+        $this->params['uid'] = $this->uid;
     }
     /**
      * 显示资源列表
@@ -21,11 +26,26 @@ class Apps extends Common
      */
     public function index($page, $limit)
     {
-        $page = ($page -1)*$limit;//定义偏移量
-        $count = $this->model->count();//获取数据条数
-        $data = $this->model->limit($page, $limit)->order('id desc')->select();
+        $page = (int)$this->params['page'];
+        $limit = (int)$this->params['limit'];
+        //搜索 查询指定数据
+        if (!empty($this->params['name'])) {
+            $data = $this->model::where([
+                'name' => $this->params['name'],
+                'uid'      => $this->uid
+            ])->findOrEmpty();
+
+            if (!$data->isEmpty()) {
+                $res[] = $data;
+                return $this->returnJson(1, $res);
+            }
+        }
+        //获取全部数据
+        $data = $this->model::where('uid', $this->uid)->page($page, $limit)->order('id desc')->select();
+        //获取数据条数
+        $count = count($data);
         if ($data->isEmpty()) {
-            return $this->returnJson($count, $data, '数据不存在');
+            return $this->returnJson(1, $data, '数据不存在', 400);
         } else {
             return $this->returnJson($count, $data);
         }
@@ -39,7 +59,22 @@ class Apps extends Common
      */
     public function save(Request $request)
     {
-        //
+
+        //检查
+        $res = $this->model::where([
+            'name' => $this->params['name'],
+            'uid'      => $this->uid,
+        ])->find();
+        if ($res) {
+            return $this->returnJson(0, [], '应用名已存在', 400);
+        }
+
+        //添加应用
+        $res = $this->model::create($this->params);
+        if ($res) {
+            return $this->returnJson(0, [], '添加应用成功');
+        }
+        return $this->returnJson(0, [], '添加应用失败', 400);
     }
 
     /**
@@ -50,8 +85,11 @@ class Apps extends Common
      */
     public function read($id)
     {
-        //
-        return 'read';
+        $data = $this->model::where('uid', $this->uid)->find($id); //没有则返回null
+        if ($data) {
+            return $this->returnJson(1, $data);
+        }
+        return $this->returnJson(0, [], '应用不存在', 400);
     }
 
 
@@ -64,7 +102,24 @@ class Apps extends Common
      */
     public function update(Request $request, $id)
     {
-        //
+        //检查
+        if (!empty($this->params['name'])) {
+            $res = $this->model::where('name', $this->params['name'])->where([
+                ["uid", '=', $this->uid],
+                ['id', '<>', $id]
+            ])->findOrEmpty();
+            if (!$res->isEmpty()) {
+                return $this->returnJson(0, [], '应用名已存在', 400);
+            }
+        }
+
+        unset($this->params['id']); //不允许修改应用ID
+        //执行更新
+        $res = $this->model::update($this->params, ['id' => $id]);
+        if ($res) {
+            return $this->returnJson(0, [], '应用信息更新成功');
+        }
+        return $this->returnJson(0, [], '应用信息更新失败', 400);
     }
 
     /**
@@ -75,6 +130,12 @@ class Apps extends Common
      */
     public function delete($id)
     {
-        //
+        $res = $this->model::where([
+            "uid" => $this->uid
+        ])->delete($id);
+        if ($res) {
+            return $this->returnJson(0, [], '应用删除成功');
+        }
+        return $this->returnJson(0, [], '应用删除失败', 400);
     }
 }

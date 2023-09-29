@@ -21,6 +21,7 @@ class Users extends CheckSignTimes
         $this->model = new UserUsersModel();
         $this->params = Request::param();
         $this->uid = request()->data['id'];
+        $this->params['uid'] = $this->uid;
         //根据用户的分组和VIP分组享受某些功能
         //查询用户分组
         //$user_group = UserGroups::field('name')->select();
@@ -112,24 +113,24 @@ class Users extends CheckSignTimes
             }
         }
 
-        //设置VIP开通时间 结束时间大于当前时间就把开通时间设置为当前时间 如果vip类型为0就设置为普通vip
-        $nowDate = date("Y-m-d H:i:s", time());
-        if ($this->params['vip_end_time'] > $nowDate) {
-            $this->params['vip_start_time'] = $nowDate;
-            if($this->params['vip'] == "0"){
-                $this->params['vip'] = "普通VIP";
+        if (!empty($this->params['vip_end_time'])) {
+            //设置VIP开通时间 结束时间大于当前时间就把开通时间设置为当前时间 如果vip类型为0就设置为普通vip
+            $nowDate = date("Y-m-d H:i:s", time());
+            if ($this->params['vip_end_time'] > $nowDate) {
+                $this->params['vip_start_time'] = $nowDate;
+                if ($this->params['vip'] == "0") {
+                    $this->params['vip'] = "普通VIP";
+                }
+            }
+
+            //没有设置VIP到期时间，设置了VIP类型，则把 VIP 类型置为0
+            if ($this->params['vip_end_time'] < $nowDate) {
+                if ($this->params['vip'] != "0") {
+                    $this->params['vip'] = 0;
+                }
             }
         }
-
-        //没有设置VIP到期时间，设置了VIP类型，则把 VIP 类型置为0
-        if ($this->params['vip_end_time'] < $nowDate) {
-            if($this->params['vip'] != "0"){
-                $this->params['vip'] = 0;
-            }
-        }
-
         //添加用户
-        $this->params['uid'] = $this->uid;
         if (isset($this->params['create_ip'])) {
             $this->params['last_login_ip'] = $this->params['create_ip'];
         }
@@ -153,7 +154,7 @@ class Users extends CheckSignTimes
         if ($data) {
             return $this->returnJson(1, $data);
         }
-        return $this->returnJson(0, [], '用户不存在', 400);
+        return $this->returnJson(1, [], '用户不存在', 400);
     }
 
 

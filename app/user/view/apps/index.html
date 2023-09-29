@@ -1,20 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1695130929;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title>创梦API</title>
-    <meta name="keywords" content="iapp,iapp后台,创梦iapp,创梦API">
-    <meta name="description" content="好用的iapp后台管理系统">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Access-Control-Allow-Origin" content="*">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
+{include file="../app/common/view/public/uHeader.html" /}
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 </head>
@@ -28,9 +12,9 @@
                     <form class="layui-form layui-form-pane" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">用户名</label>
+                                <label class="layui-form-label">应用名</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="username" autocomplete="off" class="layui-input">
+                                    <input type="text" name="name" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -66,7 +50,7 @@
 
             table.render({
                 elem: '#currentTableId',
-                url: '/api/admin/v1/users',
+                url: '/api/user/v1/apps',
                 toolbar: '#toolbarDemo',
                 defaultToolbar: ['filter', 'exports', 'print', {
                     title: '提示',
@@ -85,73 +69,35 @@
                         sort: true
                     },
                     {
-                        field: 'username',
+                        field: 'name',
                         width: 120,
-                        title: '用户名'
+                        title: '应用名'
                     },
                     {
-                        field: 'email',
+                        field: 'key',
                         width: 120,
-                        title: '邮箱'
+                        title: '应用KEY'
                     },
                     {
-                        field: 'mobile',
+                        field: 'security_timestamp',
                         width: 120,
-                        title: '手机'
+                        title: '时间戳验证'
                     },
                     {
-                        field: 'nickname',
+                        field: 'security_sign',
                         width: 120,
-                        title: '昵称'
+                        title: '签名验证'
                     },
                     {
-                        field: 'money',
-                        width: 80,
-                        title: '余额',
+                        field: 'security_sign_key',
+                        width: 120,
+                        title: '签名KEY',
                         sort: true
                     },
                     {
-                        field: 'score',
-                        width: 80,
-                        title: '积分',
-                        sort: true
-                    },
-                    {
-                        field: 'vip',
-                        width: 90,
-                        title: 'VIP'
-                    },
-                    {
-                        field: 'group',
-                        width: 90,
-                        title: '分组'
-                    },
-                    {
-                        field: 'status',
-                        width: 80,
-                        title: '状态',
-                        sort: true
-                    },
-                    {
-                        field: 'create_ip',
+                        field: 'security_timestamp_timeout',
                         width: 120,
-                        title: '注册 IP'
-                    },
-                    {
-                        field: 'create_time',
-                        width: 120,
-                        title: '注册时间',
-                        sort: true
-                    },
-                    {
-                        field: 'last_login_ip',
-                        width: 120,
-                        title: '登录 IP'
-                    },
-                    {
-                        field: 'last_login_time',
-                        width: 120,
-                        title: '登录时间',
+                        title: '超时时间',
                         sort: true
                     },
                     {
@@ -194,7 +140,7 @@
                         curr: 1
                     },
                     where: {
-                        username: data.field.username
+                        name: data.field.name
                     },
                 }, 'data');
                 return false;
@@ -209,16 +155,16 @@
             table.on('toolbar(currentTableFilter)', function (obj) {
                 if (obj.event === 'add') { // 监听添加操作
                     var index = layer.open({
-                        title: '添加用户',
+                        title: '添加应用',
                         type: 2,
                         shade: 0.2,
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '/admin/users/add',
+                        content: '/user/apps/add',
                         end: function () {
                             table.reload('currentTableId', {
-                                url: '/api/admin/v1/users',
+                                url: '/api/user/v1/apps',
                                 where: {}
                             });
                         }
@@ -235,7 +181,7 @@
                             arr[i] = data[i].id;
                         }
                         $.ajax({
-                            url: '/api/admin/v1/users/' + arr,
+                            url: '/api/user/v1/apps/' + arr,
                             method: 'delete',
                             data: { 'id': arr },
                             contentType: 'application/json',
@@ -243,7 +189,7 @@
                                 console.log(arr);
                                 //重载表格
                                 table.reload('currentTableId', {
-                                    url: '/api/admin/v1/users',
+                                    url: '/api/user/v1/apps',
                                     where: {}
                                 });
                             },
@@ -272,7 +218,7 @@
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '/admin/users/edit',
+                        content: '/user/apps/edit',
                         success: function (layero, index) {
                             var body = layui.layer.getChildFrame('body', index);
                             body.find(".id").val(data.id);
@@ -289,43 +235,33 @@
                             body.find(".update_time").val(data.update_time);
                             body.find(".vip_start_time").val(data.vip_start_time);
                             body.find(".vip_end_time").val(data.vip_end_time);
+                            body.find(".app_id").val(data.app_id);
 
-                            //获取现在的时间
                             let nowTime = new Date().toLocaleString();
                             nowTime = nowTime.replaceAll('/', '-');
                             let a = nowTime.split('-');
-
-                            //月
+                            console.log(a);
                             if (a[1] < 10) {
                                 a[1] = '0' + a[1];
                             }
-
-                            //日
+                            // console.log(a[2].slice(0, 2));
                             if (a[2].slice(0, 2) < 10) {
                                 s = '0' + a[2].slice(0, 2);
-                            } else {
-                                s = a[2].slice(0, 2)
                             }
-
-                            //格式 y-m-d h:i:s 
                             nowTime = a[0] + '-' + a[1] + '-' + s + ' ' + a[2].slice(3, 11);
 
-                            //判断 VIP 是否过期
                             if (data.vip_end_time <= nowTime) {
                                 body.find(".vip_end_time_tip").text('已过期');
-                                body.find(".vip_start_time").val("未开通");
                             } else {
                                 body.find(".vip_end_time_tip").text(data.vip_end_time);
                             }
 
-                            body.find('.vip-groups').text(data.vip);//显示内容
-                            body.find('.vip-groups').val(data.vip);//设置值
+                            body.find('.vip-groups').text(data.vip);
+                            body.find('.vip-groups').val(data.vip);
                             body.find('.users-groups').text(data.group);
                             body.find('.users-groups').val(data.group);
 
-                            //设置状态
                             if (data.status == '正常') {
-                                console.log("正常");
                                 body.find('.ok').attr('selected', 'selected');
                             } else if (data.status == '封禁') {
                                 body.find('.no').attr('selected', 'selected');
@@ -337,7 +273,7 @@
                         end: function () {
                             //重载表格
                             table.reload('currentTableId', {
-                                url: '/api/admin/v1/users',
+                                url: '/api/user/v1/apps',
                                 where: {}
                             });
                         }
@@ -351,7 +287,7 @@
                     layer.confirm('真的删除么', function (index) {
                         var id = data.id;
                         $.ajax({
-                            url: '/api/admin/v1/users/' + id,
+                            url: '/api/user/v1/apps/' + id,
                             method: 'delete',
                             data: '',
                             contentType: 'application/json',
@@ -372,7 +308,7 @@
                 table.render({
                     initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                     elem: '#currentTableId',
-                    url: '/api/admin/v1/users',
+                    url: '/api/user/v1/apps',
                     toolbar: '#toolbarDemo',
                     defaultToolbar: ['filter', 'exports', 'print', {
                         title: '提示',
@@ -380,7 +316,8 @@
                         icon: 'layui-icon-tips'
                     }],
                     cols: [
-                        [{
+                    [
+                        {
                             type: "checkbox",
                             width: 50
                         },
@@ -391,73 +328,35 @@
                             sort: true
                         },
                         {
-                            field: 'username',
+                            field: 'name',
                             width: 120,
-                            title: '用户名'
+                            title: '应用名'
                         },
                         {
-                            field: 'email',
+                            field: 'key',
                             width: 120,
-                            title: '邮箱'
+                            title: '应用KEY'
                         },
                         {
-                            field: 'mobile',
+                            field: 'security_timestamp',
                             width: 120,
-                            title: '手机'
+                            title: '时间戳验证'
                         },
                         {
-                            field: 'nickname',
+                            field: 'security_sign',
                             width: 120,
-                            title: '昵称'
+                            title: '签名验证'
                         },
                         {
-                            field: 'money',
-                            width: 80,
-                            title: '余额',
+                            field: 'security_sign_key',
+                            width: 120,
+                            title: '签名KEY',
                             sort: true
                         },
                         {
-                            field: 'score',
-                            width: 80,
-                            title: '积分',
-                            sort: true
-                        },
-                        {
-                            field: 'vip',
-                            width: 90,
-                            title: 'VIP'
-                        },
-                        {
-                            field: 'group',
-                            width: 90,
-                            title: '分组'
-                        },
-                        {
-                            field: 'status',
-                            width: 80,
-                            title: '状态',
-                            sort: true
-                        },
-                        {
-                            field: 'create_ip',
+                            field: 'security_timestamp_timeout',
                             width: 120,
-                            title: '注册 IP'
-                        },
-                        {
-                            field: 'create_time',
-                            width: 120,
-                            title: '注册时间',
-                            sort: true
-                        },
-                        {
-                            field: 'last_login_ip',
-                            width: 120,
-                            title: '登录 IP'
-                        },
-                        {
-                            field: 'last_login_time',
-                            width: 120,
-                            title: '登录时间',
+                            title: '超时时间',
                             sort: true
                         },
                         {
@@ -494,13 +393,4 @@
             });
         });
     </script>
-    <script>
-    //判断是否登录
-    if (!window.localStorage.getItem('token')) {
-        window.top.location.href = "/admin/login";
-    }
-</script>
-<script src="/static/js/setToken.js" charset="utf-8"></script>
-</body>
-
-</html>
+    {include file="../app/common/view/public/uFooter.html" /}

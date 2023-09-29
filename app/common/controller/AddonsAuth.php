@@ -31,8 +31,8 @@ class AddonsAuth extends Common
         //根据地址判断接口类型 同时设置type 然后获取key->$type为a：admin接口 $type为u->user接口 $type为w->web接口  $type为其他->公共接口
         $type = $request['addon'][0];  //addons是控制器的名子
         $key = $this->getKeyType($type, $request['app_id'], $request['uid']);
-// echo $key;
-// die;
+        // echo $key;
+        // die;
         //解码token得到用户信息 如果$kye是一个数组说明是公共接口，所以用户、管理员、web用户的token均可 公共接口会根据token设置$this->type
         $request['data'] = $this->decodeData($token, $key);
 
@@ -66,7 +66,7 @@ class AddonsAuth extends Common
         } else {
             $key_user = AdminKeyConfig::find(1)['user'];
             $key_admin = AdminKeyConfig::find(1)['admin'];
-            $key_web = Apps::where(['id' => $app_id, 'uid' => $uid])->value('token_key');
+            $key_web = Apps::where(['id' => $app_id, 'uid' => $uid])->value('key');
             return $arr = [$key_user, $key_admin, $key_web];                    //公共接口
         }
         return $key;

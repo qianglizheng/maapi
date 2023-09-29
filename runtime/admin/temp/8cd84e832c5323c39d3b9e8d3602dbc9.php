@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Base.html";i:1689571685;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\config\Base.html";i:1695722682;s:37:"../app/common/view/public/header.html";i:1692460682;s:37:"../app/common/view/public/footer.html";i:1692460336;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -35,7 +35,7 @@
                             <div class="layui-upload-list">
                                 <img class="layui-upload-img logo" style="width:92px;height:92px;" id="demo1">
                                 <p id="demoText"></p>
-                                <input type="hidden" name="logo" placeholder="请输入邮箱" value="" class="layui-input logo">
+                                <input type="hidden" name="logo" placeholder="" value="" class="layui-input logo">
                             </div>
                             <div style="width: 95px;">
                                 <div class="layui-progress layui-progress-big" lay-showpercent="yes" lay-filter="demo">

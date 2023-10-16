@@ -1,4 +1,4 @@
-<?php /*a:2:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\index\index.html";i:1692460009;s:38:"../app/common/view/public/Ufooter.html";i:1692460672;}*/ ?>
+<?php /*a:2:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\index\index.html";i:1697116999;s:38:"../app/common/view/public/Ufooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -146,7 +146,7 @@
             $.get('/api/user/v1/menu', {}, function (res) {
                 if (res.code == 400) {
                     layer.msg(res.msg, { icon: 2 });
-                    localStorage.removeItem('token');
+                    localStorage.removeItem('uToken');
                     setTimeout(function () {
                         window.location = "user/login";
                     }, 2000)

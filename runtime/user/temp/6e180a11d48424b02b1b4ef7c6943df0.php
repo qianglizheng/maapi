@@ -1,4 +1,4 @@
-<?php /*a:3:{s:55:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\apps\add.html";i:1694935531;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\updates\add.html";i:1697467995;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -17,59 +17,43 @@
     <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
-
 <body>
     <div class="layui-form layuimini-form">
-        <div class="layui-form-item">
-            <label class="layui-form-label required">应用名：</label>
+        <input type="hidden" name="id" value="" class="id">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">更新内容：</label>
             <div class="layui-input-block">
-                <input type="text" name="name" lay-verify="required" lay-reqtext="应用名不能为空" placeholder="请输入应用名" value=""
-                    autocomplete="off" class="layui-input name">
+                <textarea placeholder="请输入内容" name="content" class="layui-textarea content"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label required">应用KEY：</label>
+            <label class="layui-form-label">下载地址：</label>
             <div class="layui-input-block">
-                <input type="text" name="key" lay-verify="required" lay-reqtext="应用KEY不能为空" placeholder="请输入应用KEY"
-                    value="key" autocomplete="off" class="layui-input key">
+                <input type="text" name="download_url" placeholder="" value="" autocomplete="off"
+                    class="layui-input download_url">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">时间戳验证：</label>
+            <label class="layui-form-label">版本号：</label>
             <div class="layui-input-block">
-                <select name="security_timestamp" id="security_timestamp">
-                    <option value="1" class="security_timestamp">开启</option>
-                    <option value="0" class="security_timestamp" selected>关闭</option>
-                </select>
+                <input type="number" name="version" value="" class="layui-input version">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" name="comment" class="layui-textarea comment"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">签名验证：</label>
+            <label class="layui-form-label">更新时间：</label>
             <div class="layui-input-block">
-                <select name="security_sign" id="security_sign">
-                    <option value="1" class="security_sign">开启</option>
-                    <option value="0" class="security_sign" selected>关闭</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">签名KEY：</label>
-            <div class="layui-input-block">
-                <input type="text" name="security_sign_key" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入签名KEY"
-                    value="key" autocomplete="off" class="layui-input security_sign_key">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">超时时间：</label>
-            <div class="layui-input-block">
-                <input type="text" name="security_timestamp_timeout" lay-verify="required" lay-reqtext="超时时间不能为空"
-                    placeholder="请输入超时时间" value="3600" autocomplete="off"
-                    class="layui-input security_timestamp_timeout">
+                <input type="datetime-local" name="" value="" class="layui-input update_time">
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认添加</button>
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
             </div>
         </div>
     </div>
@@ -84,7 +68,7 @@
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.ajax({
-                    url: "/api/user/v1/apps", //请求url
+                    url: "/api/user/v1/updates", //请求url
                     method: 'POST', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型
@@ -106,10 +90,10 @@
                     },
                     error: function () {
                         layer.msg('添加失败')
-                        setTimeout(function () {
-                            var iframeIndex = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(iframeIndex);
-                        }, 1000)
+                            setTimeout(function () {
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            }, 1000)
                     }
                 });
                 return false;

@@ -6,15 +6,15 @@ namespace app\api\controller\user\v1;
 
 use app\common\controller\CheckSignTimes;
 use think\facade\Request;
-use app\user\model\UserApps as AppsModel;
+use app\user\model\UserNotices as Model;
 
-class Apps extends CheckSignTimes
+class Notices extends CheckSignTimes
 {
     public function __construct()
     {
         //检查是否需要验证签名和时间
         $this->checkSignTimes('admin');
-        $this->model = new AppsModel();
+        $this->model = new Model();
         $this->params = Request::param();
         $this->uid = request()->data['id'];
         $this->params['uid'] = $this->uid;
@@ -28,20 +28,8 @@ class Apps extends CheckSignTimes
     {
         $page = (int)$this->params['page'];
         $limit = (int)$this->params['limit'];
-        //搜索 查询指定数据
-        if (!empty($this->params['name'])) {
-            $data = $this->model::where([
-                'name' => $this->params['name'],
-                'uid'      => $this->uid
-            ])->findOrEmpty();
-
-            if (!$data->isEmpty()) {
-                $res[] = $data;
-                return $this->returnJson(1, $res);
-            }
-        }
         //获取全部数据
-        $data = $this->model::where('uid', $this->uid)->page($page, $limit)->order('id desc')->select();
+        $data = $this->model::page($page, $limit)->order('id desc')->select();
         //获取数据条数
         $count = count($data);
         if ($data->isEmpty()) {
@@ -130,7 +118,6 @@ class Apps extends CheckSignTimes
      */
     public function delete($id)
     {
-        //$this->uid是后台用户的id，通过解密token获得
         $res = $this->model::where([
             "uid" => $this->uid
         ])->delete($id);

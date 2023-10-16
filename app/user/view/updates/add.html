@@ -1,0 +1,87 @@
+{include file="../app/common/view/public/uHeader.html" /}
+<link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
+<link rel="stylesheet" href="/static/css/public.css" media="all">
+<body>
+    <div class="layui-form layuimini-form">
+        <input type="hidden" name="id" value="" class="id">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">更新内容：</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" name="content" class="layui-textarea content"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">下载地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="download_url" placeholder="" value="" autocomplete="off"
+                    class="layui-input download_url">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">版本号：</label>
+            <div class="layui-input-block">
+                <input type="number" name="version" value="" class="layui-input version">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" name="comment" class="layui-textarea comment"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">更新时间：</label>
+            <div class="layui-input-block">
+                <input type="datetime-local" name="" value="" class="layui-input update_time">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
+            </div>
+        </div>
+    </div>
+    <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/static/js/md5.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                $ = layui.$;
+
+            //监听提交
+            form.on('submit(saveBtn)', function (data) {
+                $.ajax({
+                    url: "/api/user/v1/updates", //请求url
+                    method: 'POST', //请求方法
+                    data: JSON.stringify(data.field), //请求数据
+                    contentType: 'application/json', //请求数据类型
+                    success: function (res) {
+                        if (res.code == '204' || res.code == '200') {
+                            layer.msg('添加成功')
+                            setTimeout(function () {
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            }, 1000)
+                        };
+                        if (res.code == '400') {
+                            layer.msg('添加失败')
+                            setTimeout(function () {
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            }, 1000)
+                        };
+                    },
+                    error: function () {
+                        layer.msg('添加失败')
+                            setTimeout(function () {
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            }, 1000)
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+    {include file="../app/common/view/public/uFooter.html" /}

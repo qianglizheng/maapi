@@ -128,18 +128,47 @@ Route::group(function () {
         'page'    =>    'require',
         'limit'   =>    'require',
     ]);                                                                   //查询全部用户
-    Route::put('user/v1/users/:id', 'user.v1.Users/update');              //更新指定用户信息
+    Route::put('user/v1/users/:id', 'user.v1.Users/update')->validate([
+        'app_id'  =>   'require'
+    ]);                                                                     //更新指定用户信息
     Route::delete('user/v1/users/:id', 'user.v1.Users/delete');           //删除指定用户
 
     //应用管理
     Route::post('user/v1/apps', 'user.v1.Apps/save')->validate([
         'name'  => 'require',
-    ]);                                                                   //新增用户
-    Route::get('user/v1/apps/:id', 'user.v1.Apps/read');                //查询指定用户
+    ]);                                                                   //新增应用
+    Route::get('user/v1/apps/:id', 'user.v1.Apps/read');                //查询指定应用
     Route::get('user/v1/apps', 'user.v1.Apps/index')->validate([
         'page'    =>    'require',
         'limit'   =>    'require',
+    ]);                                                                   //查询全部应用信息
+    Route::put('user/v1/apps/:id', 'user.v1.Apps/update');              //更新指定应用信息
+    Route::delete('user/v1/apps/:id', 'user.v1.Apps/delete');           //删除指定应用
+
+    //更新管理
+    Route::post('user/v1/updates', 'user.v1.Updates/save')->validate([
+        'content' => 'require',
+        'download_url' => 'require',
+        'version' => 'require',
+    ]);
+    Route::get('user/v1/updates/:id', 'user.v1.Updates/read');                //查询指定用户
+    Route::get('user/v1/updates', 'user.v1.Updates/index')->validate([
+        'page'    =>    'require',
+        'limit'   =>    'require',
     ]);                                                                   //查询全部用户
-    Route::put('user/v1/apps/:id', 'user.v1.Apps/update');              //更新指定用户信息
-    Route::delete('user/v1/apps/:id', 'user.v1.Apps/delete');           //删除指定用户
+    Route::put('user/v1/updates/:id', 'user.v1.Updates/update');              //更新指定用户信息
+    Route::delete('user/v1/updates/:id', 'user.v1.Updates/delete');           //删除指定用户
+
+    //公告管理
+    Route::post('user/v1/notices', 'user.v1.Notices/save')->validate([
+        'content' => 'require',
+        'title' => 'require',
+    ]);
+    Route::get('user/v1/notices/:id', 'user.v1.Notices/read');                //查询指定用户
+    Route::get('user/v1/notices', 'user.v1.Notices/index')->validate([
+        'page'    =>    'require',
+        'limit'   =>    'require',
+    ]);                                                                   //查询全部用户
+    Route::put('user/v1/notices/:id', 'user.v1.Notices/update');              //更新指定用户信息
+    Route::delete('user/v1/notices/:id', 'user.v1.Notices/delete');           //删除指定用户
 })->middleware(\app\common\middleware\CheckAuth::class);

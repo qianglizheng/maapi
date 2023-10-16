@@ -1,4 +1,4 @@
-<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\edit.html";i:1694245701;s:38:"../app/common/view/public/uHeader.html";i:1692177891;s:38:"../app/common/view/public/uFooter.html";i:1692460672;}*/ ?>
+<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\edit.html";i:1696936019;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +30,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">用户名：</label>
             <div class="layui-input-block">
-                <input type="text" name="username" value="" autocomplete="off" class="layui-input username" disabled style="background-color: rgb(245,245,245);">
+                <input type="text" name="username" value="" autocomplete="off" disabled class="layui-input username" style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
@@ -152,7 +152,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">应用 ID：</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="" disabled="disabled" class="layui-input app_id" style="background-color: rgb(245,245,245);">
+                <input type="text" name="app_id" value="" class="layui-input app_id" disabled style="background-color: rgb(245,245,245);">
             </div>
         </div>
         <div class="layui-form-item">
@@ -169,14 +169,14 @@
                 layer = layui.layer,
                 $ = layui.$;
 
-            $.get('/addons/admin/users-groups', {}, function (res) {
+            $.get('/addons/user/users-groups', {}, function (res) {
                 res.data.forEach(data => {
                     $('#users').append(`<option value="${data.name}" class="users_groups">${data.name}</option>`);
                     form.render();
                 })
             })
             // $('#vip').append('<input type="radio" name="vip" value="普通 VIP" title="普通 VIP" class="vip">');
-            $.get('/addons/admin/vip-groups', {}, function (res) {
+            $.get('/addons/user/vip-groups', {}, function (res) {
                 res.data.forEach(data => {
                     $('#vip').append(`<option value="${data.name}" class="vip_groups">${data.name}</option>`);
                     form.render();

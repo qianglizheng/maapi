@@ -145,7 +145,7 @@
             $.get('/api/user/v1/menu', {}, function (res) {
                 if (res.code == 400) {
                     layer.msg(res.msg, { icon: 2 });
-                    localStorage.removeItem('token');
+                    localStorage.removeItem('uToken');
                     setTimeout(function () {
                         window.location = "user/login";
                     }, 2000)

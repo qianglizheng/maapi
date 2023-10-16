@@ -161,7 +161,6 @@ class Users extends CheckSignTimes
     /**
      * 保存更新的资源
      *
-     * @param  \think\Request  $request
      * @param  int  $id
      * @return \think\Response
      */
@@ -195,9 +194,18 @@ class Users extends CheckSignTimes
                 return $this->returnJson(0, [], '邮箱已存在', 400);
             }
         }
+        if (!empty($this->params['username'])) {
+            $res = $this->model::where([
+                'username' => $this->params['username'],
+                'uid'      => $this->uid,
+                'app_id'   => $this->params['app_id']
+            ])->count();
+            if ($res > 1) {
+                return $this->returnJson(0, [], '用户名已存在', 400);
+            }
+        }
 
         unset($this->params['id']); //不允许修改用户ID
-        unset($this->params['username']); //不允许修改用户名
 
         //create_time 和update_time 会自动设置为当前时间
         $res = $this->model::update($this->params, ['id' => $id]);

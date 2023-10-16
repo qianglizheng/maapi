@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\index.html";i:1694246682;s:38:"../app/common/view/public/uHeader.html";i:1692177891;s:38:"../app/common/view/public/uFooter.html";i:1692460672;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\users\index.html";i:1697290850;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -151,7 +151,7 @@
                     {
                         field: 'last_login_time',
                         width: 120,
-                        title: '登录时间',
+                        title: '更新时间',
                         sort: true
                     },
                     {
@@ -301,6 +301,8 @@
                             // console.log(a[2].slice(0, 2));
                             if (a[2].slice(0, 2) < 10) {
                                 s = '0' + a[2].slice(0, 2);
+                            }else{
+                                s =  a[2].slice(0, 2);
                             }
                             nowTime = a[0] + '-' + a[1] + '-' + s + ' ' + a[2].slice(3, 11);
 

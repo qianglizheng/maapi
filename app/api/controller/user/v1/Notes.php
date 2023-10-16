@@ -6,15 +6,15 @@ namespace app\api\controller\user\v1;
 
 use app\common\controller\CheckSignTimes;
 use think\facade\Request;
-use app\user\model\UserApps as AppsModel;
+use app\user\model\UserNotes as Model;
 
-class Apps extends CheckSignTimes
+class Notes extends CheckSignTimes
 {
     public function __construct()
     {
         //检查是否需要验证签名和时间
         $this->checkSignTimes('admin');
-        $this->model = new AppsModel();
+        $this->model = new Model();
         $this->params = Request::param();
         $this->uid = request()->data['id'];
         $this->params['uid'] = $this->uid;
@@ -130,7 +130,6 @@ class Apps extends CheckSignTimes
      */
     public function delete($id)
     {
-        //$this->uid是后台用户的id，通过解密token获得
         $res = $this->model::where([
             "uid" => $this->uid
         ])->delete($id);

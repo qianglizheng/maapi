@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\updates\add.html";i:1697467995;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\updates\add.html";i:1697975862;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 <body>
     <div class="layui-form layuimini-form">
-        <input type="hidden" name="id" value="" class="id">
+        <!-- <input type="hidden" name="id" value="" class="id"> -->
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">更新内容：</label>
             <div class="layui-input-block">

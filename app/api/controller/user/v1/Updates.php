@@ -64,7 +64,10 @@ class Updates extends CheckSignTimes
      */
     public function read($id)
     {
-        $data = $this->model::find($id); //没有则返回null
+        $data = $this->model::where([
+            'uid' => $this->uid,
+            'id'  => $id
+            ])->find(); //没有则返回null
         if ($data) {
             return $this->returnJson(1, $data);
         }
@@ -81,11 +84,12 @@ class Updates extends CheckSignTimes
      */
     public function update($id)
     {
-
         unset($this->params['id']); //不允许修改更新ID
-
         //执行更新
-        $res = $this->model::update($this->params, ['id' => $id]);
+        $res = $this->model::where([
+            'uid' => $this->uid,
+            'id'  => $id
+        ])->update($this->params);
         if ($res) {
             return $this->returnJson(0, [], '更新成功');
         }
@@ -100,7 +104,10 @@ class Updates extends CheckSignTimes
      */
     public function delete($id)
     {
-        $res = $this->model::delete($id);
+        $res = $this->model::where([
+            "uid" => $this->uid,
+            'id'  => $id
+        ])->delete();
         if ($res) {
             return $this->returnJson(0, [], '删除成功');
         }

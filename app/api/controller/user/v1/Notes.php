@@ -28,20 +28,8 @@ class Notes extends CheckSignTimes
     {
         $page = (int)$this->params['page'];
         $limit = (int)$this->params['limit'];
-        //搜索 查询指定数据
-        if (!empty($this->params['name'])) {
-            $data = $this->model::where([
-                'name' => $this->params['name'],
-                'uid'      => $this->uid
-            ])->findOrEmpty();
-
-            if (!$data->isEmpty()) {
-                $res[] = $data;
-                return $this->returnJson(1, $res);
-            }
-        }
         //获取全部数据
-        $data = $this->model::where('uid', $this->uid)->page($page, $limit)->order('id desc')->select();
+        $data = $this->model::page($page, $limit)->order('id desc')->select();
         //获取数据条数
         $count = count($data);
         if ($data->isEmpty()) {
@@ -58,22 +46,11 @@ class Notes extends CheckSignTimes
      */
     public function save()
     {
-
-        //检查
-        $res = $this->model::where([
-            'name' => $this->params['name'],
-            'uid'      => $this->uid,
-        ])->find();
-        if ($res) {
-            return $this->returnJson(0, [], '应用名已存在', 400);
-        }
-
-        //添加应用
         $res = $this->model::create($this->params);
         if ($res) {
-            return $this->returnJson(0, [], '添加应用成功');
+            return $this->returnJson(0, [], '添加成功');
         }
-        return $this->returnJson(0, [], '添加应用失败', 400);
+        return $this->returnJson(0, [], '添加失败', 400);
     }
 
     /**
@@ -84,11 +61,14 @@ class Notes extends CheckSignTimes
      */
     public function read($id)
     {
-        $data = $this->model::where('uid', $this->uid)->find($id); //没有则返回null
+        $data = $this->model::where([
+            'uid' => $this->uid,
+            'id'  => $id
+            ])->find(); //没有则返回null
         if ($data) {
             return $this->returnJson(1, $data);
         }
-        return $this->returnJson(0, [], '应用不存在', 400);
+        return $this->returnJson(0, [], '数据不存在', 400);
     }
 
 
@@ -101,25 +81,16 @@ class Notes extends CheckSignTimes
      */
     public function update($id)
     {
-        //检查
-        if (!empty($this->params['name'])) {
-            $res = $this->model::where('name', $this->params['name'])->where([
-                ["uid", '=', $this->uid],
-                ['id', '<>', $id]
-            ])->findOrEmpty();
-            if (!$res->isEmpty()) {
-                return $this->returnJson(0, [], '应用名已存在', 400);
-            }
-        }
-
-        unset($this->params['id']); //不允许修改应用ID
-
+        unset($this->params['id']); //不允许修改更新ID
         //执行更新
-        $res = $this->model::update($this->params, ['id' => $id]);
+        $res = $this->model::where([
+            'uid' => $this->uid,
+            'id'  => $id
+        ])->update($this->params);
         if ($res) {
-            return $this->returnJson(0, [], '应用信息更新成功');
+            return $this->returnJson(0, [], '更新成功');
         }
-        return $this->returnJson(0, [], '应用信息更新失败', 400);
+        return $this->returnJson(0, [], '更新失败', 400);
     }
 
     /**
@@ -131,11 +102,12 @@ class Notes extends CheckSignTimes
     public function delete($id)
     {
         $res = $this->model::where([
-            "uid" => $this->uid
-        ])->delete($id);
+            "uid" => $this->uid,
+            'id'  => $id
+        ])->delete();
         if ($res) {
-            return $this->returnJson(0, [], '应用删除成功');
+            return $this->returnJson(0, [], '删除成功');
         }
-        return $this->returnJson(0, [], '应用删除失败', 400);
+        return $this->returnJson(0, [], '删除失败', 400);
     }
 }

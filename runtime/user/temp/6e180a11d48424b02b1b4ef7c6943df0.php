@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\updates\add.html";i:1697975862;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\updates\add.html";i:1697977703;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -48,7 +48,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">更新时间：</label>
             <div class="layui-input-block">
-                <input type="datetime-local" name="" value="" class="layui-input update_time">
+                <input type="datetime-local" name="update_time" value="" class="layui-input update_time">
             </div>
         </div>
         <div class="layui-form-item">

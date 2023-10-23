@@ -6,14 +6,14 @@
     <div class="layui-form layuimini-form">
         <input type="hidden" name="id" value="" class="id">
         <div class="layui-form-item">
-            <label class="layui-form-label">公告标题：</label>
+            <label class="layui-form-label">笔记标题：</label>
             <div class="layui-input-block">
                 <input type="text" name="title" placeholder="" value="" autocomplete="off"
                     class="layui-input title">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">公告内容：</label>
+            <label class="layui-form-label">笔记内容：</label>
             <div class="layui-input-block">
                 <textarea placeholder="请输入内容" name="content" class="layui-textarea content"></textarea>
             </div>
@@ -27,7 +27,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">发布时间：</label>
             <div class="layui-input-block">
-                <input type="datetime-local" name="update_time" value="" class="layui-input notice_time">
+                <input type="datetime-local" name="create_time" value="" class="layui-input create_time">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">更新时间：</label>
+            <div class="layui-input-block">
+                <input type="datetime-local" name="update_time" value="" class="layui-input update_time">
             </div>
         </div>
         <div class="layui-form-item">
@@ -37,7 +43,6 @@
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="/static/js/md5.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
@@ -47,7 +52,7 @@
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.ajax({
-                    url: `/api/user/v1/notices/${data.field.id}`, //请求url
+                    url: `/api/user/v1/notes/${data.field.id}`, //请求url
                     method: 'PUT', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型

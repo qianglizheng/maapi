@@ -1,4 +1,20 @@
-{include file="../app/common/view/public/uHeader.html" /}
+<?php /*a:3:{s:56:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notes\add.html";i:1698054291;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>创梦API</title>
+    <meta name="keywords" content="iapp,iapp后台,创梦iapp,创梦API">
+    <meta name="description" content="好用的iapp后台管理系统">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 <body>
@@ -91,4 +107,12 @@
             });
         });
     </script>
-    {include file="../app/common/view/public/uFooter.html" /}
+    <script>
+    //判断是否登录
+    if (!window.localStorage.getItem('uToken')) {
+        window.top.location.href = "/user/login";
+    }
+</script>
+<script src="/static/js/setUtoken.js" charset="utf-8"></script>
+</body>
+</html>

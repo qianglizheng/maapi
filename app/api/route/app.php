@@ -171,4 +171,17 @@ Route::group(function () {
     ]);                                                                   //查询全部用户
     Route::put('user/v1/notices/:id', 'user.v1.Notices/update');              //更新指定用户信息
     Route::delete('user/v1/notices/:id', 'user.v1.Notices/delete');           //删除指定用户
+
+    //公告管理
+    Route::post('user/v1/notes', 'user.v1.Notes/save')->validate([
+        'content' => 'require',
+        'title' => 'require',
+    ]);
+    Route::get('user/v1/notes/:id', 'user.v1.Notes/read');                //查询指定用户
+    Route::get('user/v1/notes', 'user.v1.Notes/index')->validate([
+        'page'    =>    'require',
+        'limit'   =>    'require',
+    ]);                                                                   //查询全部用户
+    Route::put('user/v1/notes/:id', 'user.v1.Notes/update');              //更新指定用户信息
+    Route::delete('user/v1/notes/:id', 'user.v1.Notes/delete');           //删除指定用户
 })->middleware(\app\common\middleware\CheckAuth::class);

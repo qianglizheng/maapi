@@ -1,4 +1,4 @@
-<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notices\index.html";i:1697470353;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notices\index.html";i:1698053718;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -76,9 +76,9 @@
                         title: '公告内容'
                     },
                     {
-                        field: 'notice_time',
+                        field: 'create_time',
                         width: 120,
-                        title: '公告时间',
+                        title: '发布时间',
                         sort: true
                     },
                     {
@@ -210,7 +210,7 @@
                             body.find(".id").val(data.id);
                             body.find(".content").val(data.content);
                             body.find(".title").val(data.title);
-                            body.find(".notice_time").val(data.notice_time);
+                            body.find(".create_time").val(data.create_time);
                             body.find(".comment").val(data.comment);
 
                             var iframeWin = window[layero.find('iframe')[0]['name']];
@@ -283,9 +283,9 @@
                         title: '公告内容'
                     },
                     {
-                        field: 'notice_time',
+                        field: 'create_time',
                         width: 120,
-                        title: '公告时间',
+                        title: '发布时间',
                         sort: true
                     },
                     {

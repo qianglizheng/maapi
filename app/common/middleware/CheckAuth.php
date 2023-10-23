@@ -14,7 +14,7 @@ class CheckAuth extends Common
 {
     /**
      * 检查
-     * 返回的request里面的data是解码后的用户信息
+     * 返回的request里面的data是解码后的用户信息 type是token的类型
      * @param \think\Request $request
      * @param \Closure       $next
      * @return Response
@@ -27,7 +27,6 @@ class CheckAuth extends Common
             echo json_encode(['code' => 400, 'msg' => 'token不能为空'], JSON_UNESCAPED_UNICODE);
             die;
         }
-
         //根据是否有参数app_id和uid判断是否是应用接口->判断应用和用户是否对应->防止获取不到key  如果没有这两个参数就将它们置为null
         if (!isset($request['app_id'], $request['uid'])) {
             $request['app_id'] = $request['uid']  = null;

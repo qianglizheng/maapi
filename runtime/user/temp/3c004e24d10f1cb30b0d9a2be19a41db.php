@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notes\index.html";i:1697470353;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notes\index.html";i:1698053663;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -47,7 +47,7 @@
 
             table.render({
                 elem: '#currentTableId',
-                url: '/api/user/v1/notices',
+                url: '/api/user/v1/notes',
                 toolbar: '#toolbarDemo',
                 defaultToolbar: ['filter', 'exports', 'print', {
                     title: '提示',
@@ -68,17 +68,23 @@
                     {
                         field: 'title',
                         width: 120,
-                        title: '公告标题'
+                        title: '笔记标题'
                     },
                     {
                         field: 'content',
                         width: 120,
-                        title: '公告内容'
+                        title: '笔记内容'
                     },
                     {
-                        field: 'notice_time',
+                        field: 'create_time',
                         width: 120,
-                        title: '公告时间',
+                        title: '发布时间',
+                        sort: true
+                    },
+                    {
+                        field: 'update_time',
+                        width: 120,
+                        title: '更新时间',
                         sort: true
                     },
                     {
@@ -141,16 +147,16 @@
             table.on('toolbar(currentTableFilter)', function (obj) {
                 if (obj.event === 'add') { // 监听添加操作
                     var index = layer.open({
-                        title: '添加公告',
+                        title: '添加笔记',
                         type: 2,
                         shade: 0.2,
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '/user/notices/add',
+                        content: '/user/notes/add',
                         end: function () {
                             table.reload('currentTableId', {
-                                url: '/api/user/v1/notices',
+                                url: '/api/user/v1/notes',
                                 where: {}
                             });
                         }
@@ -167,7 +173,7 @@
                             arr[i] = data[i].id;
                         }
                         $.ajax({
-                            url: '/api/user/v1/notices/' + arr,
+                            url: '/api/user/v1/notes/' + arr,
                             method: 'delete',
                             data: { 'id': arr },
                             contentType: 'application/json',
@@ -175,7 +181,7 @@
                                 console.log(arr);
                                 //重载表格
                                 table.reload('currentTableId', {
-                                    url: '/api/user/v1/notices',
+                                    url: '/api/user/v1/notes',
                                     where: {}
                                 });
                             },
@@ -204,13 +210,14 @@
                         maxmin: true,
                         shadeClose: true,
                         area: ['100%', '100%'],
-                        content: '/user/notices/edit',
+                        content: '/user/notes/edit',
                         success: function (layero, index) {
                             var body = layui.layer.getChildFrame('body', index);
                             body.find(".id").val(data.id);
                             body.find(".content").val(data.content);
                             body.find(".title").val(data.title);
-                            body.find(".notice_time").val(data.notice_time);
+                            body.find(".create_time").val(data.create_time);
+                            body.find(".update_time").val(data.update_time);
                             body.find(".comment").val(data.comment);
 
                             var iframeWin = window[layero.find('iframe')[0]['name']];
@@ -219,7 +226,7 @@
                         end: function () {
                             //重载表格
                             table.reload('currentTableId', {
-                                url: '/api/user/v1/notices',
+                                url: '/api/user/v1/notes',
                                 where: {}
                             });
                         }
@@ -233,7 +240,7 @@
                     layer.confirm('真的删除么', function (index) {
                         var id = data.id;
                         $.ajax({
-                            url: '/api/user/v1/notices/' + id,
+                            url: '/api/user/v1/notes/' + id,
                             method: 'delete',
                             data: '',
                             contentType: 'application/json',
@@ -254,7 +261,7 @@
                 table.render({
                     initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                     elem: '#currentTableId',
-                    url: '/api/user/v1/notices',
+                    url: '/api/user/v1/notes',
                     toolbar: '#toolbarDemo',
                     defaultToolbar: ['filter', 'exports', 'print', {
                         title: '提示',
@@ -275,17 +282,23 @@
                     {
                         field: 'title',
                         width: 120,
-                        title: '公告标题'
+                        title: '笔记标题'
                     },
                     {
                         field: 'content',
                         width: 120,
-                        title: '公告内容'
+                        title: '笔记内容'
                     },
                     {
-                        field: 'notice_time',
+                        field: 'create_time',
                         width: 120,
-                        title: '公告时间',
+                        title: '发布时间',
+                        sort: true
+                    },
+                    {
+                        field: 'update_time',
+                        width: 120,
+                        title: '更新时间',
                         sort: true
                     },
                     {

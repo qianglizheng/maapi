@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1695130929;s:37:"../app/common/view/public/header.html";i:1695986670;s:37:"../app/common/view/public/footer.html";i:1695986858;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1695130929;s:37:"../app/common/view/public/header.html";i:1697116598;s:37:"../app/common/view/public/footer.html";i:1695986858;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,7 +15,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <!-- <link rel="icon" href="/static/images/favicon.ico"> -->
-    <script src="/static/js/setToken.js" charset="utf-8"></script>
 <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
 <link rel="stylesheet" href="/static/css/public.css" media="all">
 </head>

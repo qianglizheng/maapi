@@ -16,8 +16,7 @@ class Updates extends CheckSignTimes
         $this->checkSignTimes('admin');
         $this->model = new Model();
         $this->params = Request::param();
-
-        //获取后台用户的id
+        //uid是后台用户的id 从token里面拿出来的
         $this->uid = request()->data['id'];
         $this->params['uid'] = $this->uid;
     }

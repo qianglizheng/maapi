@@ -20,6 +20,7 @@ class Users extends CheckSignTimes
         $this->checkSignTimes('admin');
         $this->model = new UserUsersModel();
         $this->params = Request::param();
+        //uid是后台用户的id 从token里面拿出来的
         $this->uid = request()->data['id'];
         $this->params['uid'] = $this->uid;
         //根据用户的分组和VIP分组享受某些功能

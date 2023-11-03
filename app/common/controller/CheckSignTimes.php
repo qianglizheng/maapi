@@ -6,7 +6,7 @@ use app\common\controller\Common;
 use think\facade\Request;
 use app\admin\model\AdminApiConfig;
 use app\user\model\UserApiConfig;
-use app\user\model\Apps;
+use app\user\model\UserApps as Apps;
 use think\facade\Cache;
 
 class CheckSignTimes extends Common
@@ -21,12 +21,12 @@ class CheckSignTimes extends Common
         $this->checkCache($type); //type是接口类型
 
         //判断签名验证有没有开启 开启则执行验证
-        if (Cache::get('web_security_sign') || Cache::get('user_security_sign') || Cache::get('admin_security_sign')) {
+        if (Cache::get('web_security_sign') == '1'  || Cache::get('user_security_sign') == '1' || Cache::get('admin_security_sign') == '1' ) {
             $this->checkSign($type);
         }
 
         //判断时间戳验证有没有开启 开启则执行验证
-        if (Cache::get('web_security_timestamp') || Cache::get('user_security_timestamp') || Cache::get('admin_security_timestamp')) {
+        if (Cache::get('web_security_timestamp') == '1' || Cache::get('user_security_timestamp') =='1' || Cache::get('admin_security_timestamp') == '1') {
             $this->checkTimes($type);
         }
     }
@@ -114,7 +114,10 @@ class CheckSignTimes extends Common
             }
         } elseif ($type == 'web') {
             if (Cache::get('web_timestamp') == null) {
-                $this->apiConfig = Apps::where(['id' => $this->params['app_id'], 'uid' => $this->param['uid']])->find();
+                $this->apiConfig = Apps::where([
+                    'id' => $this->params['app_id'],
+                    'uid' => $this->params['uid']
+                ])->find();
                 Cache::set('web_security_timestamp', $this->apiConfig->security_timestamp);
                 Cache::set('web_security_sign', $this->apiConfig->security_sign);
                 Cache::set('web_security_sign_key', $this->apiConfig->security_sign_key);

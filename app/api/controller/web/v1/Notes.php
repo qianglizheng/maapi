@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\api\controller\user\v1;
+namespace app\api\controller\web\v1;
 
 use app\common\controller\CheckSignTimes;
 use think\facade\Request;
@@ -13,12 +13,12 @@ class Notes extends CheckSignTimes
     public function __construct()
     {
         //检查是否需要验证签名和时间
-        $this->checkSignTimes('admin');
+        $this->checkSignTimes('web');
         $this->model = new Model();
         $this->params = Request::param();
-        //uid是后台用户的id 从token里面拿出来的
-        $this->uid = request()->data['id'];
-        $this->params['uid'] = $this->uid;
+        //user_id是app用户的id 从token里面拿出来的
+        $this->user_id = request()->data['id'];
+        // $this->params['user_id'] = $this->user_id;
     }
     /**
      * 显示资源列表

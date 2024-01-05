@@ -48,6 +48,6 @@ class SetCode extends CheckSignTimes
         }
         $this->code = $code;
         //设置验证码 默认有效时间为一分钟
-        Cache::set($key, $code, 60);
+        Cache::set($key, $code, 600);
     }
 }

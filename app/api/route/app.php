@@ -189,17 +189,19 @@ Route::group(function () {
 /**
  * web接口 不需要登录
  */
-Route::post('admin/v1/login/using-password', 'admin.v1.Login/loginPassword')->validate([
+Route::post('web/v1/login/using-password', 'web.v1.Login/loginPassword')->validate([
     'username'    =>    'require',
     'password'    =>    'require',
     'code'        =>    'require',
-    'uuid'        =>    'require'
+    'uuid'        =>    'require',
+    'uid'         =>    'require',
+    
 ]);
-Route::post('admin/v1/login/using-email', 'admin.v1.Login/loginEmail')->validate([
+Route::post('web/v1/login/using-email', 'web.v1.Login/loginEmail')->validate([
     'email'    =>    'require',
     'code'     =>    'require',
 ]);
-Route::post('admin/v1/login/using-mobile', 'admin.v1.Login/loginMobile')->validate([
+Route::post('web/v1/login/using-mobile', 'web.v1.Login/loginMobile')->validate([
     'mobile'    =>    'require',
     'code'      =>    'require',
 ]);

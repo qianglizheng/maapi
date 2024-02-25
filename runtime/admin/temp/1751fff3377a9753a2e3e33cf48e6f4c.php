@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1695130929;s:37:"../app/common/view/public/header.html";i:1697116598;s:37:"../app/common/view/public/footer.html";i:1695986858;}*/ ?>
+<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\admin\view\users\index.html";i:1708862802;s:37:"../app/common/view/public/header.html";i:1697116598;s:37:"../app/common/view/public/footer.html";i:1695986858;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -230,28 +230,23 @@
                     var checkStatus = table.checkStatus('currentTableId')
                     data = checkStatus.data;
                     layer.confirm('真的删除么', function (index) {
-                        var arr = [];
                         for (var i = 0; i < data.length; i++) {
-                            arr[i] = data[i].id;
+                            $.ajax({
+                                url: '/api/user/v1/users/' + data[i].id,
+                                method: 'delete',
+                                contentType: 'application/json',
+                                success: function (res) {
+                                    //重载表格
+                                    table.reload('currentTableId', {
+                                        url: '/api/user/v1/users',
+                                        where: {}
+                                    });
+                                },
+                                error: function () {
+                                    layer.msg('删除失败');
+                                }
+                            })
                         }
-                        $.ajax({
-                            url: '/api/admin/v1/users/' + arr,
-                            method: 'delete',
-                            data: { 'id': arr },
-                            contentType: 'application/json',
-                            success: function (res) {
-                                console.log(arr);
-                                //重载表格
-                                table.reload('currentTableId', {
-                                    url: '/api/admin/v1/users',
-                                    where: {}
-                                });
-                            },
-                            error: function () {
-                                layer.msg('删除失败');
-                            }
-                        })
-
                         layer.close(index);
                     });
                 }

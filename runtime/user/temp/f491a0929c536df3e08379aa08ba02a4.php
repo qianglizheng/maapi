@@ -1,4 +1,4 @@
-<?php /*a:3:{s:59:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notices\edit.html";i:1698053691;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:57:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notes\edit.html";i:1698053626;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -22,14 +22,14 @@
     <div class="layui-form layuimini-form">
         <input type="hidden" name="id" value="" class="id">
         <div class="layui-form-item">
-            <label class="layui-form-label">公告标题：</label>
+            <label class="layui-form-label">笔记标题：</label>
             <div class="layui-input-block">
                 <input type="text" name="title" placeholder="" value="" autocomplete="off"
                     class="layui-input title">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">公告内容：</label>
+            <label class="layui-form-label">笔记内容：</label>
             <div class="layui-input-block">
                 <textarea placeholder="请输入内容" name="content" class="layui-textarea content"></textarea>
             </div>
@@ -47,13 +47,18 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">更新时间：</label>
+            <div class="layui-input-block">
+                <input type="datetime-local" name="update_time" value="" class="layui-input update_time">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
             </div>
         </div>
     </div>
     <script src="/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="/static/js/md5.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'layer'], function () {
             var form = layui.form,
@@ -63,7 +68,7 @@
             //监听提交
             form.on('submit(saveBtn)', function (data) {
                 $.ajax({
-                    url: `/api/user/v1/notices/${data.field.id}`, //请求url
+                    url: `/api/user/v1/notes/${data.field.id}`, //请求url
                     method: 'PUT', //请求方法
                     data: JSON.stringify(data.field), //请求数据
                     contentType: 'application/json', //请求数据类型

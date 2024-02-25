@@ -1,4 +1,4 @@
-<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notices\add.html";i:1698053679;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:58:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\notices\add.html";i:1705486688;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -37,12 +37,6 @@
             <label class="layui-form-label">备注：</label>
             <div class="layui-input-block">
                 <textarea placeholder="请输入内容" name="comment" class="layui-textarea comment"></textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">发布时间：</label>
-            <div class="layui-input-block">
-                <input type="datetime-local" name="create_time" value="" class="layui-input create_time">
             </div>
         </div>
         <div class="layui-form-item">

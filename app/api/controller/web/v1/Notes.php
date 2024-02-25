@@ -27,10 +27,10 @@ class Notes extends CheckSignTimes
      */
     public function index($page, $limit)
     {
-        $page = (int)$this->params['page'];
-        $limit = (int)$this->params['limit'];
+        $page = (int) $this->params['page'];
+        $limit = (int) $this->params['limit'];
         //获取全部数据
-        $data = $this->model::page($page, $limit)->order('id desc')->select();
+        $data = $this->model::page($page, $limit)->where('user_id', $this->user_id)->order('id desc')->select();
         //获取数据条数
         $count = count($data);
         if ($data->isEmpty()) {
@@ -47,6 +47,7 @@ class Notes extends CheckSignTimes
      */
     public function save()
     {
+        $this->params['user_id'] = $this->user_id;//把token里面的用户ID放入插入参数
         $res = $this->model::create($this->params);
         if ($res) {
             return $this->returnJson(0, [], '添加成功');
@@ -63,8 +64,9 @@ class Notes extends CheckSignTimes
     public function read($id)
     {
         $data = $this->model::where([
-            'uid' => $this->uid,
-            'id'  => $id
+            'uid' => $this->params['uid'],
+            'id'  => $id,
+            'user_id' => $this->user_id
             ])->find(); //没有则返回null
         if ($data) {
             return $this->returnJson(1, $data);
@@ -85,8 +87,9 @@ class Notes extends CheckSignTimes
         unset($this->params['id']); //不允许修改更新ID
         //执行更新
         $res = $this->model::where([
-            'uid' => $this->uid,
-            'id'  => $id
+            'uid' => $this->params['uid'],
+            'id'  => $id,
+            'user_id' => $this->user_id
         ])->update($this->params);
         if ($res) {
             return $this->returnJson(0, [], '更新成功');
@@ -103,9 +106,10 @@ class Notes extends CheckSignTimes
     public function delete($id)
     {
         $res = $this->model::where([
-            "uid" => $this->uid,
-            'id'  => $id
-        ])->delete();
+            'uid' => $this->params['uid'],
+            'id'  => $id,
+            'user_id' => $this->user_id
+        ])->delete($id);
         if ($res) {
             return $this->returnJson(0, [], '删除成功');
         }

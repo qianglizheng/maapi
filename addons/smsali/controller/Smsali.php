@@ -1,6 +1,7 @@
 <?php
 
 // This file is auto-generated, don't edit it. Thanks.
+
 namespace addons\smsali\controller;
 
 use Darabonba\OpenApi\OpenApiClient;
@@ -11,15 +12,16 @@ use Darabonba\OpenApi\Models\Params;
 use AlibabaCloud\Tea\Utils\Utils\RuntimeOptions;
 use Darabonba\OpenApi\Models\OpenApiRequest;
 
-class Smsali {
-
+class Smsali
+{
     /**
      * 使用AK&SK初始化账号Client
      * @param string $accessKeyId
      * @param string $accessKeySecret
      * @return OpenApiClient Client
      */
-    public static function createClient($accessKeyId, $accessKeySecret){
+    public static function createClient($accessKeyId, $accessKeySecret)
+    {
         $config = new Config([
             // 必填，您的 AccessKey ID
             "accessKeyId" => $accessKeyId,
@@ -35,7 +37,8 @@ class Smsali {
      * API 相关
      * @return Params OpenApi.Params
      */
-    public static function createApiInfo(){
+    public static function createApiInfo()
+    {
         $params = new Params([
             // 接口名称
             "action" => "SendSms",
@@ -61,12 +64,13 @@ class Smsali {
      * @param string[] $args
      * @return void
      */
-    public static function send($receiver,$content){
+    public static function send($receiver, $content)
+    {
         // 工程代码泄露可能会导致AccessKey泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/311677.html
-        $client = self::createClient("LTAI5tNMWbSDQ8Dcefh85A9E", "DsUavNLs3EuypWRSvFVRuDlND6Uod5");
+        $client = self::createClient("LTAI5tNMWbSDQ8Dcefh85A9EE", "DsUavNLs3EuypWRSvFVRuDlND6Uod5E");
         $params = self::createApiInfo();
         // query params
-        $arr = ['code'=>$content];
+        $arr = ['code' => $content];
         $queries = [];
         $queries["PhoneNumbers"] = $receiver;
         $queries["SignName"] = "小码笔记";

@@ -59,7 +59,6 @@ class Apps extends CheckSignTimes
      */
     public function save()
     {
-
         //检查
         $res = $this->model::where([
             'name' => $this->params['name'],

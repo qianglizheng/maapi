@@ -195,15 +195,35 @@ Route::post('web/v1/login/using-password', 'web.v1.Login/loginPassword')->valida
     'code'        =>    'require',
     'uuid'        =>    'require',
     'uid'         =>    'require',
-    
+    'app_id'      =>    'require',
 ]);
 Route::post('web/v1/login/using-email', 'web.v1.Login/loginEmail')->validate([
     'email'    =>    'require',
     'code'     =>    'require',
+    'uid'      =>    'require',
+    'app_id'   =>    'require',
+
 ]);
 Route::post('web/v1/login/using-mobile', 'web.v1.Login/loginMobile')->validate([
     'mobile'    =>    'require',
     'code'      =>    'require',
+    'uid'       =>    'require',
+    'app_id'    =>    'require',
+]);
+Route::post('web/v1/reg/using-uname', 'web.v1.Login/regUname')->validate([
+    'username'  =>    'require',
+    'password'  =>    'require',
+    'uid'       =>    'require',
+    'app_id'    =>    'require',
+]);
+
+Route::group(function () {
+    //公告系统 不需要登录，任何人都可以查看
+    Route::get('web/v1/notices/:id', 'web.v1.Notices/read');
+    Route::get('web/v1/updates/:id', 'web.v1.Updates/read');
+})->validate([
+    'app_id' => 'require',//应用id
+    'uid'    => 'require'//后台用户id
 ]);
 
 /**
@@ -211,7 +231,7 @@ Route::post('web/v1/login/using-mobile', 'web.v1.Login/loginMobile')->validate([
  */
 Route::group(function () {
     Route::group(function () {
-        //用户中心
+        //笔记系统 笔记系统用户自己查看自己的笔记，不能查看别人的笔记
         Route::post('web/v1/notes', 'web.v1.Notes/save');
         Route::get('web/v1/notes/:id', 'web.v1.Notes/read');
         Route::get('web/v1/notes', 'web.v1.Notes/index')->validate([
@@ -221,9 +241,9 @@ Route::group(function () {
             'uid'     =>    'require'
         ]);
         Route::put('web/v1/notes/:id', 'web.v1.Notes/update');
-        Route::delete('web/v1/notes/:id', 'admin.v1.Notes/delete');
+        Route::delete('web/v1/notes/:id', 'web.v1.Notes/delete');
     })->validate([
-        'app_id' => 'require',
-        'uid'    => 'require'
+        'app_id' => 'require',//应用id
+        'uid'    => 'require'//后台用户id
     ]);
 })->middleware(\app\common\middleware\CheckAuth::class);

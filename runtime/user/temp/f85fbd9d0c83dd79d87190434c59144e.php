@@ -1,4 +1,4 @@
-<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\updates\index.html";i:1697468258;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
+<?php /*a:3:{s:60:"D:\phpstudy_pro\WWW\tp6.com\app\user\view\updates\index.html";i:1705484617;s:38:"../app/common/view/public/uHeader.html";i:1697116602;s:38:"../app/common/view/public/uFooter.html";i:1695986854;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -76,6 +76,12 @@
                         title: '下载地址'
                     },
                     {
+                        field: 'create_time',
+                        width: 120,
+                        title: '发布时间',
+                        sort: true
+                    },
+                    {
                         field: 'update_time',
                         width: 120,
                         title: '更新时间',
@@ -85,6 +91,12 @@
                         field: 'version',
                         width: 120,
                         title: '版本号'
+                    },
+                    {
+                        field: 'app_id',
+                        width: 120,
+                        title: '应用ID',
+                        sort: true
                     },
                     {
                         field: 'comment',
@@ -268,50 +280,62 @@
                         icon: 'layui-icon-tips'
                     }],
                     cols: [
-                    [{
-                        type: "checkbox",
-                        width: 50
-                    },
-                    {
-                        field: 'id',
-                        width: 60,
-                        title: 'ID',
-                        sort: true
-                    },
-                    {
-                        field: 'content',
-                        width: 120,
-                        title: '更新内容'
-                    },
-                    {
-                        field: 'download_url',
-                        width: 120,
-                        title: '下载地址'
-                    },
-                    {
-                        field: 'update_time',
-                        width: 120,
-                        title: '更新时间',
-                        sort: true
-                    },
-                    {
-                        field: 'version',
-                        width: 120,
-                        title: '版本号'
-                    },
-                    {
-                        field: 'comment',
-                        width: 120,
-                        title: '备注'
-                    },
-                    {
-                        title: '操作',
-                        minWidth: 150,
-                        toolbar: '#currentTableBar',
-                        align: "center"
-                    }
-                    ]
-                ],
+                        [{
+                            type: "checkbox",
+                            width: 50
+                        },
+                        {
+                            field: 'id',
+                            width: 60,
+                            title: 'ID',
+                            sort: true
+                        },
+                        {
+                            field: 'content',
+                            width: 120,
+                            title: '更新内容'
+                        },
+                        {
+                            field: 'download_url',
+                            width: 120,
+                            title: '下载地址'
+                        },
+                        {
+                            field: 'create_time',
+                            width: 120,
+                            title: '发布时间',
+                            sort: true
+                        },
+                        {
+                            field: 'update_time',
+                            width: 120,
+                            title: '更新时间',
+                            sort: true
+                        },
+                        {
+                            field: 'version',
+                            width: 120,
+                            title: '版本号'
+                        },
+                        {
+                            field: 'app_id',
+                            width: 120,
+                            title: '应用ID',
+                            sort: true
+                        },
+                        {
+                            field: 'comment',
+                            width: 120,
+                            title: '备注'
+                        },
+                        {
+                            title: '操作',
+                            minWidth: 150,
+                            toolbar: '#currentTableBar',
+                            align: "center"
+                        }
+                        ]
+                    ],
                     limits: [10, 15, 20, 25, 50, 100],
                     limit: 15,
                     page: true,

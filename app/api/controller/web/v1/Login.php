@@ -16,15 +16,6 @@ class Login extends CheckSignTimes
         //检查是否需要验证签名和时间
         $this->checkSignTimes('web');
         $this->params = Request::post();
-        $this->key = UserApps::where([
-            'id'  => $this->params['app_id'],
-            'uid' => $this->params['uid']
-        ])->findOrEmpty()['key'];//获取应用的key
-
-        if($this->key == ''){
-            echo json_encode(['code' => 400, 'msg' => '应用不存在或者不属于该用户'], JSON_UNESCAPED_UNICODE);
-            die;
-        }
         header('Content-Type:application/json; charset=utf-8');
     }
 
@@ -33,24 +24,25 @@ class Login extends CheckSignTimes
      */
     public function loginPassword()
     {
+        $this->getKey();
         $data = $this->params;                                                     //获取参数
         $this->checkImgCode($data);                                                //验证码验证
 
         if (filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
             $res = UserUsers::where([
-                'email'=>$data['username'],
-                'app_id'=>$data['app_id']
+                'email' => $data['username'],
+                'app_id' => $data['app_id']
             ])->findOrEmpty();       //通过邮箱查询用户信息
         } elseif (preg_match("/^1[345678]{1}\d{9}$/", $data['username'])) {
             $res = UserUsers::where([
-                'mobile'=>$data['username'],
-                'app_id'=>$data['app_id']
-                ])->findOrEmpty();      //通过手机查询用户信息
+                'mobile' => $data['username'],
+                'app_id' => $data['app_id']
+            ])->findOrEmpty();      //通过手机查询用户信息
         } else {
             $res = UserUsers::where([
-                'username'=>$data['username'],
-                'app_id'=>$data['app_id']
-                ])->findOrEmpty();    //通过用户名查询用户信息
+                'username' => $data['username'],
+                'app_id' => $data['app_id']
+            ])->findOrEmpty();    //通过用户名查询用户信息
         }
 
         if ($res->isEmpty()) {
@@ -66,15 +58,19 @@ class Login extends CheckSignTimes
             }
         }
     }
-
+    
     /**
      * 用户登录 手机号+验证码
      */
     public function loginMobile()
     {
+        $this->getKey();
         $data = $this->params;                                                     //获取参数
         $this->checkMobileCode($data);                                             //验证码验证
-        $res = UserUsers::where('mobile', $data['mobile'])->findOrEmpty();    //通过用户名查询用户信息
+        $res = UserUsers::where([
+            'mobile' => $data['mobile'],
+            'app_id' => $data['app_id']
+        ])->findOrEmpty();    //通过用户名查询用户信息
         if ($res->isEmpty()) {
             return $this->returnJson(0, [], '账号或者密码错误', 400);              //账号不存在
         } else {
@@ -86,13 +82,17 @@ class Login extends CheckSignTimes
     }
 
     /**
-     * 用户登录 手机号+验证码
+     * 用户登录 邮箱+验证码
      */
     public function loginEmail()
     {
+        $this->getKey();
         $data = $this->params;                                                     //获取参数
         $this->checkEmailCode($data);                                              //验证码验证
-        $res = UserUsers::where('email', $data['email'])->findOrEmpty();    //通过用户名查询用户信息
+        $res = UserUsers::where([
+            'email' => $data['email'],
+            'app_id' => $data['app_id']
+        ])->findOrEmpty();    //通过用户名查询用户信息
         if ($res->isEmpty()) {
             return $this->returnJson(0, [], '账号或者密码错误', 400);              //账号不存在
         } else {
@@ -106,9 +106,25 @@ class Login extends CheckSignTimes
     /**
      * 用户注册
      */
-    public function reg()
+    public function regUname()
     {
-        return '注册成功';
+        $data = $this->params;                                                     //获取参数
+        $res = UserUsers::where([
+            'username' => $data['username'],
+            'app_id' => $data['app_id'],
+            'uid'   => $data['uid']
+        ])->findOrEmpty();    //通过用户名查询用户信息
+
+        if ($res->isEmpty()) {
+            $res = UserUsers::create($data);
+            if (!$res) {
+                return $this->returnJson(0, [], '注册失败', 400);
+            }else{
+                return $this->returnJson(1, [], '注册成功', 200);
+            }
+        } else {
+            return $this->returnJson(1, [], '用户已存在', 200);
+        }
     }
 
     /**
@@ -151,6 +167,23 @@ class Login extends CheckSignTimes
             die;
         } else {
             Cache::delete($data['email']); //验证码验证成功删除验证码
+        }
+    }
+
+    /**
+     * 获取key
+     */
+    public function getKey()
+    {
+        //根据后台用户ID和应用ID获取应用的key
+        $this->key = UserApps::where([
+            'id'  => $this->params['app_id'],
+            'uid' => $this->params['uid']
+        ])->findOrEmpty()['key'];
+
+        if ($this->key == '') {
+            echo json_encode(['code' => 400, 'msg' => '应用不存在或者不属于该用户'], JSON_UNESCAPED_UNICODE);
+            die;
         }
     }
 }

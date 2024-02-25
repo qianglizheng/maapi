@@ -36,8 +36,8 @@ class Users extends CheckSignTimes
      */
     public function index()
     {
-        $page = (int)$this->params['page'];
-        $limit = (int)$this->params['limit'];
+        $page = (int) $this->params['page'];
+        $limit = (int) $this->params['limit'];
         //搜索 查询指定数据
         if (!empty($this->params['username'])) {
             $data = $this->model::where([
